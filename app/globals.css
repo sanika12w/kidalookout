@@ -1,0 +1,128 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-inter), var(--font-geist-sans), ui-sans-serif, system-ui;
+  --font-display: var(--font-geist-sans), var(--font-inter), sans-serif;
+  
+  --color-flighty-green: #00D26A;
+  --color-flighty-orange: #FF9F0A;
+  --color-flighty-blue: #0A84FF;
+  --color-flighty-red: #FF453A;
+  --color-flighty-card: #FFFFFF;
+  --color-flighty-bg: #F5F5F7;
+  --color-flighty-text-primary: #000000;
+  --color-flighty-text-secondary: #51525A;
+  --color-flighty-border: rgba(0, 0, 0, 0.06);
+}
+
+:root {
+  --background: #F5F5F7;
+  --foreground: #000000;
+}
+
+html,
+body {
+  background-color: #F5F5F7;
+  color: #000000;
+  overflow-x: hidden;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Lenis smooth scroll adjustments */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+/* Typography styles */
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 6vw, 6.875rem); /* 48px to 110px */
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  font-weight: 800;
+  color: #000000;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 3.5vw, 3.5rem); /* 32px to 56px */
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  font-weight: 800;
+  color: #000000;
+}
+
+.card-title {
+  font-family: var(--font-sans);
+  font-size: clamp(1.25rem, 2vw, 1.5rem); /* 20px to 24px */
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  font-weight: 700;
+  color: #000000;
+}
+
+.body-text {
+  font-family: var(--font-sans);
+  font-size: clamp(1.125rem, 1.5vw, 1.1875rem); /* 18px to 19px */
+  line-height: 1.6;
+  color: #51525A;
+}
+
+.small-label {
+  font-family: var(--font-sans);
+  font-size: clamp(0.875rem, 1vw, 0.9375rem); /* 14px to 15px */
+  line-height: 1.5;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+/* Custom UI Utilities */
+.glassmorphism {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.shadow-premium {
+  box-shadow: 0 30px 100px -15px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.01);
+}
+
+.shadow-navbar {
+  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #F5F5F7;
+}
+::-webkit-scrollbar-thumb {
+  background: #D1D1D6;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #AEAEB2;
+}
