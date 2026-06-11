@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Minus } from 'lucide-react';
+import { Plus, Minus, ArrowRight } from 'lucide-react';
+import Link from 'next/link';
 import ScrollReveal from './ScrollReveal';
 
 export default function FAQ() {
@@ -40,34 +41,39 @@ export default function FAQ() {
   };
 
   return (
-    <section id="faq" className="py-32 lg:py-48 bg-[#05010d] border-b border-white/5 relative overflow-hidden text-white">
-      {/* Background soft glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-purple-500/2 blur-[140px] pointer-events-none" />
-
-      <div className="max-w-4xl mx-auto px-6 relative z-10">
+    <section id="faq" className="py-24 lg:py-28 bg-white border-b border-black/5 relative overflow-hidden text-black">
+      <div className="max-w-4xl mx-auto px-6 relative z-10 flex flex-col items-center">
         
-        {/* Header */}
-        <div className="text-center mb-20">
+        {/* Centered Heading block */}
+        <div className="text-center max-w-3xl mx-auto mb-16 flex flex-col items-center">
           <ScrollReveal direction="up" delay={0.05}>
             <span className="text-xs sm:text-sm font-extrabold text-[#00D26A] tracking-[0.2em] uppercase block mb-4">
               QUESTIONS & ANSWERS
             </span>
             <h2 
-              className="text-3xl sm:text-5xl font-bold tracking-tight mb-6"
+              className="text-3xl sm:text-4xl lg:text-[42px] font-bold text-black tracking-tight leading-[1.2] mb-6"
               style={{
                 fontFamily: '"system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "Helvetica Neue", sans-serif'
               }}
             >
               Frequently Asked Questions
             </h2>
-            <p className="text-zinc-400 max-w-xl mx-auto text-base sm:text-lg leading-relaxed font-medium">
-              Find quick answers to common questions about Lookout camera workflows and compatibility.
+            <p className="text-zinc-500 max-w-xl text-sm sm:text-base leading-relaxed font-semibold mb-8 mx-auto">
+              Find quick answers to common questions about Lookout camera workflows, remote watch control, and device compatibility.
             </p>
+            
+            <Link 
+              href="/help-center"
+              className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-extrabold text-black hover:text-[#00D26A] transition-colors group uppercase tracking-wider"
+            >
+              Visit Help Center
+              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+            </Link>
           </ScrollReveal>
         </div>
 
-        {/* FAQ Accordion List */}
-        <div className="flex flex-col gap-4">
+        {/* Centered Accordion list */}
+        <div className="flex flex-col gap-4 w-full">
           {faqs.map((faq, idx) => {
             const isOpen = openIndex === idx;
             return (
@@ -75,24 +81,24 @@ export default function FAQ() {
                 key={idx} 
                 direction="up" 
                 delay={idx * 0.05}
-                className="w-full"
+                className="w-full text-left"
               >
                 <div 
                   className={`border rounded-2xl transition-all duration-300 ${
                     isOpen 
-                      ? 'border-white/15 bg-white/5' 
-                      : 'border-white/5 bg-white/2'
+                      ? 'border-black/10 bg-zinc-50/20 shadow-premium' 
+                      : 'border-black/5 bg-white shadow-[0_4px_20px_rgba(0,0,0,0.01)] hover:shadow-premium'
                   }`}
                 >
                   <button
                     onClick={() => toggleFAQ(idx)}
-                    className="w-full py-6 px-6 sm:px-8 flex items-center justify-between gap-6 text-left cursor-pointer transition-colors duration-200"
+                    className="w-full py-5 px-6 sm:px-8 flex items-center justify-between gap-6 text-left cursor-pointer transition-colors duration-200 group"
                   >
-                    <span className="text-base sm:text-lg font-bold text-white tracking-tight leading-tight">
+                    <span className="text-sm sm:text-base font-bold text-black tracking-tight leading-snug">
                       {faq.q}
                     </span>
-                    <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center shrink-0 text-zinc-400 group-hover:text-white transition-colors">
-                      {isOpen ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+                    <div className="w-7 h-7 rounded-full bg-zinc-100 flex items-center justify-center shrink-0 text-zinc-400 group-hover:text-black transition-colors">
+                      {isOpen ? <Minus className="w-3.5 h-3.5" /> : <Plus className="w-3.5 h-3.5" />}
                     </div>
                   </button>
                   
@@ -102,10 +108,10 @@ export default function FAQ() {
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: 'auto', opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.25, ease: 'easeInOut' }}
+                        transition={{ duration: 0.2, ease: 'easeInOut' }}
                         className="overflow-hidden"
                       >
-                        <div className="pb-6 px-6 sm:px-8 text-sm sm:text-base leading-relaxed text-zinc-400 font-medium">
+                        <div className="pb-5 px-6 sm:px-8 text-xs sm:text-sm leading-relaxed text-zinc-500 font-semibold border-t border-black/5 pt-4">
                           <p>{faq.a}</p>
                         </div>
                       </motion.div>

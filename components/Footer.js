@@ -1,115 +1,129 @@
 'use client';
 
 import { ArrowRight, Video } from 'lucide-react';
+import Link from 'next/link';
 
 export default function Footer() {
   return (
     <footer 
-      className="text-white pt-28 pb-12 px-8 sm:px-12 md:px-16 border-t border-white/10 relative overflow-hidden transition-all duration-300"
+      className="text-white pt-24 pb-12 px-6 sm:px-12 md:px-16 relative overflow-hidden transition-all duration-300"
       style={{
-        background: 'radial-gradient(circle at top right, rgba(168, 85, 247, 0.08) 0%, transparent 50%), radial-gradient(circle at bottom left, rgba(10, 132, 255, 0.08) 0%, transparent 50%), #04040e'
+        background: 'radial-gradient(circle at 50% 0%, #133457 0%, #030810 100%)'
       }}
     >
-      {/* Soft background glow */}
-      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full bg-purple-500/2 blur-[120px] pointer-events-none" />
-
-      <div className="max-w-7xl mx-auto relative z-10">
+      <div className="max-w-6xl mx-auto relative z-10">
         
-        {/* Main Grid: Split between Branding/CTA and Links */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 pb-20 border-b border-white/10 mb-16">
+        {/* Top Centered CTA Area */}
+        <div className="flex flex-col items-center justify-center text-center pb-20 border-b border-white/5 mb-16">
+          <h2 
+            className="text-4xl sm:text-5xl lg:text-[52px] font-bold text-white tracking-tight leading-[1.15] mb-4"
+            style={{
+              fontFamily: '"system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "Helvetica Neue", sans-serif'
+            }}
+          >
+            Record every angle.<br />At the same time.
+          </h2>
           
-          {/* Left Side: Logo, Description and App Store CTA Block */}
-          <div className="lg:col-span-5 flex flex-col items-start text-left max-w-md gap-6">
-            <a href="#" className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-white flex items-center justify-center text-black shadow-lg">
-                <Video className="w-5 h-5 stroke-[2.5]" />
+          <p className="text-zinc-400 text-sm sm:text-base font-semibold mb-8 max-w-md">
+            Dual-camera recording made easier than ever.
+          </p>
+
+          <a
+            href="https://apps.apple.com/in/app/lookout-dual-camera-recorder/id6744577632"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-3.5 bg-white hover:bg-zinc-100 text-black px-6 py-3.5 rounded-full text-sm font-bold shadow-lg transition-all hover:scale-[1.02] cursor-pointer"
+          >
+            <span className="w-6 h-6 rounded-full bg-black flex items-center justify-center text-white shrink-0">
+              <ArrowRight className="w-3.5 h-3.5 stroke-[2.5]" />
+            </span>
+            Download Lookout
+          </a>
+        </div>
+
+        {/* Bottom Area: Grid split between brand information and links */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-16 pb-12">
+          
+          {/* Left Column: Logo, Description, Divider Line & Social Link */}
+          <div className="lg:col-span-6 flex flex-col items-start text-left max-w-sm gap-4">
+            <Link href="/" className="flex items-center gap-2 group">
+              <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center text-black transition-transform duration-300 group-hover:scale-105 shrink-0 shadow-md">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-4.5 h-4.5">
+                  <rect x="2" y="6" width="20" height="12" rx="3" />
+                  <circle cx="8" cy="12" r="2.5" />
+                  <circle cx="16" cy="12" r="2.5" />
+                </svg>
               </div>
-              <span className="text-xl font-bold tracking-tight text-white uppercase font-sans">
+              <span className="font-display font-extrabold text-lg tracking-tight text-white uppercase">
                 Lookout
               </span>
-            </a>
+            </Link>
             
-            <p className="text-sm text-zinc-400 font-medium leading-relaxed">
-              Dual Camera Recording for iPhone Creators. Lookout records front and rear cameras simultaneously with zero latency and direct Apple Watch triggers, processed securely on-device.
+            <p className="text-[14px] text-zinc-400 font-semibold leading-relaxed">
+              Your own, personal camera crew. Completely native.
             </p>
 
-            {/* App Store CTA Card */}
-            <div className="w-full bg-white/5 border border-white/10 rounded-2xl p-5 flex flex-col gap-4 mt-2">
-              <div className="flex flex-col text-left">
-                <span className="text-[10px] text-[#00D26A] font-extrabold tracking-widest uppercase mb-1">DOWNLOAD NOW</span>
-                <span className="text-sm font-bold text-white leading-tight">Ready to double your perspective?</span>
-              </div>
-              <a
-                href="https://apps.apple.com/in/app/lookout-dual-camera-recorder/id6744577632"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full sm:w-auto px-5 h-10 rounded-full bg-white hover:bg-zinc-200 text-black font-bold text-xs flex items-center justify-center gap-2 transition-all hover:scale-[1.02] shadow-premium cursor-pointer"
-              >
-                Get Lookout on the App Store <ArrowRight className="w-3.5 h-3.5 stroke-[2.5]" />
+            <div className="w-8 border-t border-zinc-700 my-1" />
+
+            <a
+              href="https://twitter.com/kidastudios"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[13px] font-semibold text-zinc-400 hover:text-white transition-colors duration-200"
+            >
+              Follow us on Twitter
+            </a>
+          </div>
+
+          {/* Right Column 1: Features */}
+          <div className="lg:col-span-3 text-left flex flex-col">
+            <h4 className="text-[14px] font-bold text-white mb-4 uppercase tracking-[0.05em]">
+              Features
+            </h4>
+            <div className="flex flex-col gap-3.5 text-[14px] font-semibold text-zinc-400">
+              <Link href="/#features" className="hover:text-white transition-colors duration-200">
+                Overview
+              </Link>
+              <Link href="/help-center/split-screen-recording" className="hover:text-white transition-colors duration-200">
+                Split Screen
+              </Link>
+              <Link href="/help-center/picture-in-picture-mode" className="hover:text-white transition-colors duration-200">
+                Picture-in-Picture
+              </Link>
+              <Link href="/help-center/focus-mode" className="hover:text-white transition-colors duration-200">
+                Focus Mode
+              </Link>
+              <Link href="/help-center/apple-watch-control" className="hover:text-white transition-colors duration-200">
+                Apple Watch
+              </Link>
+            </div>
+          </div>
+
+          {/* Right Column 2: Product */}
+          <div className="lg:col-span-3 text-left flex flex-col">
+            <h4 className="text-[14px] font-bold text-white mb-4 uppercase tracking-[0.05em]">
+              Product
+            </h4>
+            <div className="flex flex-col gap-3.5 text-[14px] font-semibold text-zinc-400">
+              <Link href="/pricing" className="hover:text-white transition-colors duration-200">
+                Pricing
+              </Link>
+              <Link href="/help-center" className="hover:text-white transition-colors duration-200">
+                Help Center
+              </Link>
+              <Link href="/help-center/data-privacy" className="hover:text-white transition-colors duration-200">
+                Privacy Policy
+              </Link>
+              <a href="mailto:support@kidastudios.com" className="hover:text-white transition-colors duration-200">
+                Support
               </a>
             </div>
           </div>
-          
-          {/* Right Side: Links Columns */}
-          <div className="lg:col-span-7 grid grid-cols-2 sm:grid-cols-4 gap-8 lg:gap-12 w-full lg:pt-3">
-            {/* Column 1: Product */}
-            <div className="text-left flex flex-col">
-              <h4 className="text-xs font-bold text-zinc-500 uppercase tracking-[0.2em] mb-6">Product</h4>
-              <div className="flex flex-col gap-4 text-sm font-semibold text-zinc-400">
-                <a href="#workflows" className="hover:text-white transition-colors duration-200">Features</a>
-                <a href="#workflows" className="hover:text-white transition-colors duration-200">Recording Modes</a>
-                <a href="#watch-control" className="hover:text-white transition-colors duration-200">Apple Watch</a>
-                <a href="#download" className="hover:text-white transition-colors duration-200">Download</a>
-              </div>
-            </div>
-
-            {/* Column 2: Resources */}
-            <div className="text-left flex flex-col">
-              <h4 className="text-xs font-bold text-zinc-500 uppercase tracking-[0.2em] mb-6">Resources</h4>
-              <div className="flex flex-col gap-4 text-sm font-semibold text-zinc-400">
-                <a 
-                  href="https://apps.apple.com/in/app/lookout-dual-camera-recorder/id6744577632" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="hover:text-white transition-colors duration-200"
-                >
-                  App Store
-                </a>
-                <a href="#faq" className="hover:text-white transition-colors duration-200">FAQ</a>
-                <a href="mailto:support@kidastudios.com" className="hover:text-white transition-colors duration-200">Support</a>
-              </div>
-            </div>
-
-            {/* Column 3: Company */}
-            <div className="text-left flex flex-col">
-              <h4 className="text-xs font-bold text-zinc-500 uppercase tracking-[0.2em] mb-6">Company</h4>
-              <div className="flex flex-col gap-4 text-sm font-semibold text-zinc-400">
-                <a href="#" className="hover:text-white transition-colors duration-200">About</a>
-                <a href="mailto:contact@kidastudios.com" className="hover:text-white transition-colors duration-200">Contact</a>
-              </div>
-            </div>
-
-            {/* Column 4: Legal */}
-            <div className="text-left flex flex-col">
-              <h4 className="text-xs font-bold text-zinc-500 uppercase tracking-[0.2em] mb-6">Legal</h4>
-              <div className="flex flex-col gap-4 text-sm font-semibold text-zinc-400">
-                <a href="#" className="hover:text-white transition-colors duration-200">Privacy Policy</a>
-                <a href="#" className="hover:text-white transition-colors duration-200">Terms</a>
-              </div>
-            </div>
-          </div>
 
         </div>
 
-        {/* Huge Large Typography Watermark - signature of thewone.co */}
-        <div className="w-full mb-12 overflow-hidden select-none pointer-events-none">
-          <h2 className="text-[12vw] font-black text-white/[0.02] tracking-tighter leading-none text-center uppercase">
-            LOOKOUT
-          </h2>
-        </div>
-
-        {/* Bottom Area */}
-        <div className="border-t border-white/10 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs font-semibold text-zinc-500 uppercase tracking-widest">
+        {/* Minimal Copyright Row */}
+        <div className="border-t border-white/5 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs font-semibold text-zinc-600 uppercase tracking-widest">
           <div>
             &copy; 2026 Lookout. All rights reserved.
           </div>
