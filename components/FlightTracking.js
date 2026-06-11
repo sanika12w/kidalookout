@@ -6,11 +6,10 @@ import ScrollReveal from './ScrollReveal';
 // Custom high-fidelity mockups for premium product marketing visual presentation.
 // Designed with CSS / SVGs for maximum responsiveness, accessibility, and zero layout shift.
 
-function DualityMockup() {
+function DualityMockup({ className = "max-w-[300px] mx-auto" }) {
   return (
     <div 
-      className="relative w-full max-w-[340px] aspect-[9/19] mx-auto select-none pointer-events-none drop-shadow-[0_25px_50px_rgba(0,0,0,0.8)] animate-pulse"
-      style={{ animationDuration: '6s' }}
+      className={`relative w-full aspect-[9/19] select-none pointer-events-none drop-shadow-[0_25px_50px_rgba(0,0,0,0.8)] ${className}`}
       role="img"
       aria-label="Lookout Duality interface showing real-time front and rear camera feeds in a split-screen layout on iPhone"
     >
@@ -143,10 +142,13 @@ function DualityMockup() {
 function WatchMockup() {
   return (
     <div 
-      className="relative w-full max-w-[240px] aspect-[4/5] mx-auto select-none pointer-events-none drop-shadow-[0_20px_40px_rgba(0,0,0,0.8)]"
+      className="relative w-full max-w-[145px] sm:max-w-[155px] md:max-w-[160px] aspect-[4/5] mx-auto select-none pointer-events-none drop-shadow-[0_20px_40px_rgba(0,0,0,0.8)]"
       role="img"
       aria-label="Oversized Apple Watch Ultra mockup showing remote recording controls, sync viewfinder, and audio levels"
     >
+      {/* Soft blue glow behind the watch */}
+      <div className="absolute -inset-6 bg-[#0A84FF]/5 rounded-full blur-2xl pointer-events-none -z-10" />
+
       {/* Rugged Titanium Chassis (Apple Watch Ultra style) */}
       <div className="absolute inset-0 rounded-[48px] bg-gradient-to-b from-[#e5e5e7] via-[#c7c7cc] to-[#8e8e93] p-[6px] shadow-[0_4px_12px_rgba(0,0,0,0.5)] ring-1 ring-white/15">
         {/* Right side: Digital Crown Guard & Orange accent */}
@@ -224,7 +226,7 @@ function WatchMockup() {
 function FocusMockup() {
   return (
     <div 
-      className="relative w-full max-w-[220px] aspect-[9/19] mx-auto select-none pointer-events-none drop-shadow-[0_20px_45px_rgba(0,0,0,0.85)]"
+      className="relative w-full max-w-[95px] sm:max-w-[105px] md:max-w-[110px] aspect-[9/19] mx-auto select-none pointer-events-none drop-shadow-[0_20px_45px_rgba(0,0,0,0.85)]"
       role="img"
       aria-label="Lookout Focus Mode display showing deep black stealth recording state and glowing ambient audio wave visualization"
     >
@@ -281,7 +283,7 @@ function FocusMockup() {
         </div>
       </div>
       {/* Ambient glow behind the phone */}
-      <div className="absolute -inset-10 bg-purple-600/10 rounded-full blur-3xl pointer-events-none -z-10 animate-pulse" style={{ animationDuration: '4s' }} />
+      <div className="absolute -inset-8 bg-purple-600/5 rounded-full blur-3xl pointer-events-none -z-10" />
     </div>
   );
 }
@@ -295,12 +297,12 @@ function PersonalizeMockup() {
   ];
   return (
     <div 
-      className="w-full max-w-[320px] mx-auto relative flex flex-col gap-6 items-center select-none pointer-events-none"
+      className="w-full max-w-[210px] sm:max-w-[220px] md:max-w-[230px] mx-auto relative flex flex-col gap-3 items-center select-none pointer-events-none"
       role="img"
       aria-label="Lookout app custom home screen widget and various colorful application icon selections"
     >
       {/* Main Home Screen Widget mockup */}
-      <div className="w-full rounded-2xl bg-zinc-950 border border-white/5 p-4 shadow-xl relative overflow-hidden">
+      <div className="w-full rounded-2xl bg-zinc-950 border border-white/5 p-3.5 shadow-xl relative overflow-hidden">
         {/* Glow effect */}
         <div className="absolute top-[-50%] left-[-50%] w-[200px] h-[200px] rounded-full bg-[#00D26A]/5 blur-[80px]" />
         
@@ -338,17 +340,17 @@ function PersonalizeMockup() {
       </div>
       
       {/* Floating App Icon Selection */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 w-full justify-center">
+      <div className="grid grid-cols-4 gap-2 w-full justify-center">
         {icons.map((item, idx) => (
-          <div key={idx} className={`p-2.5 rounded-2xl border ${item.bg} flex flex-col items-center gap-1.5 shadow-md hover:scale-105 transition-transform duration-300`}>
+          <div key={idx} className={`p-1 rounded-xl border ${item.bg} flex flex-col items-center gap-1 shadow-md hover:scale-105 transition-transform duration-300`}>
             {/* App Icon Body */}
-            <div className="w-10 h-10 rounded-xl bg-black border border-white/10 flex items-center justify-center relative shadow-inner">
-              <svg viewBox="0 0 24 24" fill="none" stroke={item.color} strokeWidth="2.5" className="w-5 h-5 -rotate-45">
+            <div className="w-7 h-7 rounded-lg bg-black border border-white/10 flex items-center justify-center relative shadow-inner">
+              <svg viewBox="0 0 24 24" fill="none" stroke={item.color} strokeWidth="2.5" className="w-4 h-4 -rotate-45">
                 <path d="M22 2 11 13" />
                 <path d="M22 2 15 22 11 13 2 9z" />
               </svg>
             </div>
-            <span className="text-[9px] font-bold text-zinc-400 tracking-wider whitespace-nowrap">{item.name}</span>
+            <span className="text-[7px] font-bold text-zinc-400 tracking-wider whitespace-nowrap">{item.name}</span>
           </div>
         ))}
       </div>
@@ -359,7 +361,7 @@ function PersonalizeMockup() {
 function PrivacyMockup() {
   return (
     <div 
-      className="relative w-full max-w-[260px] aspect-square mx-auto select-none pointer-events-none"
+      className="relative w-full max-w-[145px] sm:max-w-[155px] md:max-w-[160px] aspect-square mx-auto select-none pointer-events-none"
       role="img"
       aria-label="Secure Enclave architecture diagram displaying A18-style isolated processors and secure local pipelines"
     >
@@ -427,12 +429,12 @@ function PrivacyMockup() {
 
 export default function FlightTracking() {
   return (
-    <section id="features" className="py-40 lg:py-52 bg-[#05010d] border-b border-white/5 relative overflow-hidden">
+    <section id="features" className="py-20 lg:py-28 bg-[#05010d] border-b border-white/5 relative overflow-hidden">
       {/* Subtle background glow effect */}
-      <div className="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] rounded-full bg-[#0A84FF]/5 blur-[150px] pointer-events-none" />
-      <div className="absolute bottom-[-20%] right-[-10%] w-[600px] h-[600px] rounded-full bg-[#00D26A]/5 blur-[150px] pointer-events-none" />
+      <div className="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] rounded-full bg-[#0A84FF]/3 blur-[150px] pointer-events-none" />
+      <div className="absolute bottom-[-20%] right-[-10%] w-[600px] h-[600px] rounded-full bg-[#00D26A]/3 blur-[150px] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10 flex flex-col gap-20 lg:gap-28">
+      <div className="max-w-7xl mx-auto px-6 relative z-10 flex flex-col gap-10 md:gap-12 lg:gap-14">
         
         {/* Main Section Header Area */}
         <div className="text-center max-w-4xl mx-auto mb-4">
@@ -450,59 +452,82 @@ export default function FlightTracking() {
         </div>
 
         {/* 1. First Feature: Wide Hero Feature Card */}
-        <ScrollReveal direction="up" delay={0.1}>
-          <div className="relative p-[1px] rounded-[30px] bg-gradient-to-r from-purple-600 via-indigo-500 to-blue-500 shadow-[0_15px_45px_-10px_rgba(168,85,247,0.25)] overflow-hidden">
-            <div className="bg-[#050408] rounded-[29px] p-10 sm:p-12 lg:p-16 flex flex-col lg:grid lg:grid-cols-12 items-center gap-12 min-h-[620px] lg:min-h-[660px]">
-              
-              {/* Text column - Duality */}
-              <div className="lg:col-span-5 flex flex-col justify-center text-left w-full">
-                <span className="text-[10px] sm:text-xs font-bold text-purple-400 uppercase tracking-widest block mb-4">
-                  THE POWER OF DUALITY
-                </span>
-                <h3 className="text-3xl sm:text-4xl lg:text-[44px] font-sans font-semibold text-white mb-6 tracking-tight leading-[1.2]">
-                  Dual-Camera Split Recording
-                </h3>
-                <p className="text-zinc-400 text-base sm:text-lg lg:text-[19px] font-normal leading-[1.65] mb-8">
-                  Capture both sides of any story at the same time. Lookout utilizes Apple&apos;s native multi-camera API to record high-definition video from your front and rear lenses simultaneously. By maintaining a single synced audio and video pipeline, it eliminates post-production alignment steps, making it the ultimate tool for interviewers, creators, and mobile journalists.
-                </p>
-                <div className="inline-flex items-center self-start gap-2 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-xs font-bold text-[#00D26A] uppercase tracking-wider">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#00D26A] animate-pulse" />
-                  Dual-Stream HD/UHD Enabled
-                </div>
-              </div>
+    <ScrollReveal direction="up" delay={0.1}>
+  <div className="relative w-full max-w-3xl mx-auto group">
 
-              {/* Graphic/Image column - Premium iPhone mockup */}
-              <div className="lg:col-span-7 w-full flex items-center justify-center relative overflow-hidden min-h-[350px] lg:min-h-full">
-                <DualityMockup />
-              </div>
+    {/* OUTER GLOW (this creates diffused border like Flighty) */}
+    <div className="absolute -inset-3 rounded-[28px] bg-gradient-to-r from-purple-500/30 via-fuchsia-500/20 to-blue-500/30 blur-2xl opacity-70 group-hover:opacity-100 transition duration-700" />
 
-            </div>
-          </div>
-        </ScrollReveal>
+    {/* BORDER WRAPPER */}
+    <div className="relative p-[2px] rounded-[24px] bg-gradient-to-r from-purple-500/60 via-indigo-500/40 to-blue-500/60 shadow-[0_0_80px_rgba(168,85,247,0.15)]">
 
+      {/* INNER CARD */}
+      <div className="relative rounded-[22px] bg-[#050408] w-full flex flex-col md:flex-row items-center md:items-start justify-between overflow-hidden md:h-[380px]">
+
+        {/* Ambient glow */}
+        <div className="absolute top-[-20%] left-[-20%] w-[280px] h-[280px] bg-purple-500/5 blur-[110px] pointer-events-none" />
+
+        {/* TEXT */}
+        <div className="w-full md:w-1/2 flex flex-col justify-center text-left p-5 sm:p-6 md:p-8 md:pl-12 relative z-10">
+
+          <span className="text-[10px] sm:text-xs font-bold text-purple-400 uppercase tracking-widest mb-3">
+            THE POWER OF DUALITY
+          </span>
+
+          <h3 className="text-2xl sm:text-3xl lg:text-[34px] font-semibold mb-4 leading-[1.2] bg-gradient-to-br from-white via-white to-zinc-400 bg-clip-text text-transparent">
+            Dual-Camera Split Recording
+          </h3>
+
+          <p className="text-white/70 text-[12px] font-semibold leading-[1.5] tracking-tight antialiased mt-2 md:mt-23">
+            Record front and rear cameras simultaneously using Apple&apos;s multi-camera system with synced audio and video in one take.
+          </p>
+        
+
+         <div className="inline-flex items-center gap-1.5 px-2.5 py-[2px] rounded-full border border-purple-500/20 bg-purple-500/5 text-[9px] font-medium text-purple-400 uppercase tracking-normal mt-6">
+  <span className="w-1 h-1 rounded-full bg-purple-400 animate-pulse" />
+  Dual-Stream HD/UHD Enabled
+</div>
+        </div>
+
+        {/* IMAGE */}
+        <div className="w-full md:w-1/2 flex items-end justify-center md:justify-end pr-0 md:pr-10 pb-4 md:pb-0 relative z-10">
+
+          <DualityMockup
+            className="max-w-[140px] sm:max-w-[160px] md:max-w-[180px] lg:max-w-[200px] md:translate-y-[10px]"
+          />
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</ScrollReveal>
         {/* 2. Secondary Bento Cards: 2x2 Grid Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6 lg:gap-8">
           
           {/* Card 1: Apple Watch Remote Control */}
           <ScrollReveal direction="up" delay={0.15}>
-            <div className="bg-[#010a1a] border border-white/5 rounded-[30px] p-10 sm:p-12 lg:p-14 flex flex-col justify-between min-h-[620px] lg:min-h-[680px] shadow-2xl relative overflow-hidden group hover:border-white/10 transition-colors duration-300">
-              <div className="flex flex-col text-left">
-                <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-white mb-8 shadow-md group-hover:scale-105 transition-transform duration-300">
-                  <Watch className="w-6 h-6 text-[#0A84FF]" />
-                </div>
-                <span className="text-[10px] sm:text-xs font-bold text-[#0A84FF] uppercase tracking-widest block mb-4">
-                  REMOTE CONTROLS
+            <div className="bg-[#0d0a16]/90 border border-white/10 rounded-[24px] p-6 sm:p-8 lg:p-10 flex flex-col justify-between min-h-[440px] md:min-h-[500px] lg:min-h-[520px] h-full shadow-[0_15px_40px_-15px_rgba(255,255,255,0.06)] relative overflow-hidden group hover:border-[#0a84ff]/30 hover:shadow-[0_20px_50px_-10px_rgba(10,132,255,0.12),0_15px_40px_-15px_rgba(255,255,255,0.06)] transition-all duration-500">
+              {/* Colored ambient backglow */}
+              <div className="absolute top-[-20%] left-[-20%] w-[300px] h-[300px] rounded-full bg-[#0A84FF]/2 blur-[100px] group-hover:bg-[#0A84FF]/4 transition-colors duration-500 pointer-events-none" />
+              
+              <div className="flex flex-col text-left relative z-10">
+                <div className="w-9 h-9 rounded-lg bg-blue-500/10 border border-blue-500/15 flex items-center justify-center text-[#0A84FF] mb-4 shadow-[0_0_12px_rgba(10,132,255,0.06)] group-hover:scale-105 transition-transform duration-300">
+  <Watch className="w-4.5 h-4.5" />
+</div>
+                <span className="text-[9px] font-bold text-[#0A84FF] uppercase tracking-[0.18em] block mb-2">
+                   REMOTE CONTROLS
                 </span>
-                <h3 className="text-2xl sm:text-3xl lg:text-[32px] font-sans font-semibold text-white mb-5 tracking-tight leading-[1.25]">
+                <h3 className="text-[22px] sm:text-[24px] lg:text-[25px] font-semibold mb-2 tracking-[-0.03em] leading-[1.15] bg-gradient-to-br from-white via-white to-zinc-400 bg-clip-text text-transparent">
                   Apple Watch Camera Remote
                 </h3>
-                <p className="text-zinc-400 text-base sm:text-lg font-normal leading-[1.65] max-w-xl">
+                <p className="text-white/50 text-[12px] font-semibold leading-[1.5] tracking-tight antialiased max-w-xl">
                   Lookout turns your Apple Watch into a fully synced camera remote. The watch companion app offers a live wireless viewfinder, real-time audio levels monitoring, battery alerts, and instant start-stop recording triggers, allowing you to capture stable hands-free footage from a distance.
                 </p>
               </div>
 
               {/* Apple Watch Graphic */}
-              <div className="w-full flex items-center justify-center mt-10 shrink-0">
+              <div className="w-full h-[180px] sm:h-[200px] md:h-[210px] flex items-center justify-center mt-6 shrink-0 relative z-10">
                 <WatchMockup />
               </div>
             </div>
@@ -510,24 +535,27 @@ export default function FlightTracking() {
 
           {/* Card 2: Focus Mode Discretion */}
           <ScrollReveal direction="up" delay={0.2}>
-            <div className="bg-[#0d0a14] border border-white/5 rounded-[30px] p-10 sm:p-12 lg:p-14 flex flex-col justify-between min-h-[620px] lg:min-h-[680px] shadow-2xl relative overflow-hidden group hover:border-white/10 transition-colors duration-300">
-              <div className="flex flex-col text-left">
-                <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-white mb-8 shadow-md group-hover:scale-105 transition-transform duration-300">
-                  <EyeOff className="w-6 h-6 text-purple-400" />
-                </div>
-                <span className="text-[10px] sm:text-xs font-bold text-purple-400 uppercase tracking-widest block mb-4">
-                  STEALTH RECORDING
-                </span>
-                <h3 className="text-2xl sm:text-3xl lg:text-[32px] font-sans font-semibold text-white mb-5 tracking-tight leading-[1.25]">
-                  Focus Mode Stealth Screen
-                </h3>
-                <p className="text-zinc-400 text-base sm:text-lg font-normal leading-[1.65] max-w-xl">
+            <div className="bg-[#0d0a16]/90 border border-white/10 rounded-[24px] p-6 sm:p-8 lg:p-10 flex flex-col justify-between min-h-[440px] md:min-h-[500px] lg:min-h-[520px] h-full shadow-[0_15px_40px_-15px_rgba(255,255,255,0.06)] relative overflow-hidden group hover:border-purple-500/30 hover:shadow-[0_20px_50px_-10px_rgba(168,85,247,0.12),0_15px_40px_-15px_rgba(255,255,255,0.06)] transition-all duration-500">
+              {/* Colored ambient backglow */}
+              <div className="absolute top-[-20%] left-[-20%] w-[300px] h-[300px] rounded-full bg-purple-500/2 blur-[100px] group-hover:bg-purple-500/4 transition-colors duration-500 pointer-events-none" />
+
+              <div className="flex flex-col text-left relative z-10">
+                <div className="w-9 h-9 rounded-lg bg-purple-500/10 border border-purple-500/15 flex items-center justify-center text-purple-400 mb-4 shadow-[0_0_12px_rgba(168,85,247,0.06)] group-hover:scale-105 transition-transform duration-300">
+  <EyeOff className="w-4.5 h-4.5" />
+</div>
+                <span className="text-[9px] font-bold text-purple-400 uppercase tracking-[0.18em] block mb-2">
+  STEALTH RECORDING
+</span>
+                <h3 className="text-[22px] sm:text-[24px] lg:text-[25px] font-semibold mb-2 tracking-[-0.03em] leading-[1.15] bg-gradient-to-br from-white via-white to-zinc-400 bg-clip-text text-transparent">
+  Focus Mode Stealth Screen
+</h3>
+                <p className="text-white/50 text-[12px] font-semibold leading-[1.5] tracking-tight antialiased max-w-xl">
                   Record secure dual-lens video streams while keeping your screen completely dark. Lookout&apos;s Focus Mode turns off screen backlighting and UI glare during active recording sessions, conserving device battery life, reducing camera heat, and enabling completely discreet, distraction-free capturing.
                 </p>
               </div>
 
               {/* Focus Mode Graphic */}
-              <div className="w-full flex items-center justify-center mt-10 shrink-0">
+              <div className="w-full h-[180px] sm:h-[200px] md:h-[210px] flex items-center justify-center mt-6 shrink-0 relative z-10">
                 <FocusMockup />
               </div>
             </div>
@@ -535,24 +563,29 @@ export default function FlightTracking() {
 
           {/* Card 3: Personalize Your Core */}
           <ScrollReveal direction="up" delay={0.25}>
-            <div className="bg-[#050408] border border-white/5 rounded-[30px] p-10 sm:p-12 lg:p-14 flex flex-col justify-between min-h-[620px] lg:min-h-[680px] shadow-2xl relative overflow-hidden group hover:border-white/10 transition-colors duration-300">
-              <div className="flex flex-col text-left">
-                <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-white mb-8 shadow-md group-hover:scale-105 transition-transform duration-300">
-                  <Layout className="w-6 h-6 text-[#00D26A]" />
-                </div>
-                <span className="text-[10px] sm:text-xs font-bold text-[#00D26A] uppercase tracking-widest block mb-4">
-                  INTERFACES & ICONS
-                </span>
-                <h3 className="text-2xl sm:text-3xl lg:text-[32px] font-sans font-semibold text-white mb-5 tracking-tight leading-[1.25]">
-                  Custom iOS Widgets & Themes
-                </h3>
-                <p className="text-zinc-400 text-base sm:text-lg font-normal leading-[1.65] max-w-xl">
+            <div className="bg-[#0d0a16]/90 border border-white/10 rounded-[24px] p-6 sm:p-8 lg:p-10 flex flex-col justify-between min-h-[440px] md:min-h-[500px] lg:min-h-[520px] h-full shadow-[0_15px_40px_-15px_rgba(255,255,255,0.06)] relative overflow-hidden group hover:border-[#00d26a]/30 hover:shadow-[0_20px_50px_-10px_rgba(0,210,106,0.12),0_15px_40px_-15px_rgba(255,255,255,0.06)] transition-all duration-500">
+              {/* Colored ambient backglow */}
+              <div className="absolute top-[-20%] left-[-20%] w-[300px] h-[300px] rounded-full bg-[#00D26A]/2 blur-[100px] group-hover:bg-[#00D26A]/4 transition-colors duration-500 pointer-events-none" />
+
+              <div className="flex flex-col text-left relative z-10">
+              <div className="w-9 h-9 rounded-lg bg-emerald-500/10 border border-emerald-500/15 flex items-center justify-center text-[#00D26A] mb-4 shadow-[0_0_12px_rgba(0,210,106,0.06)] group-hover:scale-105 transition-transform duration-300">
+  <Layout className="w-4.5 h-4.5" />
+</div>
+
+<span className="text-[9px] font-bold text-[#00D26A] uppercase tracking-[0.18em] block mb-2">
+  INTERFACES & ICONS
+</span>
+
+<h3 className="text-[22px] sm:text-[24px] lg:text-[25px] font-semibold mb-2 tracking-[-0.03em] leading-[1.15] bg-gradient-to-br from-white via-white to-zinc-400 bg-clip-text text-transparent">
+  Custom iOS Widgets & Themes
+</h3>
+                <p className="text-white/50 text-[12px] font-semibold leading-[1.5] tracking-tight antialiased max-w-xl">
                   Make Lookout fit your custom iOS setup. Swap between premium, high-fidelity app icon colorways and configure interactive Home Screen widgets that display active storage status, latency calibrations, and instant quick-launch recording triggers with a single tap.
                 </p>
               </div>
 
               {/* App Icons Grid Graphic */}
-              <div className="w-full flex items-center justify-center mt-10 shrink-0">
+              <div className="w-full h-[180px] sm:h-[200px] md:h-[210px] flex items-center justify-center mt-6 shrink-0 relative z-10">
                 <PersonalizeMockup />
               </div>
             </div>
@@ -560,24 +593,31 @@ export default function FlightTracking() {
 
           {/* Card 4: Fortress of Privacy */}
           <ScrollReveal direction="up" delay={0.3}>
-            <div className="bg-[#0a0e0c] border border-white/5 rounded-[30px] p-10 sm:p-12 lg:p-14 flex flex-col justify-between min-h-[620px] lg:min-h-[680px] shadow-2xl relative overflow-hidden group hover:border-white/10 transition-colors duration-300">
-              <div className="flex flex-col text-left">
-                <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-white mb-8 shadow-md group-hover:scale-105 transition-transform duration-300">
-                  <ShieldCheck className="w-6 h-6 text-[#FF9F0A]" />
-                </div>
-                <span className="text-[10px] sm:text-xs font-bold text-[#FF9F0A] uppercase tracking-widest block mb-4">
-                  PRIVACY SANCTUARY
-                </span>
-                <h3 className="text-2xl sm:text-3xl lg:text-[32px] font-sans font-semibold text-white mb-5 tracking-tight leading-[1.25]">
-                  Secure On-Device Privacy
-                </h3>
-                <p className="text-zinc-400 text-base sm:text-lg font-normal leading-[1.65] max-w-xl">
+            <div className="bg-[#0d0a16]/90 border border-white/10 rounded-[24px] p-6 sm:p-8 lg:p-10 flex flex-col justify-between min-h-[440px] md:min-h-[500px] lg:min-h-[520px] h-full shadow-[0_15px_40px_-15px_rgba(255,255,255,0.06)] relative overflow-hidden group hover:border-[#ff9f0a]/30 hover:shadow-[0_20px_50px_-10px_rgba(255,159,10,0.12),0_15px_40px_-15px_rgba(255,255,255,0.06)] transition-all duration-500">
+              {/* Colored ambient backglow */}
+              <div className="absolute top-[-20%] left-[-20%] w-[300px] h-[300px] rounded-full bg-[#FF9F0A]/2 blur-[100px] group-hover:bg-[#FF9F0A]/4 transition-colors duration-500 pointer-events-none" />
+
+              <div className="flex flex-col text-left relative z-10">
+               
+               <div className="w-9 h-9 rounded-lg bg-orange-500/10 border border-orange-500/15 flex items-center justify-center text-[#FF9F0A] mb-4 shadow-[0_0_12px_rgba(255,159,10,0.06)] group-hover:scale-105 transition-transform duration-300">
+  <ShieldCheck className="w-4.5 h-4.5" />
+</div>
+
+<span className="text-[9px] font-semibold text-[#FF9F0A] uppercase tracking-[0.18em] block mb-2">
+  PRIVACY SANCTUARY
+</span>
+
+<h3 className="text-[22px] sm:text-[24px] lg:text-[25px] font-semibold mb-2 tracking-[-0.03em] leading-[1.15] bg-gradient-to-br from-white via-white to-zinc-400 bg-clip-text text-transparent">
+  Secure On-Device Privacy
+</h3>
+
+                <p className="text-white/50 text-[12px] font-semibold leading-[1.5] tracking-tight antialiased max-w-xl">
                   Protect your media with hardware-isolated processing. Lookout collects no user data, requiring no account creation or server connections. Every frame, audio waveform, and metadata log is compiled directly on your device&apos;s Secure Enclave, keeping your recordings fully private and accessible offline.
                 </p>
               </div>
 
               {/* Secure Lock Graphic */}
-              <div className="w-full flex items-center justify-center mt-10 shrink-0">
+              <div className="w-full h-[180px] sm:h-[200px] md:h-[210px] flex items-center justify-center mt-6 shrink-0 relative z-10">
                 <PrivacyMockup />
               </div>
             </div>

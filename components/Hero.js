@@ -12,200 +12,231 @@ import ScrollReveal from './ScrollReveal';
 export default function Hero() {
   const [activeTab, setActiveTab] = useState('airport');
 
-  // Specific floating status cards positioned around the phone mockup as shown in the image
-  const cards = [
+  // Left side floating status cards
+  const leftCards = [
     { 
-   text: "Front + Rear Cameras Recording",
-  sub: "Capture both perspectives simultaneously",
+      text: "Front + Rear Cameras Recording",
+      sub: "Capture both perspectives simultaneously",
       type: "mom", 
-      opacity: "opacity-100 ", 
-      pos: "top-[10px] left-[2%] md:left-[10%] xl:left-[18%]" 
+      opacity: "opacity-100",
+      offsetClass: "md:translate-x-[80px]"
     },
     { 
-   text: "Recording Started",
-  sub: "Triggered from Apple Watch", 
-      type: "gate", 
-      opacity: "opacity-50", 
-      pos: "top-[40px] right-[2%] md:right-[10%] xl:right-[18%]" 
-    },
-    { 
-       text: "Apple Watch Live Preview",
-  sub: "See framing without touching your phone", 
+      text: "Apple Watch Live Preview",
+      sub: "See framing without touching your phone", 
       type: "aa", 
-      opacity: "opacity-78", 
-      pos: "top-[140px] left-[-3%] md:left-[5%] xl:left-[12%]" 
+      opacity: "opacity-78",
+      offsetClass: "md:translate-x-[40px]"
     },
     { 
-       text: "Split-Screen Mode Active",
-  sub: "Creator + Scene captured together", 
-      type: "weather", 
-      opacity: "opacity-90 ", 
-      pos: "top-[150px] right-[1%] md:right-[8%] xl:right-[14%]" 
-    },
-    { 
-       text: "\"Hey Lookout\" Activated",
-  sub: "Voice control enabled", 
+      text: "\"Hey Lookout\" Activated",
+      sub: "Voice control enabled", 
       type: "delta", 
-      opacity: "opacity-60 ", 
-      pos: "top-[270px] left-[2%] md:left-[8%] xl:left-[15%]" 
+      opacity: "opacity-60",
+      offsetClass: "md:translate-x-[70px]"
     },
     { 
-       text: "Screen Off. Recording Continues.",
-  sub: "Focus Mode enabled", 
+      text: "Screen Off. Recording Continues.",
+      sub: "Focus Mode enabled", 
       type: "landed", 
-      opacity: "opacity-100", 
-      pos: "top-[380px] left-[-4%] md:left-[3%] xl:left-[10%]" 
-    },
-    { 
-     text: "4K Dual Capture",
-  sub: "High-quality recording in progress", 
-      type: "delayed", 
-      opacity: "opacity-85", 
-      pos: "top-[270px] right-[-2%] md:right-[5%] xl:right-[12%]" 
-    },
-    { 
-  text: "Location Embedded",
-  sub: "GPS metadata attached", 
-      type: "changed", 
-      opacity: "opacity-50 ", 
-      pos: "top-[390px] right-[2%] md:right-[8%] xl:right-[15%]" 
+      opacity: "opacity-100",
+      offsetClass: "md:translate-x-[78px]"
     },
     { 
       text: "Continuity Camera Ready",
-  sub: "Use Lookout with your Mac", 
+      sub: "Use Lookout with your Mac", 
       type: "baggage-6", 
-      opacity: "opacity-75", 
-      pos: "top-[480px] left-[4%] md:left-[10%] xl:left-[18%]" 
-    },
-    { 
-      text: "Apple Maps Connected",
-  sub: "Enhanced route visualization", 
-      type: "baggage-14", 
-      opacity: "opacity-100", 
-      pos: "top-[480px] right-[4%] md:right-[10%] xl:right-[18%]" 
+      opacity: "opacity-75",
+      offsetClass: "md:translate-x-[70px]"
     }
   ];
 
+  // Right side floating status cards
+  const rightCards = [
+    { 
+      text: "Recording Started",
+      sub: "Triggered from Apple Watch", 
+      type: "gate", 
+      opacity: "opacity-50",
+      offsetClass: "md:translate-x-[-40px]"
+    },
+    { 
+      text: "Split-Screen Mode Active",
+      sub: "Creator + Scene captured together", 
+      type: "weather", 
+      opacity: "opacity-90",
+      offsetClass: "md:translate-x-[-10px]"
+    },
+    { 
+      text: "4K Dual Capture",
+      sub: "High-quality recording in progress", 
+      type: "delayed", 
+      opacity: "opacity-85",
+      offsetClass: "md:translate-x-[10px]"
+    },
+    { 
+      text: "Location Embedded",
+      sub: "GPS metadata attached", 
+      type: "changed", 
+      opacity: "opacity-50",
+      offsetClass: "md:translate-x-[30px]"
+    },
+    { 
+      text: "Apple Maps Connected",
+      sub: "Enhanced route visualization", 
+      type: "baggage-14", 
+      opacity: "opacity-100",
+      offsetClass: "md:translate-x-[40px]"
+    }
+  ];
+
+  const renderCardIcon = (type) => {
+    switch (type) {
+      case "mom":
+        return (
+          <div className="w-7.5 h-7.5 rounded-full bg-zinc-100 border border-black/5 flex items-center justify-center text-zinc-400 overflow-hidden">
+            <span className="text-xs font-bold">👩</span>
+          </div>
+        );
+      case "gate":
+        return (
+          <div className="w-7.5 h-7.5 rounded-lg bg-orange-500/10 border border-orange-500/15 flex items-center justify-center text-orange-500">
+            <AlertTriangle className="w-4 h-4" />
+          </div>
+        );
+      case "aa":
+        return (
+          <div className="w-7.5 h-7.5 rounded-lg bg-[#0078D2]/5 border border-[#0078D2]/10 flex items-center justify-center overflow-hidden shrink-0">
+            <svg viewBox="0 0 100 100" className="w-5 h-5">
+              <path d="M10,50 Q45,20 85,45 Q55,60 10,50" fill="#0078D2" />
+              <path d="M20,65 Q55,30 95,55 Q65,70 20,65" fill="#FF1D25" />
+            </svg>
+          </div>
+        );
+      case "weather":
+        return (
+          <div className="w-7.5 h-7.5 rounded-lg bg-zinc-50 border border-black/5 flex items-center justify-center text-zinc-400">
+            <Compass className="w-4 h-4" />
+          </div>
+        );
+      case "delta":
+        return (
+          <div className="w-7.5 h-7.5 rounded-lg bg-[#E01933]/5 border border-[#E01933]/10 flex items-center justify-center overflow-hidden shrink-0">
+            <svg viewBox="0 0 24 24" className="w-4 h-4" fill="#E01933">
+              <polygon points="12,2 2,22 12,18 22,22" />
+            </svg>
+          </div>
+        );
+      case "landed":
+        return (
+          <div className="w-7.5 h-7.5 rounded-full bg-flighty-green flex items-center justify-center text-white shrink-0 shadow-sm">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" className="w-3.5 h-3.5 rotate-135">
+              <line x1="5" y1="12" x2="19" y2="12" />
+              <polyline points="12,5 19,12 12,19" />
+            </svg>
+          </div>
+        );
+      case "delayed":
+        return (
+          <div className="w-7.5 h-7.5 rounded-full bg-flighty-red flex items-center justify-center text-white shrink-0 shadow-sm">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" className="w-3.5 h-3.5 -rotate-45">
+              <line x1="5" y1="12" x2="19" y2="12" />
+              <polyline points="12,5 19,12 12,19" />
+            </svg>
+          </div>
+        );
+      case "changed":
+        return (
+          <div className="w-7.5 h-7.5 rounded-lg bg-zinc-50 border border-black/5 flex items-center justify-center text-zinc-400">
+            <Settings className="w-4 h-4" />
+          </div>
+        );
+      case "baggage-6":
+        return (
+          <div className="w-7.5 h-7.5 rounded-lg bg-[#FFCC00] flex items-center justify-center text-black font-extrabold text-[11px] shrink-0 shadow-xs">
+            6
+          </div>
+        );
+      case "baggage-14":
+        return (
+          <div className="w-7.5 h-7.5 rounded-lg bg-[#FFCC00] flex items-center justify-center text-black font-extrabold text-[11px] shrink-0 shadow-xs">
+            14
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
+
+  const renderCard = (card, idx) => (
+    <div
+      key={idx}
+      className={`w-full ${card.opacity} transition-all duration-500 z-10 ${card.offsetClass} flex-shrink-0`}
+    >
+      <div className="bg-white rounded-2xl border border-black/5 px-5 py-3.5 flex items-center justify-between shadow-[0_18px_40px_rgba(0,0,0,0.12),0_3px_10px_rgba(0,0,0,0.04)]">
+        <div className="flex items-center gap-3">
+          {renderCardIcon(card.type)}
+          <div className="text-left">
+            <span className="text-[12px] font-bold text-black block leading-none mb-0.5">{card.text}</span>
+            <span className="text-[10px] text-zinc-400 font-semibold">{card.sub}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
-    <section className="relative min-h-screen pt-28 pb-20 flex flex-col items-center justify-start overflow-hidden px-6 bg-flighty-bg">
+    <section className="relative min-h-screen pt-28 pb-20 flex flex-col items-center justify-start overflow-hidden px-6 bg-white" style={{ backgroundColor: '#ffffff' }}>
       <div className="max-w-6xl mx-auto w-full flex flex-col items-center text-center z-10">
         
         {/* Trust Badge */}
-        <ScrollReveal direction="up" delay={0.05}>
+        {/* <ScrollReveal direction="up" delay={0.05}>
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-black/5 bg-white/70 backdrop-blur-md mb-6 shadow-xs">
             <span className="w-1.5 h-1.5 rounded-full bg-flighty-green animate-pulse" />
             <span className="text-[10px] font-extrabold text-zinc-500 uppercase tracking-widest leading-none">
               Apple Design Award Winner
             </span>
           </div>
-        </ScrollReveal>
+        </ScrollReveal> */}
 
         {/* Headline */}
-        <ScrollReveal direction="up" delay={0.1} className="max-w-[800px]">
-          <h1 className="text-4xl sm:text-5xl lg:text-[62px] font-display font-black leading-[1.08] tracking-tight text-black mb-5">
-            Dual Camera Recording App for iPhone Creators
+        <ScrollReveal direction="up" delay={0.1} className="max-w-[900px] w-full">
+          <h1 
+            className="text-[40px] sm:text-[52px] lg:text-[65px] font-bold text-center tracking-[-1px] leading-[1.1em] text-[#111] mb-6"
+            style={{
+              fontFamily: '"system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif, "System Default", sans-serif'
+            }}
+          >
+          Dual Camera Recording App
           </h1>
         </ScrollReveal>
 
         {/* Description */}
-        <ScrollReveal direction="up" delay={0.15} className="max-w-[700px]">
-          <p className="body-text text-zinc-500 text-sm sm:text-base mb-10 leading-relaxed">
-           Record front and rear cameras simultaneously, control recording from Apple Watch, and create split-screen videos for vlogs, reactions, travel content, and social media.
+        <ScrollReveal direction="up" delay={0.15} className="max-w-[700px] w-full">
+          <p 
+            className="mb-10 text-center tracking-[0px]"
+            style={{
+              fontFamily: '"system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif, "System Default", sans-serif',
+              fontSize: '17px',
+              fontWeight: 500,
+              lineHeight: '1.5em',
+              color: 'rgba(0, 0, 0, 0.65)'
+            }}
+          >
+            Record front and rear cameras simultaneously, control recording from Apple Watch, and create split-screen videos for vlogs, reactions, travel content, and social media.
           </p>
         </ScrollReveal>
 
-        {/* Product Stage - No boxed container, cards and phone float directly on background, overflow visible */}
-        <div className="relative w-full min-h-[580px] sm:min-h-[640px] flex items-center justify-center overflow-visible mt-2">
+        {/* Product Stage - responsive columns and centered phone */}
+        <div className="relative w-full flex flex-col md:block items-center justify-start overflow-visible mt-2 min-h-[1150px] md:min-h-[580px] lg:min-h-[640px]">
           
-          {/* Overlapping Background Cards - Float directly on page background */}
-          <div className="absolute inset-0 w-full h-full select-none pointer-events-none overflow-visible">
-            {cards.map((card, idx) => {
-              return (
-                <div
-                  key={idx}
-                  className={`absolute hidden sm:block w-[310px] md:w-[350px] ${card.pos} ${card.opacity} transition-all duration-500 z-10`}
-                >
-                  <div className="bg-white rounded-2xl border border-black/5 px-5 py-3.5 flex items-center justify-between shadow-premium">
-                    <div className="flex items-center gap-3">
-                      {/* Render customized icons based on card type */}
-                      {card.type === "mom" && (
-                        <div className="w-7.5 h-7.5 rounded-full bg-zinc-100 border border-black/5 flex items-center justify-center text-zinc-400 overflow-hidden">
-                          <span className="text-xs font-bold">👩</span>
-                        </div>
-                      )}
-                      
-                      {card.type === "gate" && (
-                        <div className="w-7.5 h-7.5 rounded-lg bg-orange-500/10 border border-orange-500/15 flex items-center justify-center text-orange-500">
-                          <AlertTriangle className="w-4 h-4" />
-                        </div>
-                      )}
-
-                      {card.type === "aa" && (
-                        <div className="w-7.5 h-7.5 rounded-lg bg-[#0078D2]/5 border border-[#0078D2]/10 flex items-center justify-center overflow-hidden shrink-0">
-                          <svg viewBox="0 0 100 100" className="w-5 h-5">
-                            <path d="M10,50 Q45,20 85,45 Q55,60 10,50" fill="#0078D2" />
-                            <path d="M20,65 Q55,30 95,55 Q65,70 20,65" fill="#FF1D25" />
-                          </svg>
-                        </div>
-                      )}
-
-                      {card.type === "weather" && (
-                        <div className="w-7.5 h-7.5 rounded-lg bg-zinc-50 border border-black/5 flex items-center justify-center text-zinc-400">
-                          <Compass className="w-4 h-4" />
-                        </div>
-                      )}
-
-                      {card.type === "delta" && (
-                        <div className="w-7.5 h-7.5 rounded-lg bg-[#E01933]/5 border border-[#E01933]/10 flex items-center justify-center overflow-hidden shrink-0">
-                          <svg viewBox="0 0 24 24" className="w-4 h-4" fill="#E01933">
-                            <polygon points="12,2 2,22 12,18 22,22" />
-                          </svg>
-                        </div>
-                      )}
-
-                      {card.type === "landed" && (
-                        <div className="w-7.5 h-7.5 rounded-full bg-flighty-green flex items-center justify-center text-white shrink-0 shadow-sm">
-                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" className="w-3.5 h-3.5 rotate-135">
-                            <line x1="5" y1="12" x2="19" y2="12" />
-                            <polyline points="12,5 19,12 12,19" />
-                          </svg>
-                        </div>
-                      )}
-
-                      {card.type === "delayed" && (
-                        <div className="w-7.5 h-7.5 rounded-full bg-flighty-red flex items-center justify-center text-white shrink-0 shadow-sm">
-                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" className="w-3.5 h-3.5 -rotate-45">
-                            <line x1="5" y1="12" x2="19" y2="12" />
-                            <polyline points="12,5 19,12 12,19" />
-                          </svg>
-                        </div>
-                      )}
-
-                      {card.type === "changed" && (
-                        <div className="w-7.5 h-7.5 rounded-lg bg-zinc-50 border border-black/5 flex items-center justify-center text-zinc-400">
-                          <Settings className="w-4 h-4" />
-                        </div>
-                      )}
-
-                      {card.type.startsWith("baggage") && (
-                        <div className="w-7.5 h-7.5 rounded-lg bg-[#FFCC00] flex items-center justify-center text-black font-extrabold text-[11px] shrink-0 shadow-xs">
-                          {card.type === "baggage-6" ? "6" : "14"}
-                        </div>
-                      )}
-
-                      <div className="text-left">
-                        <span className="text-[12px] font-bold text-black block leading-none mb-0.5">{card.text}</span>
-                        <span className="text-[10px] text-zinc-400 font-semibold">{card.sub}</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
+          {/* Left Cards Column */}
+          <div className="relative w-full max-w-[310px] sm:max-w-[330px] md:absolute md:w-[260px] lg:w-[320px] xl:w-[350px] md:left-1/2 md:-translate-x-[405px] lg:-translate-x-[465px] xl:-translate-x-[495px] md:top-[30px] flex flex-col gap-6 items-center md:items-end z-20 transition-all duration-300">
+            {leftCards.map((card, idx) => renderCard(card, idx))}
           </div>
 
           {/* Central Hand-held Phone Mockup - Proportions and alignment mapped exactly to Flighty's Framer specs */}
-          <div className="relative w-[300px] sm:w-[380px] aspect-[930/1260] z-25 overflow-visible">
+          <div className="relative w-[340px] sm:w-[420px] aspect-[930/1260] z-25 overflow-visible translate-x-12 md:translate-x-0 md:my-0 md:absolute md:left-[37%] md:-translate-x-1/2 md:top-0 my-8">
             {/* The transparent screen hand overlay */}
             <img 
               src="https://framerusercontent.com/images/y9W9YGgxy5FXNg6RqqZ6gYk.png" 
@@ -469,6 +500,11 @@ export default function Hero() {
               <div className="w-20 h-0.8 bg-zinc-300 rounded-full mx-auto mt-auto mb-1.5 shrink-0 z-10" />
 
             </div>
+          </div>
+
+          {/* Right Cards Column */}
+          <div className="relative w-full max-w-[310px] sm:max-w-[330px] md:absolute md:w-[260px] lg:w-[320px] xl:w-[350px] md:left-1/2 md:translate-x-[145px] md:top-[30px] flex flex-col gap-6 items-center md:items-start z-20 transition-all duration-300 pb-24 md:pb-0">
+            {rightCards.map((card, idx) => renderCard(card, idx))}
           </div>
 
           {/* Bottom Floating Navigation Pill - Overlapping wrist area exactly */}

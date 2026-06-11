@@ -1,149 +1,220 @@
 'use client';
 
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ShieldCheck, ArrowRight, Mic, Radio, Smartphone } from 'lucide-react';
+import { useState, useRef } from 'react';
+import Image from 'next/image';
+import { motion } from 'framer-motion';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import ScrollReveal from './ScrollReveal';
 
 export default function DelayPrediction() {
-  const [selectedReason, setSelectedReason] = useState('incoming');
+  const [activeSlide, setActiveSlide] = useState(0);
+  const scrollRef = useRef(null);
 
-  const reasons = {
-    incoming: {
-      title: 'Hey Lookout, Start Recording',
-      badge: 'SECURE VOICE CAPTURE',
-      desc: 'Lookout processes all voice triggers locally on your hardware. Trigger dual-camera recording instantly from a distance with zero cloud delay.',
-      details: [
-        { label: 'Voice Trigger Stream', value: 'Local microphone audio buffer active', time: '0ms latency', status: 'delayed' },
-        { label: 'Keyword DSP Matching', value: 'On-device neural network phrase check', time: '42ms parse', status: 'info' },
-        { label: 'Dual Stream Launch', value: 'Instant front/rear camera HD stream trigger', time: 'System Active', status: 'result' },
-      ]
+  const slides = [
+    {
+      id: 'iphone',
+      badge: 'IPHONE MODE',
+      heading: 'Dual-camera recording. Right from your iPhone.',
+      description: 'Use Lookout independently on iPhone to record with the front and rear cameras simultaneously. Capture both perspectives in a single recording without any additional devices.',
+      image: '/lookout_iphone_mode.png',
+      alt: 'Lookout app dual-camera recording split-screen interface shown on a centered iPhone displaying front and rear camera capture',
+      glow: 'from-purple-500/5 via-indigo-500/2 to-transparent',
+      hoverBorder: 'hover:border-purple-500/25 hover:shadow-[0_0_40px_rgba(168,85,247,0.06)]',
+      badgeStyle: 'text-purple-400 bg-purple-500/10 border-purple-500/20',
+      dotColor: 'bg-purple-500 shadow-[0_0_12px_rgba(168,85,247,0.5)]',
+      glowColor: 'rgba(168,85,247,0.05)',
+      arrowHoverGlow: 'hover:shadow-[0_0_15px_rgba(168,85,247,0.3)] hover:border-purple-500/30 hover:text-purple-400'
     },
-    airspace: {
-      title: 'Hey Lookout, Zoom In',
-      badge: 'FOCAL CROP TRIGGER',
-      desc: 'Seamlessly adjust frames without touching your screen. Local command processing ensures real-time focal shifts during live recordings.',
-      details: [
-        { label: 'Lens Control Command', value: 'Phrase matching threshold verified', time: '98% accuracy', status: 'delayed' },
-        { label: 'Haptic Signal Confirmation', value: 'Subtle tactile feedback triggered', time: '20ms pulse', status: 'info' },
-        { label: 'Crop Focal Shift', value: 'Smooth transition to 2x digital zoom crop', time: 'Instant', status: 'result' },
-      ]
+    {
+      id: 'watch',
+      badge: 'APPLE WATCH REMOTE',
+      heading: 'Control your recording from your wrist.',
+      description: 'Pair Lookout with Apple Watch to remotely control your iPhone recordings. Start, stop, and monitor your recording session without touching your phone.',
+      image: '/lookout_watch_remote.png',
+      alt: 'iPhone displaying dual camera stream beside a floating Apple Watch Ultra remote controller showing active recording triggers',
+      glow: 'from-blue-500/5 via-indigo-500/2 to-transparent',
+      hoverBorder: 'hover:border-blue-500/25 hover:shadow-[0_0_40px_rgba(10,132,255,0.06)]',
+      badgeStyle: 'text-blue-400 bg-blue-500/10 border-blue-500/20',
+      dotColor: 'bg-blue-500 shadow-[0_0_12px_rgba(10,132,255,0.5)]',
+      glowColor: 'rgba(10,132,255,0.05)',
+      arrowHoverGlow: 'hover:shadow-[0_0_15px_rgba(10,132,255,0.3)] hover:border-blue-500/30 hover:text-blue-400'
+    },
+    {
+      id: 'macos',
+      badge: 'MACOS RECORDING',
+      heading: 'Two cameras. One seamless Mac recording.',
+      description: 'Run Lookout on macOS and record from two camera sources simultaneously. Combine your Mac camera with Apple\'s Continuity Camera to capture both perspectives directly on your Mac.',
+      image: '/lookout_macos_continuity.png',
+      alt: 'MacBook Pro displaying dual camera recording with one feed from the webcam and one from an iPhone via Continuity Camera',
+      glow: 'from-emerald-500/5 via-teal-500/2 to-transparent',
+      hoverBorder: 'hover:border-emerald-500/25 hover:shadow-[0_0_40px_rgba(0,210,106,0.06)]',
+      badgeStyle: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20',
+      dotColor: 'bg-emerald-500 shadow-[0_0_12px_rgba(0,210,106,0.5)]',
+      glowColor: 'rgba(0,210,106,0.05)',
+      arrowHoverGlow: 'hover:shadow-[0_0_15px_rgba(0,210,106,0.3)] hover:border-emerald-500/30 hover:text-emerald-400'
+    }
+  ];
+
+  const handleScroll = (e) => {
+    const container = e.target;
+    const index = Math.round(container.scrollLeft / container.clientWidth);
+    if (index !== activeSlide && index >= 0 && index < slides.length) {
+      setActiveSlide(index);
     }
   };
 
-  const activeReason = reasons[selectedReason] || reasons.incoming;
+  const scrollToSlide = (index) => {
+    if (scrollRef.current) {
+      const containerWidth = scrollRef.current.clientWidth;
+      scrollRef.current.scrollTo({
+        left: containerWidth * index,
+        behavior: 'smooth'
+      });
+      setActiveSlide(index);
+    }
+  };
+
+  const currentGlowColor = slides[activeSlide]?.glowColor || 'rgba(168,85,247,0.05)';
 
   return (
-    <section id="alerts" className="py-40 lg:py-52 bg-[#05010d] border-b border-white/5 relative overflow-hidden">
-      {/* Background glow lines */}
-      <div className="absolute top-[-30%] right-[-10%] w-[500px] h-[500px] rounded-full bg-[#FF9F0A]/5 blur-[120px] pointer-events-none" />
+    <section id="alerts" className="pt-12 pb-10 lg:pt-16 lg:pb-12 bg-[#05010d] border-b border-white/5 relative overflow-hidden z-10">
+      {/* Hide native scrollbars in Webkit engines */}
+      <style>{`
+        #ecosystem-scroll::-webkit-scrollbar {
+          display: none;
+        }
+      `}</style>
+
+      {/* Static active slide ambient background glow */}
+      <div 
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] rounded-full blur-[140px] opacity-70 pointer-events-none transition-all duration-700 ease-in-out -z-10"
+        style={{
+          background: `radial-gradient(circle, ${currentGlowColor} 0%, transparent 70%)`
+        }} 
+      />
+
+      {/* Outer subtle static glows */}
+      <div className="absolute top-[10%] left-[-10%] w-[400px] h-[400px] rounded-full bg-purple-950/3 blur-[120px] pointer-events-none -z-10" />
+      <div className="absolute bottom-[10%] right-[-10%] w-[400px] h-[400px] rounded-full bg-emerald-950/3 blur-[120px] pointer-events-none -z-10" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        {/* Header Introduction */}
+        <div className="text-center max-w-3xl mx-auto mb-6 lg:mb-8">
+          <ScrollReveal direction="up">
+            <span className="text-xs font-semibold text-zinc-500 tracking-[0.2em] uppercase block mb-3">
+              APPLE ECOSYSTEM
+            </span>
+            <h2 className="text-3xl sm:text-4xl lg:text-[48px] font-sans font-semibold mb-4 tracking-tight leading-[1.15] bg-gradient-to-br from-white via-white to-zinc-400 bg-clip-text text-transparent">
+              Designed for the Apple Ecosystem.
+            </h2>
+            <p className="text-zinc-400 max-w-xl mx-auto text-base sm:text-lg font-normal leading-[1.6]">
+              Experience professional dual-camera power in three distinct workflows, built natively for your Apple devices.
+            </p>
+          </ScrollReveal>
+        </div>
+
+        {/* Horizontal Carousel Shell */}
+        <div className="relative w-full">
           
-          {/* Text Area */}
-          <div className="lg:col-span-6">
-            <ScrollReveal direction="left">
-              <span className="small-label text-zinc-500 block mb-4 tracking-widest uppercase">VOICE TELEMETRY</span>
-              <h2 className="text-3xl sm:text-5xl lg:text-[54px] font-sans font-semibold leading-[1.15] tracking-tight text-white mb-6">
-                Direct from the Voice Engine. Finally!
-              </h2>
-              <p className="text-zinc-400 mb-8 max-w-lg text-base sm:text-lg font-normal leading-[1.6]">
-                Experience the peak of hands-free control. Lookout monitors your voice stream locally. Trigger recordings, adjust frames, and swap layouts from a distance without ever touching the screen.
-              </p>
+          {/* Left arrow button */}
+          <button
+            onClick={() => scrollToSlide(activeSlide - 1)}
+            disabled={activeSlide === 0}
+            className={`hidden md:flex absolute left-2 lg:left-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full border border-white/10 bg-[#0d0a16]/95 backdrop-blur-md items-center justify-center text-white transition-all duration-300 z-20 cursor-pointer shadow-lg scale-95 active:scale-90 ${
+              activeSlide === 0 
+                ? 'opacity-0 pointer-events-none' 
+                : 'opacity-80 hover:opacity-100 hover:scale-105 ' + slides[activeSlide]?.arrowHoverGlow
+            }`}
+            aria-label="Previous panel"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
 
-              {/* Selectors */}
-              <div className="flex flex-col gap-3 max-w-md">
-                {[
-                  { id: 'incoming', label: 'Hey Lookout, Start Recording', icon: Mic },
-                  { id: 'airspace', label: 'Hey Lookout, Zoom In', icon: Radio },
-                ].map((item) => {
-                  const Icon = item.icon;
-                  return (
-                    <button
-                      key={item.id}
-                      onClick={() => setSelectedReason(item.id)}
-                      className={`flex items-center justify-between p-4.5 rounded-2xl border text-left transition-all duration-300 cursor-pointer ${
-                        selectedReason === item.id
-                          ? 'border-white/10 bg-white/5 text-white font-semibold shadow-lg scale-102'
-                          : 'border-white/5 bg-transparent text-zinc-400 hover:text-white hover:bg-white/2'
-                      }`}
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
-                          selectedReason === item.id ? 'bg-white/10 text-white' : 'bg-white/5 text-zinc-500'
-                        }`}>
-                          <Icon className="w-4 h-4" />
-                        </div>
-                        <span className="text-xs sm:text-[14px] font-semibold">{item.label}</span>
-                      </div>
-                      <ArrowRight className="w-4 h-4 text-zinc-500" />
-                    </button>
-                  );
-                })}
-              </div>
-            </ScrollReveal>
-          </div>
+          {/* Right arrow button */}
+          <button
+            onClick={() => scrollToSlide(activeSlide + 1)}
+            disabled={activeSlide === slides.length - 1}
+            className={`hidden md:flex absolute right-2 lg:right-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full border border-white/10 bg-[#0d0a16]/95 backdrop-blur-md items-center justify-center text-white transition-all duration-300 z-20 cursor-pointer shadow-lg scale-95 active:scale-90 ${
+              activeSlide === slides.length - 1 
+                ? 'opacity-0 pointer-events-none' 
+                : 'opacity-80 hover:opacity-100 hover:scale-105 ' + slides[activeSlide]?.arrowHoverGlow
+            }`}
+            aria-label="Next panel"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
 
-          {/* Interactive timeline */}
-          <div className="lg:col-span-6">
-            <ScrollReveal direction="right" className="w-full">
-              <div className="bg-[#050408] border border-white/5 rounded-[28px] p-8 shadow-2xl relative overflow-hidden">
-                {/* Subtle radial card glow */}
-                <div className="absolute inset-0 bg-radial-gradient from-white/2 to-transparent pointer-events-none" />
-                
-                <div className="flex justify-between items-start mb-6 relative z-10">
-                  <div>
-                    <span className="text-[8px] font-extrabold uppercase tracking-widest px-2.5 py-1 rounded bg-white/5 text-zinc-400 border border-white/5 block w-max mb-2">
-                      {activeReason.badge}
-                    </span>
-                    <h3 className="text-xl sm:text-2xl font-semibold text-white tracking-tight">{activeReason.title}</h3>
+          {/* Scrolling Slides viewport */}
+          <div
+            id="ecosystem-scroll"
+            ref={scrollRef}
+            onScroll={handleScroll}
+            className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth w-full no-scrollbar"
+            style={{
+              scrollbarWidth: 'none',
+              msOverflowStyle: 'none',
+            }}
+          >
+            {slides.map((slide, sIdx) => (
+              <div
+                key={slide.id}
+                className="w-full shrink-0 snap-center snap-always grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center px-1"
+              >
+                {/* Info Text Area (lg:col-span-5) */}
+                <div className="lg:col-span-5 flex flex-col justify-center text-left w-full pr-2">
+                  <span className={`inline-flex items-center self-start px-3 py-1 rounded-full text-[10px] font-medium tracking-[0.15em] uppercase border mb-3 ${slide.badgeStyle}`}>
+                    {slide.badge}
+                  </span>
+                  <h3 className="text-2xl sm:text-3xl lg:text-[36px] font-sans font-semibold mb-3 tracking-tight leading-[1.2] bg-gradient-to-br from-white via-white to-zinc-400 bg-clip-text text-transparent">
+                    {slide.heading}
+                  </h3>
+                  <p className="text-zinc-400 text-base font-normal leading-[1.6]">
+                    {slide.description}
+                  </p>
+                </div>
+
+                {/* Visual Image Showcase Area (lg:col-span-7) */}
+                <div className="lg:col-span-7 w-full flex items-center justify-center relative min-h-[260px] sm:min-h-[340px] lg:min-h-0">
+                  {/* Backdrop glow specific to slide */}
+                  <div className={`absolute inset-0 bg-gradient-to-tr ${slide.glow} rounded-full blur-[100px] pointer-events-none`} />
+                  
+                  {/* Slide Image inside premium card bezel */}
+                  <div className={`relative w-full max-w-[480px] mx-auto select-none rounded-[24px] overflow-hidden border border-white/5 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8)] bg-[#0d0a16]/90 backdrop-blur-md transition-all duration-500 group ${slide.hoverBorder}`}>
+                    <Image
+                      src={slide.image}
+                      alt={slide.alt}
+                      width={960}
+                      height={640}
+                      className="w-full h-auto object-cover select-none pointer-events-none transition-transform duration-700 ease-out group-hover:scale-[1.015]"
+                      priority={sIdx === 0}
+                    />
+                    {/* Glass reflection cover */}
+                    <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-white/10 pointer-events-none mix-blend-overlay" />
                   </div>
-                  <ShieldCheck className="w-5 h-5 text-[#00D26A]" />
                 </div>
-
-                <p className="text-zinc-400 text-sm sm:text-base font-normal leading-relaxed mb-8 relative z-10">
-                  {activeReason.desc}
-                </p>
-
-                <div className="flex flex-col gap-4.5 relative z-10">
-                  <div className="absolute left-3 top-4 bottom-4 w-px bg-white/5" />
-
-                  {activeReason.details.map((step, idx) => (
-                    <div
-                      key={step.label}
-                      className="flex items-start gap-4 relative z-10"
-                    >
-                      <div className={`w-6 h-6 rounded-full border flex items-center justify-center text-[10px] font-extrabold shrink-0 ${
-                        step.status === 'delayed'
-                          ? 'border-white bg-white text-black'
-                          : step.status === 'result'
-                          ? 'border-[#00D26A] bg-[#00D26A] text-black'
-                          : 'border-white/10 bg-white/5 text-zinc-400'
-                      }`}>
-                        {idx + 1}
-                      </div>
-
-                      <div className="flex-1 bg-white/2 border border-white/5 rounded-xl p-3.5 flex justify-between items-center hover:border-white/10 transition-colors">
-                        <div>
-                          <span className="text-[8px] text-zinc-500 font-extrabold uppercase block leading-none mb-1">{step.label}</span>
-                          <span className="text-[11.5px] font-bold text-white leading-tight block">{step.value}</span>
-                        </div>
-                        <span className={`text-[10px] font-extrabold ${
-                          step.status === 'delayed' ? 'text-white' : step.status === 'result' ? 'text-[#00D26A]' : 'text-zinc-400'
-                        }`}>
-                          {step.time}
-                        </span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
               </div>
-            </ScrollReveal>
+            ))}
           </div>
 
         </div>
+
+        {/* Carousel indicators/dots (Pill Navigation) */}
+        <div className="flex justify-center items-center gap-3 mt-4 lg:mt-6 relative z-25">
+          {slides.map((slide, idx) => (
+            <button
+              key={idx}
+              onClick={() => scrollToSlide(idx)}
+              className={`h-1.5 rounded-full transition-all duration-500 cursor-pointer ${
+                activeSlide === idx 
+                  ? `w-8 ${slide.dotColor}` 
+                  : 'w-1.5 bg-white/20 hover:bg-white/45'
+              }`}
+              aria-label={`Show slide ${idx + 1}`}
+            />
+          ))}
+        </div>
+
       </div>
     </section>
   );

@@ -16,11 +16,11 @@ export default function Navbar() {
   }, []);
 
   const navLinks = [
-    { name: 'Pricing', href: '#pricing' },
-    { name: 'Gift Cards', href: '#gifts' },
-    { name: 'Passport', href: '#history' },
-    { name: 'Airports', href: '#airports' },
-    { name: 'Help Center', href: '#help' },
+    { name: 'Features', href: '#features' },
+    { name: 'Apple Watch', href: '#alerts' },
+    { name: 'macOS', href: '#alerts' },
+    { name: 'Privacy', href: '#features' },
+    { name: 'Reviews', href: '#testimonials' },
   ];
 
   return (
@@ -31,23 +31,16 @@ export default function Navbar() {
         }`}
       >
         {/* Logo */}
-        <a href="#" className="flex items-center gap-2 group">
-          <div className="w-7 h-7 rounded-full bg-black flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="white"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="w-4 h-4 -rotate-45"
-            >
-              <path d="M22 2 11 13" />
-              <path d="M22 2 15 22 11 13 2 9z" />
+        <a href="#" className="flex items-center gap-2 group pointer-events-auto">
+          <div className="w-7.5 h-7.5 rounded-lg bg-black flex items-center justify-center text-white transition-transform duration-300 group-hover:scale-105 shrink-0 shadow-sm">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-4.5 h-4.5">
+              <rect x="2" y="6" width="20" height="12" rx="3" />
+              <circle cx="8" cy="12" r="2.5" />
+              <circle cx="16" cy="12" r="2.5" />
             </svg>
           </div>
           <span className="font-display font-extrabold text-base tracking-tight text-black">
-            Flighty
+            Lookout
           </span>
         </a>
 
@@ -68,9 +61,13 @@ export default function Navbar() {
         <div className="hidden md:flex items-center">
           <a
             href="#download"
-            className="px-5 py-2 text-[13px] font-bold text-white bg-black hover:bg-zinc-800 rounded-full transition-all duration-350 hover:scale-[1.03]"
+            className="px-5 py-2 text-[13px] font-bold text-white bg-black hover:bg-zinc-800 rounded-full transition-all duration-350 hover:scale-[1.03] flex items-center gap-1.5"
           >
             Get the app
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-3.5 h-3.5 text-white">
+              <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
+              <line x1="12" y1="18" x2="12.01" y2="18" />
+            </svg>
           </a>
         </div>
 
@@ -100,9 +97,13 @@ export default function Navbar() {
           <a
             href="#download"
             onClick={() => setMobileMenuOpen(false)}
-            className="flex items-center justify-center px-4 py-2.5 text-sm font-bold text-white bg-black hover:bg-zinc-800 rounded-full transition-all mt-2"
+            className="flex items-center justify-center gap-1.5 px-4 py-2.5 text-sm font-bold text-white bg-black hover:bg-zinc-800 rounded-full transition-all mt-2"
           >
             Get the app
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 text-white">
+              <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
+              <line x1="12" y1="18" x2="12.01" y2="18" />
+            </svg>
           </a>
         </div>
       )}
