@@ -9,6 +9,7 @@ import AirportIntelligence from "@/components/AirportIntelligence";
 import Testimonials from "@/components/Testimonials";
 import Awards from "@/components/Awards";
 import CTA from "@/components/CTA";
+import FAQ from "@/components/FAQ";
 import Footer from "@/components/Footer";
 
 export default function Home() {
@@ -47,9 +48,12 @@ export default function Home() {
 
         {/* 11. CTA Section */}
         <CTA />
+
+        {/* 12. FAQ Section */}
+        <FAQ />
       </main>
 
-      {/* 12. Footer */}
+      {/* 13. Footer */}
       <Footer />
     </div>
   );

@@ -1,65 +1,105 @@
 'use client';
 
-import { Award, ShieldCheck, Star, Users, Cpu } from 'lucide-react';
+import { Smartphone, Watch, Laptop } from 'lucide-react';
 import ScrollReveal from './ScrollReveal';
 
 export default function Awards() {
-  const awards = [
-    { title: 'Apple Silicon Optimized', desc: 'Harnesses iOS multi-camera API structures and GPU cores for efficient dual-stream capture.', icon: Cpu },
-    { title: '100% Private & Ad-Free', desc: 'All of your videos and audio voice triggers remain local. Zero tracking, zero ads, zero logs.', icon: ShieldCheck },
-    { title: 'Offline by Design', desc: 'Lookout works perfectly without an internet connection. Your media never touches a server.', icon: Users },
-    { title: "Creator Choice Utility", desc: 'Selected globally by content creators, journalists, and vloggers for mobile production.', icon: Star },
+  const cards = [
+    {
+      title: 'IPHONE',
+      desc: 'Capture dual-camera content using Split, PiP, and Focus modes.',
+      icon: Smartphone,
+      color: 'text-purple-500 bg-purple-500/5 border-purple-500/10'
+    },
+    {
+      title: 'APPLE WATCH',
+      desc: 'Start and control recordings remotely.',
+      icon: Watch,
+      color: 'text-blue-500 bg-blue-500/5 border-blue-500/10'
+    },
+    {
+      title: 'MACOS',
+      desc: 'Manage content and extend your workflow across your desktop environment.',
+      icon: Laptop,
+      color: 'text-emerald-500 bg-emerald-500/5 border-emerald-500/10'
+    }
   ];
 
   return (
-    <section id="trust" className="py-44 lg:py-56 bg-zinc-50 border-b border-black/5">
+    <section id="ecosystem" className="py-32 lg:py-48 bg-white border-b border-black/5 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        {/* Main Header */}
+        <div className="max-w-3xl mb-16 text-left">
+          <ScrollReveal direction="up" delay={0.05}>
+            <span className="text-xs sm:text-sm font-extrabold text-[#00D26A] tracking-[0.2em] uppercase block mb-4">
+              APPLE ECOSYSTEM
+            </span>
+            <h2 className="text-[11px] font-extrabold text-zinc-400 tracking-[0.27em] uppercase mb-5 leading-none">
+              ONE APP. THREE DEVICES.
+            </h2>
+            <h3 
+              className="text-3xl sm:text-4xl lg:text-[44px] font-bold text-black tracking-tight leading-[1.15] mb-6"
+              style={{
+                fontFamily: '"system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "Helvetica Neue", sans-serif'
+              }}
+            >
+              Built for iPhone, Apple Watch, and Mac.
+            </h3>
+            <p className="text-zinc-500 text-base sm:text-lg leading-[1.65] font-medium max-w-2xl">
+              Lookout is designed to feel native across the Apple ecosystem. Record from iPhone, control from Apple Watch, and manage your workflow across devices with a consistent Apple-inspired experience.
+            </p>
+          </ScrollReveal>
+        </div>
+
+        {/* Grid and Visual layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           
-          {/* Circular Graphic */}
-          <div className="lg:col-span-5 flex justify-center">
-            <ScrollReveal direction="left">
-              <div className="w-56 h-56 rounded-full border border-black/5 bg-white flex flex-col items-center justify-center text-center p-6 relative shadow-premium">
-                <div className="w-16 h-16 rounded-full bg-black/5 flex items-center justify-center mb-3">
-                  <Award className="w-8 h-8 text-black" />
-                </div>
-                <span className="text-[9px] text-zinc-400 font-extrabold uppercase tracking-widest block mb-1">DESIGN NOMINATION</span>
-                <span className="text-base font-extrabold text-black leading-tight">Crafted for Creators<br />Built with Privacy</span>
-              </div>
-            </ScrollReveal>
+          {/* Cards Grid Column (Left on Large screens, bottom on mobile) */}
+          <div className="lg:col-span-5 flex flex-col gap-6 order-2 lg:order-1">
+            {cards.map((card, idx) => {
+              const Icon = card.icon;
+              return (
+                <ScrollReveal
+                  key={card.title}
+                  direction="up"
+                  delay={idx * 0.1}
+                  className="bg-zinc-50 border border-black/5 rounded-2xl p-6 flex gap-5 hover:scale-[1.01] transition-all duration-350 shadow-premium"
+                >
+                  <div className={`w-10 h-10 rounded-xl border flex items-center justify-center shrink-0 ${card.color}`}>
+                    <Icon className="w-5 h-5" />
+                  </div>
+                  <div className="flex flex-col text-left">
+                    <span className="text-[10px] text-zinc-400 font-extrabold tracking-widest block mb-1">
+                      {card.title}
+                    </span>
+                    <span className="text-base font-bold text-black block mb-2 leading-none">
+                      {card.title === 'IPHONE' ? 'iOS Capture' : card.title === 'APPLE WATCH' ? 'Wrist Controls' : 'Desktop Flow'}
+                    </span>
+                    <span className="text-sm text-zinc-500 font-medium leading-relaxed">
+                      {card.desc}
+                    </span>
+                  </div>
+                </ScrollReveal>
+              );
+            })}
           </div>
 
-          {/* Details */}
-          <div className="lg:col-span-7">
-            <ScrollReveal direction="right">
-              <span className="small-label text-zinc-400 block mb-4">AWARDS & PRIVACY</span>
-              <h2 className="section-title mb-6">
-                Surgical Precision for the Modern Creator.
-              </h2>
-              <p className="body-text mb-8">
-                Lookout is built with a deep commitment to mobile performance, hardware security, and clean aesthetics. We believe creative software should be fast, offline-native, ad-free, and respectful of your data.
-              </p>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-8">
-                {awards.map((item) => {
-                  const Icon = item.icon;
-                  return (
-                    <div key={item.title} className="flex gap-4 items-start">
-                      <div className="w-8 h-8 rounded-lg bg-white border border-black/5 flex items-center justify-center text-black shadow-premium mt-0.5 shrink-0">
-                        <Icon className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <span className="text-[13px] font-bold text-black block">{item.title}</span>
-                        <span className="text-xs text-zinc-500 font-light leading-normal block mt-1">{item.desc}</span>
-                      </div>
-                    </div>
-                  );
-                })}
+          {/* Ecosystem Visual Column (Right on Large screens, top on mobile) */}
+          <div className="lg:col-span-7 w-full flex items-center justify-center order-1 lg:order-2">
+            <ScrollReveal direction="right" delay={0.15} className="w-full">
+              <div className="relative w-full aspect-[4/3] rounded-3xl overflow-hidden bg-zinc-50 border border-black/5 shadow-premium p-4 md:p-6 flex items-center justify-center">
+                <img 
+                  src="/apple_ecosystem_preview.png" 
+                  alt="Lookout running across iPhone, Apple Watch and MacBook Pro"
+                  className="w-full h-full object-cover rounded-2xl"
+                />
               </div>
             </ScrollReveal>
           </div>
 
         </div>
+
       </div>
     </section>
   );
