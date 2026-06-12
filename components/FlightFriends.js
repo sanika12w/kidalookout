@@ -101,65 +101,57 @@ export default function FlightFriends() {
                   <Share2 className="w-5 h-5 text-black" />
                 </div>
 
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={activeFriend}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    {/* Route Details */}
-                    <div className="flex justify-between items-center mb-6">
-                      <div className="text-center bg-zinc-50 border border-black/5 rounded-xl px-4 py-2 flex-1">
-                        <span className="text-[8px] text-zinc-400 font-bold uppercase block">PRIMARY STREAM</span>
-                        <span className="text-sm font-black text-black">{activeData.route.split(' → ')[0]}</span>
-                      </div>
-                      <div className="flex items-center justify-center px-4">
-                        <Navigation className="w-4 h-4 text-zinc-400 rotate-90" />
-                      </div>
-                      <div className="text-center bg-zinc-50 border border-black/5 rounded-xl px-4 py-2 flex-1">
-                        <span className="text-[8px] text-zinc-400 font-bold uppercase block">SECONDARY STREAM</span>
-                        <span className="text-sm font-black text-black">{activeData.route.split(' → ')[1]}</span>
-                      </div>
+                <div key={activeFriend}>
+                  {/* Route Details */}
+                  <div className="flex justify-between items-center mb-6">
+                    <div className="text-center bg-zinc-50 border border-black/5 rounded-xl px-4 py-2 flex-1">
+                      <span className="text-[8px] text-zinc-400 font-bold uppercase block">PRIMARY STREAM</span>
+                      <span className="text-sm font-black text-black">{activeData.route.split(' → ')[0]}</span>
                     </div>
+                    <div className="flex items-center justify-center px-4">
+                      <Navigation className="w-4 h-4 text-zinc-400 rotate-90" />
+                    </div>
+                    <div className="text-center bg-zinc-50 border border-black/5 rounded-xl px-4 py-2 flex-1">
+                      <span className="text-[8px] text-zinc-400 font-bold uppercase block">SECONDARY STREAM</span>
+                      <span className="text-sm font-black text-black">{activeData.route.split(' → ')[1]}</span>
+                    </div>
+                  </div>
 
-                    {/* Progress Slider */}
-                    <div className="relative w-full h-1 bg-zinc-100 rounded-full mb-6">
-                      <div
-                        className="absolute h-full rounded-full bg-black"
-                        style={{ width: `${activeData.progress * 100}%` }}
-                      />
-                    </div>
+                  {/* Progress Slider */}
+                  <div className="relative w-full h-1 bg-zinc-100 rounded-full mb-6">
+                    <div
+                      className="absolute h-full rounded-full bg-black"
+                      style={{ width: `${activeData.progress * 100}%` }}
+                    />
+                  </div>
 
-                    {/* Alert Update */}
-                    <div className="bg-zinc-50 border border-black/5 rounded-xl p-4 flex gap-3 items-start mb-6">
-                      <div className="w-5 h-5 rounded-full bg-zinc-200 flex items-center justify-center text-black mt-0.5">
-                        <CheckCircle className="w-3 h-3" />
-                      </div>
-                      <div>
-                        <span className="text-[8px] text-zinc-400 font-bold uppercase block">EXPORT LOG • {activeData.time}</span>
-                        <p className="text-xs text-zinc-600 font-light mt-0.5 leading-relaxed">{activeData.details}</p>
-                      </div>
+                  {/* Alert Update */}
+                  <div className="bg-zinc-50 border border-black/5 rounded-xl p-4 flex gap-3 items-start mb-6">
+                    <div className="w-5 h-5 rounded-full bg-zinc-200 flex items-center justify-center text-black mt-0.5">
+                      <CheckCircle className="w-3 h-3" />
                     </div>
+                    <div>
+                      <span className="text-[8px] text-zinc-400 font-bold uppercase block">EXPORT LOG • {activeData.time}</span>
+                      <p className="text-xs text-zinc-600 font-light mt-0.5 leading-relaxed">{activeData.details}</p>
+                    </div>
+                  </div>
 
-                    {/* Stats Grid */}
-                    <div className="grid grid-cols-3 gap-3 text-center">
-                      <div className="bg-zinc-50 border border-black/5 rounded-xl p-2.5">
-                        <span className="text-[8px] text-zinc-400 font-bold block mb-1">LAYOUT</span>
-                        <span className="text-xs font-bold text-black">{activeData.stats.altitude}</span>
-                      </div>
-                      <div className="bg-zinc-50 border border-black/5 rounded-xl p-2.5">
-                        <span className="text-[8px] text-zinc-400 font-bold block mb-1">SYNC CALIB</span>
-                        <span className="text-xs font-bold text-black">{activeData.stats.speed}</span>
-                      </div>
-                      <div className="bg-zinc-50 border border-black/5 rounded-xl p-2.5">
-                        <span className="text-[8px] text-zinc-400 font-bold block mb-1">CODEC</span>
-                        <span className="text-xs font-bold text-black">{activeData.stats.estArrival}</span>
-                      </div>
+                  {/* Stats Grid */}
+                  <div className="grid grid-cols-3 gap-3 text-center">
+                    <div className="bg-zinc-50 border border-black/5 rounded-xl p-2.5">
+                      <span className="text-[8px] text-zinc-400 font-bold block mb-1">LAYOUT</span>
+                      <span className="text-xs font-bold text-black">{activeData.stats.altitude}</span>
                     </div>
-                  </motion.div>
-                </AnimatePresence>
+                    <div className="bg-zinc-50 border border-black/5 rounded-xl p-2.5">
+                      <span className="text-[8px] text-zinc-400 font-bold block mb-1">SYNC CALIB</span>
+                      <span className="text-xs font-bold text-black">{activeData.stats.speed}</span>
+                    </div>
+                    <div className="bg-zinc-50 border border-black/5 rounded-xl p-2.5">
+                      <span className="text-[8px] text-zinc-400 font-bold block mb-1">CODEC</span>
+                      <span className="text-xs font-bold text-black">{activeData.stats.estArrival}</span>
+                    </div>
+                  </div>
+                </div>
 
               </div>
             </ScrollReveal>

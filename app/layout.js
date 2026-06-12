@@ -1,5 +1,6 @@
 import { Geist, Geist_Mono, Inter } from "next/font/google";
 import LenisProvider from "@/lib/LenisProvider";
+import FloatingSocials from "@/components/FloatingSocials";
 import "./globals.css";
 
 const inter = Inter({
@@ -31,6 +32,7 @@ export default function RootLayout({ children }) {
       <body className="min-h-full flex flex-col bg-flighty-bg text-black selection:bg-flighty-green/20 selection:text-black">
         <LenisProvider>
           {children}
+          <FloatingSocials />
         </LenisProvider>
       </body>
     </html>

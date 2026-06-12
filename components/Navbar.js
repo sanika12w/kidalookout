@@ -4,122 +4,229 @@ import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isBgDark, setIsBgDark] = useState(true); // starts dark for Hero
   const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
-  const navLinks = [
-    { name: 'Features', href: '/#features' },
-    { name: 'Apple Watch', href: '/#alerts' },
-    { name: 'Pricing', href: '/pricing' },
-    { name: 'Help Center', href: '/help-center' },
-  ];
+      // On pages other than home (pricing, help center), the background is always light.
+      if (pathname !== '/') {
+        setIsBgDark(false);
+        return;
+      }
+
+      // On homepage, detect color dynamically at y=40, center of screen
+      const yOffset = 40;
+      const x = window.innerWidth / 2;
+      
+      const header = document.querySelector('header');
+      let el = null;
+      if (header) {
+        // Temporarily disable pointer events on header so elementFromPoint looks through it
+        const originalStyle = header.style.pointerEvents;
+        header.style.pointerEvents = 'none';
+        el = document.elementFromPoint(x, yOffset);
+        header.style.pointerEvents = originalStyle;
+      } else {
+        el = document.elementFromPoint(x, yOffset);
+      }
+
+      if (el) {
+        let currentEl = el;
+        let isDark = true; // default to dark if unsure
+        let found = false;
+
+        while (currentEl && currentEl !== document.body) {
+          const classes = currentEl.className || '';
+          
+          // Check for explicit dark/light classes:
+          if (classes.includes('bg-[#080710]') || classes.includes('bg-[#05010d]') || classes.includes('bg-zinc-900') || classes.includes('bg-black')) {
+            isDark = true;
+            found = true;
+            break;
+          }
+          if (classes.includes('bg-white') || classes.includes('bg-zinc-50') || classes.includes('bg-zinc-100') || classes.includes('bg-flighty-bg')) {
+            isDark = false;
+            found = true;
+            break;
+          }
+
+          // Fallback to computed background color if available:
+          const bg = window.getComputedStyle(currentEl).backgroundColor;
+          if (bg && bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent') {
+            const match = bg.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+            if (match) {
+              const r = parseInt(match[1]);
+              const g = parseInt(match[2]);
+              const b = parseInt(match[3]);
+              const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+              isDark = brightness < 140;
+              found = true;
+              break;
+            }
+          }
+          currentEl = currentEl.parentElement;
+        }
+
+        if (found) {
+          setIsBgDark(isDark);
+        } else {
+          // If no section background is found, default based on page scroll position:
+          setIsBgDark(window.scrollY < 600); 
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // initial call on mount or route change
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [pathname]);
 
   const isActive = (href) => {
-    if (href.startsWith('/#')) {
+    if (href === '/') {
       return pathname === '/';
     }
-    return pathname === href;
+    return pathname.startsWith(href);
   };
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-50 px-6 py-4 flex justify-center pointer-events-none">
-      <nav
-        className={`w-full max-w-4xl rounded-full glassmorphism shadow-navbar border border-black/5 px-6 py-3 flex items-center justify-between pointer-events-auto transition-all duration-300 ${
-          scrolled ? 'scale-[0.98] bg-white/85 shadow-premium' : ''
-        }`}
-      >
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 group pointer-events-auto">
-          <div className="w-7.5 h-7.5 rounded-lg bg-black flex items-center justify-center text-white transition-transform duration-300 group-hover:scale-105 shrink-0 shadow-sm">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-4.5 h-4.5">
-              <rect x="2" y="6" width="20" height="12" rx="3" />
-              <circle cx="8" cy="12" r="2.5" />
-              <circle cx="16" cy="12" r="2.5" />
-            </svg>
-          </div>
-          <span className="font-display font-extrabold text-base tracking-tight text-black">
-            Lookout
-          </span>
+    <header className="fixed top-0 left-0 right-0 z-50 w-full pointer-events-none">
+      <div className="w-full px-6 sm:px-8 pt-6 pb-4 flex items-start justify-between pointer-events-auto">
+        {/* Left Side: Standalone Larger Logo anchored to top-left */}
+        <Link href="/" className="flex items-center group cursor-pointer">
+          <img
+            src="/lookoutAppIcon.png"
+            alt="Lookout logo"
+            className="w-34 h-34 rounded-[20px] object-cover shrink-0 shadow-sm transition-transform duration-300 group-hover:scale-105"
+          />
         </Link>
 
-        {/* Centered links */}
-        <div className="hidden md:flex items-center gap-6">
-          {navLinks.map((link) => (
-            <Link
-              key={link.name}
-              href={link.href}
-              className={`text-[14px] font-semibold transition-colors duration-200 ${
-                isActive(link.href) ? 'text-black font-extrabold' : 'text-zinc-500 hover:text-black'
-              }`}
-            >
-              {link.name}
-            </Link>
-          ))}
-        </div>
-
-        {/* CTA Button */}
-        <div className="hidden md:flex items-center">
+        {/* Right Side: Floating Navigation Links anchored to top-right */}
+        <div className="hidden md:flex items-center gap-2 pt-7 pointer-events-auto">
           <Link
-            href="/#download"
-            className="px-5 py-2 text-[13px] font-bold text-white bg-black hover:bg-zinc-800 rounded-full transition-all duration-350 hover:scale-[1.03] flex items-center gap-1.5 pointer-events-auto"
+            href="/"
+            className={`text-[16px] font-bold transition-all duration-200 ${
+              isActive('/')
+                ? (isBgDark ? 'text-white bg-white/[0.08] border border-white/10 px-3.5 py-1.5 rounded-full' : 'text-black bg-black/[0.06] border border-black/5 px-3.5 py-1.5 rounded-full')
+                : (isBgDark ? 'text-white/60 hover:text-white px-3.5 py-1.5 border border-transparent' : 'text-zinc-500 hover:text-black px-3.5 py-1.5 border border-transparent')
+            }`}
           >
-            Get the app
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-3.5 h-3.5 text-white">
-              <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
-              <line x1="12" y1="18" x2="12.01" y2="18" />
-            </svg>
+            Home
+          </Link>
+          <Link
+            href="/pricing"
+            className={`text-[16px] font-bold transition-all duration-200 ${
+              isActive('/pricing')
+                ? (isBgDark ? 'text-white bg-white/[0.08] border border-white/10 px-3.5 py-1.5 rounded-full' : 'text-black bg-black/[0.06] border border-black/5 px-3.5 py-1.5 rounded-full')
+                : (isBgDark ? 'text-white/60 hover:text-white px-3.5 py-1.5 border border-transparent' : 'text-zinc-500 hover:text-black px-3.5 py-1.5 border border-transparent')
+            }`}
+          >
+            Pricing
+          </Link>
+          <Link
+            href="/help-center"
+            className={`text-[16px] font-bold transition-all duration-200 ${
+              isActive('/help-center')
+                ? (isBgDark ? 'text-white bg-white/[0.08] border border-white/10 px-3.5 py-1.5 rounded-full' : 'text-black bg-black/[0.06] border border-black/5 px-3.5 py-1.5 rounded-full')
+                : (isBgDark ? 'text-white/60 hover:text-white px-3.5 py-1.5 border border-transparent' : 'text-zinc-500 hover:text-black px-3.5 py-1.5 border border-transparent')
+            }`}
+          >
+            Help Center
           </Link>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Menu Button aligned with logo vertical center */}
         <button
-          className="md:hidden text-black hover:text-zinc-600 transition-colors pointer-events-auto cursor-pointer"
+          className={`md:hidden transition-colors pointer-events-auto cursor-pointer pt-9 ${
+            isBgDark ? 'text-white hover:text-zinc-300' : 'text-black hover:text-zinc-600'
+          }`}
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label="Toggle menu"
         >
           {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
-      </nav>
+      </div>
 
-      {/* Dropdown */}
-      {mobileMenuOpen && (
-        <div className="absolute top-18 left-6 right-6 bg-white/95 backdrop-blur-xl border border-black/5 rounded-3xl p-6 shadow-premium flex flex-col gap-4 md:hidden pointer-events-auto">
-          {navLinks.map((link) => (
+      {/* Mobile Dropdown */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.2 }}
+            className={`border-b overflow-hidden p-6 flex flex-col gap-4 md:hidden shadow-lg pointer-events-auto ${
+              isBgDark
+                ? 'bg-[#080710]/95 border-white/5 text-white'
+                : 'bg-white/95 border-black/5 text-black'
+            }`}
+          >
             <Link
-              key={link.name}
-              href={link.href}
+              href="/"
               onClick={() => setMobileMenuOpen(false)}
-              className={`text-base font-semibold transition-colors py-1 ${
-                isActive(link.href) ? 'text-black font-extrabold' : 'text-zinc-500 hover:text-black'
+              className={`text-[15px] font-bold py-2 px-3.5 rounded-full transition-all duration-200 ${
+                isActive('/')
+                  ? (isBgDark ? 'text-white bg-white/[0.08] border border-white/10' : 'text-black bg-black/[0.06] border border-black/5')
+                  : (isBgDark ? 'text-white/60 hover:text-white' : 'text-zinc-500 hover:text-black')
               }`}
             >
-              {link.name}
+              Home
             </Link>
-          ))}
-          <Link
-            href="/#download"
-            onClick={() => setMobileMenuOpen(false)}
-            className="flex items-center justify-center gap-1.5 px-4 py-2.5 text-sm font-bold text-white bg-black hover:bg-zinc-800 rounded-full transition-all mt-2"
-          >
-            Get the app
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 text-white">
-              <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
-              <line x1="12" y1="18" x2="12.01" y2="18" />
-            </svg>
-          </Link>
-        </div>
-      )}
-    </div>
+            <Link
+              href="/pricing"
+              onClick={() => setMobileMenuOpen(false)}
+              className={`text-[15px] font-bold py-2 px-3.5 rounded-full transition-all duration-200 ${
+                isActive('/pricing')
+                  ? (isBgDark ? 'text-white bg-white/[0.08] border border-white/10' : 'text-black bg-black/[0.06] border border-black/5')
+                  : (isBgDark ? 'text-white/60 hover:text-white' : 'text-zinc-500 hover:text-black')
+              }`}
+            >
+              Pricing
+            </Link>
+            <Link
+              href="/help-center"
+              onClick={() => setMobileMenuOpen(false)}
+              className={`text-[15px] font-bold py-2 px-3.5 rounded-full transition-all duration-200 ${
+                isActive('/help-center')
+                  ? (isBgDark ? 'text-white bg-white/[0.08] border border-white/10' : 'text-black bg-black/[0.06] border border-black/5')
+                  : (isBgDark ? 'text-white/60 hover:text-white' : 'text-zinc-500 hover:text-black')
+              }`}
+            >
+              Help Center
+            </Link>
+            <Link
+              href="/#download"
+              onClick={() => setMobileMenuOpen(false)}
+              className={`flex items-center justify-center gap-1.5 px-4 py-2.5 text-sm font-bold rounded-full transition-all mt-2 shadow-xs ${
+                isBgDark
+                  ? 'bg-white text-black hover:bg-zinc-100'
+                  : 'bg-black text-white hover:bg-zinc-800'
+              }`}
+            >
+              Get the app
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="w-4 h-4"
+              >
+                <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
+                <line x1="12" y1="18" x2="12.01" y2="18" />
+              </svg>
+            </Link>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </header>
   );
 }

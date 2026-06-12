@@ -10,7 +10,11 @@ import {
 import ScrollReveal from './ScrollReveal';
 
 export default function Hero() {
-  const [activeTab, setActiveTab] = useState('airport');
+  const [activeTab, setActiveTab] = useState('preflight');
+
+  const handleTabClick = (tabId) => {
+    setActiveTab(tabId);
+  };
 
   // Left side floating status cards
   const leftCards = [
@@ -94,13 +98,13 @@ export default function Hero() {
     switch (type) {
       case "mom":
         return (
-          <div className="w-7.5 h-7.5 rounded-full bg-zinc-100 border border-black/5 flex items-center justify-center text-zinc-400 overflow-hidden">
+          <div className="w-7.5 h-7.5 rounded-full bg-white/10 border border-white/10 flex items-center justify-center text-white overflow-hidden shrink-0">
             <span className="text-xs font-bold">👩</span>
           </div>
         );
       case "gate":
         return (
-          <div className="w-7.5 h-7.5 rounded-lg bg-orange-500/10 border border-orange-500/15 flex items-center justify-center text-orange-500">
+          <div className="w-7.5 h-7.5 rounded-lg bg-orange-500/10 border border-orange-500/15 flex items-center justify-center text-orange-500 shrink-0">
             <AlertTriangle className="w-4 h-4" />
           </div>
         );
@@ -115,7 +119,7 @@ export default function Hero() {
         );
       case "weather":
         return (
-          <div className="w-7.5 h-7.5 rounded-lg bg-zinc-50 border border-black/5 flex items-center justify-center text-zinc-400">
+          <div className="w-7.5 h-7.5 rounded-lg bg-white/10 border border-white/10 flex items-center justify-center text-white shrink-0">
             <Compass className="w-4 h-4" />
           </div>
         );
@@ -147,7 +151,7 @@ export default function Hero() {
         );
       case "changed":
         return (
-          <div className="w-7.5 h-7.5 rounded-lg bg-zinc-50 border border-black/5 flex items-center justify-center text-zinc-400">
+          <div className="w-7.5 h-7.5 rounded-lg bg-white/10 border border-white/10 flex items-center justify-center text-white shrink-0">
             <Settings className="w-4 h-4" />
           </div>
         );
@@ -173,12 +177,12 @@ export default function Hero() {
       key={idx}
       className={`w-full ${card.opacity} transition-all duration-500 z-10 ${card.offsetClass} flex-shrink-0`}
     >
-      <div className="bg-white rounded-2xl border border-black/5 px-5 py-3.5 flex items-center justify-between shadow-[0_18px_40px_rgba(0,0,0,0.12),0_3px_10px_rgba(0,0,0,0.04)]">
+      <div className="bg-white/5 backdrop-blur-2xl rounded-2xl border border-white/10 px-5 py-3.5 flex items-center justify-between shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)]">
         <div className="flex items-center gap-3">
           {renderCardIcon(card.type)}
           <div className="text-left">
-            <span className="text-[12px] font-bold text-black block leading-none mb-0.5">{card.text}</span>
-            <span className="text-[10px] text-zinc-400 font-semibold">{card.sub}</span>
+            <span className="text-[12px] font-bold text-white block leading-none mb-0.5">{card.text}</span>
+            <span className="text-[10px] text-white/60 font-semibold">{card.sub}</span>
           </div>
         </div>
       </div>
@@ -186,57 +190,65 @@ export default function Hero() {
   );
 
   return (
-    <section className="relative min-h-screen pt-28 pb-20 flex flex-col items-center justify-start overflow-hidden px-6 bg-white" style={{ backgroundColor: '#ffffff' }}>
+    <section 
+      className="relative min-h-screen bg-[#05010d] w-full overflow-hidden px-6 pt-40 pb-20 flex flex-col items-center justify-start" 
+      style={{ backgroundColor: '#05010d' }}
+    >
+      {/* Background atmospheric glows */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-purple-500/5 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-blue-500/3 rounded-full blur-[140px] pointer-events-none" />
+
       <div className="max-w-6xl mx-auto w-full flex flex-col items-center text-center z-10">
         
-        {/* Trust Badge */}
-        {/* <ScrollReveal direction="up" delay={0.05}>
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-black/5 bg-white/70 backdrop-blur-md mb-6 shadow-xs">
-            <span className="w-1.5 h-1.5 rounded-full bg-flighty-green animate-pulse" />
-            <span className="text-[10px] font-extrabold text-zinc-500 uppercase tracking-widest leading-none">
-              Apple Design Award Winner
-            </span>
-          </div>
-        </ScrollReveal> */}
+        {/* 1. Text Container - sits in normal flow */}
+        <div className="w-full flex flex-col items-center">
+          {/* Headline */}
+          <ScrollReveal direction="up" delay={0.1} className="max-w-[900px] w-full">
+            <h1 
+              className="text-[40px] sm:text-[52px] lg:text-[65px] font-bold text-center tracking-[-1px] leading-[1.1em] text-white mb-6"
+              style={{
+                fontFamily: '"system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif, "System Default", sans-serif'
+              }}
+            >
+            Dual Camera Recording App
+            </h1>
+          </ScrollReveal>
 
-        {/* Headline */}
-        <ScrollReveal direction="up" delay={0.1} className="max-w-[900px] w-full">
-          <h1 
-            className="text-[40px] sm:text-[52px] lg:text-[65px] font-bold text-center tracking-[-1px] leading-[1.1em] text-[#111] mb-6"
-            style={{
-              fontFamily: '"system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif, "System Default", sans-serif'
-            }}
-          >
-          Dual Camera Recording App
-          </h1>
-        </ScrollReveal>
+          {/* Description */}
+          <ScrollReveal direction="up" delay={0.15} className="max-w-[700px] w-full">
+            <p 
+              className="mb-10 text-center tracking-[0px]"
+              style={{
+                fontFamily: '"system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif, "System Default", sans-serif',
+                fontSize: '17px',
+                fontWeight: 500,
+                lineHeight: '1.5em',
+                color: 'rgba(255, 255, 255, 0.65)'
+              }}
+            >
+              Record front and rear cameras simultaneously, control recording from Apple Watch, and create split-screen videos for vlogs, reactions, travel content, and social media.
+            </p>
+          </ScrollReveal>
+        </div>
 
-        {/* Description */}
-        <ScrollReveal direction="up" delay={0.15} className="max-w-[700px] w-full">
-          <p 
-            className="mb-10 text-center tracking-[0px]"
-            style={{
-              fontFamily: '"system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif, "System Default", sans-serif',
-              fontSize: '17px',
-              fontWeight: 500,
-              lineHeight: '1.5em',
-              color: 'rgba(0, 0, 0, 0.65)'
-            }}
-          >
-            Record front and rear cameras simultaneously, control recording from Apple Watch, and create split-screen videos for vlogs, reactions, travel content, and social media.
-          </p>
-        </ScrollReveal>
-
-        {/* Product Stage - responsive columns and centered phone */}
-        <div className="relative w-full flex flex-col md:block items-center justify-start overflow-visible mt-2 min-h-[1150px] md:min-h-[580px] lg:min-h-[640px]">
+        {/* 2. Product Stage */}
+        <div className="relative w-full flex flex-col md:block items-center justify-start overflow-visible mt-12 min-h-[1150px] md:min-h-[580px] lg:min-h-[640px]">
           
           {/* Left Cards Column */}
-          <div className="relative w-full max-w-[310px] sm:max-w-[330px] md:absolute md:w-[260px] lg:w-[320px] xl:w-[350px] md:left-1/2 md:-translate-x-[405px] lg:-translate-x-[465px] xl:-translate-x-[495px] md:top-[30px] flex flex-col gap-6 items-center md:items-end z-20 transition-all duration-300">
+          <div 
+            className="relative w-full max-w-[310px] sm:max-w-[330px] md:absolute md:w-[260px] lg:w-[320px] xl:w-[350px] md:left-1/2 md:-translate-x-[400px] lg:-translate-x-[440px] xl:-translate-x-[470px] md:top-[30px] flex flex-col gap-6 items-center md:items-end z-20 transition-all duration-300"
+          >
             {leftCards.map((card, idx) => renderCard(card, idx))}
           </div>
 
-          {/* Central Hand-held Phone Mockup - Proportions and alignment mapped exactly to Flighty's Framer specs */}
-          <div className="relative w-[340px] sm:w-[420px] aspect-[930/1260] z-25 overflow-visible translate-x-12 md:translate-x-0 md:my-0 md:absolute md:left-[37%] md:-translate-x-1/2 md:top-0 my-8">
+          {/* Central Hand-held Phone Mockup - Centered horizontally */}
+          <div 
+            className="relative w-[340px] sm:w-[420px] aspect-[930/1260] z-25 overflow-visible md:my-0 md:absolute md:left-[60%] md:-translate-x-1/2 md:top-0 my-8"
+          >
+            {/* Expanded Layered gradient glows behind phone */}
+            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[160%] h-[160%] bg-gradient-to-tr from-violet-600/50 via-purple-500/30 to-indigo-500/40 rounded-full blur-[100px] sm:blur-[150px] pointer-events-none -z-10" />
+            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-tr from-blue-500/40 via-indigo-600/30 to-purple-600/50 rounded-full blur-[80px] sm:blur-[110px] pointer-events-none -z-10" />
+
             {/* The transparent screen hand overlay */}
             <img 
               src="https://framerusercontent.com/images/y9W9YGgxy5FXNg6RqqZ6gYk.png" 
@@ -246,7 +258,7 @@ export default function Hero() {
             
             {/* The screen container positioned behind the hand's transparent phone cutout */}
             <div 
-              className="absolute z-10 overflow-hidden bg-white flex flex-col justify-start select-none"
+              className="absolute z-10 overflow-hidden bg-black flex flex-col justify-start select-none"
               style={{
                 left: '12.6%',
                 top: '2.0%',
@@ -258,11 +270,11 @@ export default function Hero() {
               
               {/* Phone Status Bar */}
               <div className="flex justify-between items-center px-3 pt-3.5 pb-1 text-[8px] text-zinc-400 font-bold select-none z-10">
-                <span className="text-[7.5px] scale-95 origin-left font-sans">09:41</span>
-                <div className="flex items-center gap-1">
+                <span className="text-[7.5px] scale-95 origin-left font-sans text-zinc-400">09:41</span>
+                <div className="flex items-center gap-1 text-zinc-400">
                   <span>5G</span>
-                  <div className="w-3.5 h-1.5 rounded-3xs border border-zinc-400 p-px flex items-center">
-                    <div className="w-full h-full bg-black rounded-4xs" />
+                  <div className="w-3.5 h-1.5 rounded-3xs border border-zinc-500 p-px flex items-center">
+                    <div className="w-full h-full bg-white rounded-4xs" />
                   </div>
                 </div>
               </div>
@@ -278,11 +290,11 @@ export default function Hero() {
                       exit={{ opacity: 0 }}
                       className="flex-1 flex flex-col"
                     >
-                      <span className="text-[7px] text-zinc-400 font-extrabold tracking-wider uppercase block mb-0.5">PREFLIGHT COUNTDOWN</span>
-                      <h3 className="text-[11px] font-black text-black leading-tight mb-2">San Francisco to New York</h3>
+                      <span className="text-[7px] text-zinc-500 font-extrabold tracking-wider uppercase block mb-0.5">PREFLIGHT COUNTDOWN</span>
+                      <h3 className="text-[11px] font-black text-white leading-tight mb-2">San Francisco to New York</h3>
                       
                       {/* Preflight card */}
-                      <div className="rounded-xl border border-black/5 p-2.5 flex flex-col bg-zinc-50/50 shadow-xs mb-2">
+                      <div className="rounded-xl border border-white/5 p-2.5 flex flex-col bg-white/5 backdrop-blur-xl shadow-xs mb-2">
                         <div className="flex justify-between items-center mb-1.5">
                           <span className="text-[6px] font-extrabold uppercase px-1 py-0.2 bg-blue-500/5 text-blue-500 border border-blue-500/10 rounded">
                             CHECK-IN OPEN
@@ -291,24 +303,24 @@ export default function Hero() {
                         </div>
 
                         <div className="flex justify-between items-center mb-2">
-                          <span className="text-base font-black text-black leading-none">SFO</span>
-                          <Plane className="w-3 h-3 text-zinc-300" />
-                          <span className="text-base font-black text-black leading-none">JFK</span>
+                          <span className="text-base font-black text-white leading-none">SFO</span>
+                          <Plane className="w-3 h-3 text-zinc-650" />
+                          <span className="text-base font-black text-white leading-none">JFK</span>
                         </div>
 
-                        <div className="text-center py-1.5 border-y border-black/5 my-1.5 bg-white rounded-md">
-                          <span className="text-[6px] text-zinc-400 font-bold uppercase block mb-0.5">DEPARTS IN</span>
-                          <span className="text-sm font-black text-black tracking-widest font-mono">03:14:22</span>
+                        <div className="text-center py-1.5 border-y border-white/5 my-1.5 bg-black/40 rounded-md">
+                          <span className="text-[6px] text-zinc-500 font-bold uppercase block mb-0.5">DEPARTS IN</span>
+                          <span className="text-sm font-black text-white tracking-widest font-mono">03:14:22</span>
                         </div>
 
                         <div className="flex justify-between items-center text-[7.5px] pt-0.5">
                           <div>
-                            <span className="text-zinc-400 block uppercase font-bold text-[5.5px]">SEAT ASSIGNED</span>
-                            <span className="font-extrabold text-black">14A (Window)</span>
+                            <span className="text-zinc-500 block uppercase font-bold text-[5.5px]">SEAT ASSIGNED</span>
+                            <span className="font-extrabold text-white">14A (Window)</span>
                           </div>
                           <div className="text-right">
-                            <span className="text-zinc-400 block uppercase font-bold text-[5.5px]">TERMINAL</span>
-                            <span className="font-extrabold text-black">T1 • Concourse C</span>
+                            <span className="text-zinc-500 block uppercase font-bold text-[5.5px]">TERMINAL</span>
+                            <span className="font-extrabold text-white">T1 • Concourse C</span>
                           </div>
                         </div>
                       </div>
@@ -324,7 +336,7 @@ export default function Hero() {
                       className="flex-1 flex flex-col h-full overflow-hidden"
                     >
                       {/* Map Header - Custom SVG representation of Bay Area SFO */}
-                      <div className="relative w-full h-[85px] sm:h-[105px] bg-[#C5E1F5] rounded-xl overflow-hidden mb-2 border border-black/5 shrink-0 shadow-xs">
+                      <div className="relative w-full h-[85px] sm:h-[105px] bg-[#C5E1F5] rounded-xl overflow-hidden mb-2 border border-white/5 shrink-0 shadow-xs">
                         <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
                           {/* Land mass shape */}
                           <path d="M 0 30 Q 30 20 50 45 T 100 10 L 100 100 L 0 100 Z" fill="#E8EDE4" />
@@ -343,7 +355,7 @@ export default function Hero() {
                         {/* Floating mini map buttons */}
                         <div className="absolute right-1 top-1 flex flex-col gap-1">
                           {['🌐', '💨', '🌧️', '✈️'].map((btn, bidx) => (
-                            <div key={bidx} className="w-4 h-4 rounded-full bg-white border border-black/5 flex items-center justify-center text-[7px] shadow-xs shrink-0 scale-90">
+                            <div key={bidx} className="w-4 h-4 rounded-full bg-zinc-900 border border-white/10 flex items-center justify-center text-[7px] text-white shadow-xs shrink-0 scale-90">
                               {btn}
                             </div>
                           ))}
@@ -351,7 +363,7 @@ export default function Hero() {
                       </div>
 
                       {/* Main Live Widget */}
-                      <div className="rounded-xl border border-black/5 p-2 flex flex-col bg-white shadow-xs shrink-0 mb-1">
+                      <div className="rounded-xl border border-white/5 p-2 flex flex-col bg-white/5 backdrop-blur-xl shadow-xs shrink-0 mb-1">
                         
                         {/* Delta header */}
                         <div className="flex justify-between items-center mb-1">
@@ -361,25 +373,25 @@ export default function Hero() {
                                 <polygon points="12,2 2,22 12,18 22,22" />
                               </svg>
                             </div>
-                            <span className="text-[7px] font-black text-black">DL 305 • WED, 25 FEB</span>
+                            <span className="text-[7px] font-black text-white">DL 305 • WED, 25 FEB</span>
                           </div>
-                          <span className="text-[8px] text-zinc-400 font-bold scale-90">✕</span>
+                          <span className="text-[8px] text-zinc-500 font-bold scale-90">✕</span>
                         </div>
 
-                        <h4 className="text-[8.5px] font-extrabold text-black block leading-none mb-1">San Francisco to New York</h4>
+                        <h4 className="text-[8.5px] font-extrabold text-white block leading-none mb-1">San Francisco to New York</h4>
 
-                        <div className="flex items-center gap-1 py-0.5 mb-1.5 border-b border-black/5 pb-1">
+                        <div className="flex items-center gap-1 py-0.5 mb-1.5 border-b border-white/5 pb-1">
                           <span className="w-1.5 h-1.5 rounded-full bg-flighty-green animate-pulse" />
                           <span className="text-[7.5px] font-black text-flighty-green">Gate Departure in 1h 38m</span>
-                          <span className="text-[6px] text-zinc-400 font-medium">Inbound aircraft has arrived &gt;</span>
+                          <span className="text-[6px] text-zinc-500 font-medium">Inbound aircraft has arrived &gt;</span>
                         </div>
 
                         {/* SFO row */}
                         <div className="flex justify-between items-center mb-1.5">
                           <div className="text-left">
                             <span className="text-[6.5px] text-zinc-400 font-bold uppercase block leading-none">SFO • San Francisco Intl. &gt;</span>
-                            <span className="text-[13px] font-black text-black leading-tight block">09:10</span>
-                            <span className="text-[6px] text-zinc-400 font-medium block leading-none">On Time • Departs in 1h 38m</span>
+                            <span className="text-[13px] font-black text-white leading-tight block">09:10</span>
+                            <span className="text-[6px] text-zinc-500 font-medium block leading-none">On Time • Departs in 1h 38m</span>
                           </div>
                           <div className="bg-[#FFCC00] text-black font-extrabold text-[8px] px-1.5 py-0.5 rounded leading-none text-right shadow-2xs shrink-0 scale-90">
                             C8
@@ -391,8 +403,8 @@ export default function Hero() {
                         <div className="flex justify-between items-center">
                           <div className="text-left">
                             <span className="text-[6.5px] text-zinc-400 font-bold uppercase block leading-none">JFK • John F. Kennedy Intl. &gt;</span>
-                            <span className="text-[13px] font-black text-black leading-tight block">17:25</span>
-                            <span className="text-[6px] text-zinc-400 font-medium block leading-none">22m Early • Arrives in 5h 53m</span>
+                            <span className="text-[13px] font-black text-white leading-tight block">17:25</span>
+                            <span className="text-[6px] text-zinc-500 font-medium block leading-none">22m Early • Arrives in 5h 53m</span>
                           </div>
                           <div className="bg-[#FFCC00] text-black font-extrabold text-[8px] px-1.5 py-0.5 rounded leading-none text-right shadow-2xs shrink-0 scale-90">
                             B38
@@ -403,11 +415,11 @@ export default function Hero() {
                       </div>
 
                       {/* Mini bottom tab controls inside the phone */}
-                      <div className="mt-auto border-t border-black/5 pt-1.5 pb-1 flex justify-between items-center shrink-0">
-                        <button className="text-[7.5px] font-bold text-zinc-500 flex items-center gap-1 scale-90">
+                      <div className="mt-auto border-t border-white/5 pt-1.5 pb-1 flex justify-between items-center shrink-0">
+                        <button className="text-[7.5px] font-bold text-zinc-400 flex items-center gap-1 scale-90">
                           <span>✈️</span> Tap to Edit
                         </button>
-                        <button className="text-[7.5px] font-bold text-zinc-500 flex items-center gap-1 scale-90">
+                        <button className="text-[7.5px] font-bold text-zinc-400 flex items-center gap-1 scale-90">
                           <span>💺</span> Seats
                         </button>
                         <button className="px-2.5 py-0.8 bg-[#00D26A] text-black font-extrabold text-[7px] rounded-full flex items-center gap-1 shadow-2xs scale-90 hover:scale-95 transition-transform">
@@ -425,38 +437,38 @@ export default function Hero() {
                       exit={{ opacity: 0 }}
                       className="flex-1 flex flex-col"
                     >
-                      <span className="text-[7px] text-zinc-400 font-extrabold tracking-wider uppercase block mb-0.5">AFTER LANDING</span>
-                      <h3 className="text-[11px] font-black text-black leading-tight mb-2">San Francisco to New York</h3>
+                      <span className="text-[7px] text-zinc-550 font-extrabold tracking-wider uppercase block mb-0.5">AFTER LANDING</span>
+                      <h3 className="text-[11px] font-black text-white leading-tight mb-2">San Francisco to New York</h3>
                       
                       {/* Landed Card */}
-                      <div className="rounded-xl border border-black/5 p-2.5 flex flex-col bg-zinc-50/50 shadow-xs mb-2">
+                      <div className="rounded-xl border border-white/5 p-2.5 flex flex-col bg-white/5 backdrop-blur-xl shadow-xs mb-2">
                         <div className="flex justify-between items-center mb-1.5">
                           <span className="text-[6px] font-extrabold uppercase px-1 py-0.2 bg-flighty-green/5 text-flighty-green border border-flighty-green/10 rounded">
                             LANDED EARLY
                           </span>
-                          <span className="text-[6.5px] font-bold text-zinc-400">DL 305</span>
+                          <span className="text-[6.5px] font-bold text-zinc-500">DL 305</span>
                         </div>
 
                         <div className="flex justify-between items-center mb-2">
-                          <span className="text-base font-black text-black leading-none">SFO</span>
+                          <span className="text-base font-black text-white leading-none">SFO</span>
                           <CheckCircle className="w-3 h-3 text-flighty-green" />
-                          <span className="text-base font-black text-black leading-none">JFK</span>
+                          <span className="text-base font-black text-white leading-none">JFK</span>
                         </div>
 
-                        <div className="text-center py-2 border-y border-black/5 my-1.5 bg-white rounded-md">
-                          <span className="text-[6px] text-zinc-400 font-bold uppercase block mb-0.5">ARRIVED GATE</span>
-                          <span className="text-[11px] font-black text-black leading-none">6:32am (22m early)</span>
-                          <span className="text-[5.5px] text-zinc-400 block font-semibold mt-0.5">Baggage claim active</span>
+                        <div className="text-center py-2 border-y border-white/5 my-1.5 bg-black/40 rounded-md">
+                          <span className="text-[6px] text-zinc-500 font-bold uppercase block mb-0.5">ARRIVED GATE</span>
+                          <span className="text-[11px] font-black text-white leading-none">6:32am (22m early)</span>
+                          <span className="text-[5.5px] text-zinc-500 block font-semibold mt-0.5">Baggage claim active</span>
                         </div>
 
                         <div className="flex justify-between items-center text-[7.5px] pt-0.5">
                           <div>
-                            <span className="text-zinc-400 block uppercase font-bold text-[5.5px]">CLAIM BELT</span>
-                            <span className="font-extrabold text-black">Belt 6</span>
+                            <span className="text-zinc-500 block uppercase font-bold text-[5.5px]">CLAIM BELT</span>
+                            <span className="font-extrabold text-white">Belt 6</span>
                           </div>
                           <div className="text-right">
-                            <span className="text-zinc-400 block uppercase font-bold text-[5.5px]">LOCAL WEATHER</span>
-                            <span className="font-extrabold text-black">☀️ 88ºF</span>
+                            <span className="text-zinc-500 block uppercase font-bold text-[5.5px]">LOCAL WEATHER</span>
+                            <span className="font-extrabold text-white">☀️ 88ºF</span>
                           </div>
                         </div>
                       </div>
@@ -471,23 +483,23 @@ export default function Hero() {
                       exit={{ opacity: 0 }}
                       className="flex-1 flex flex-col justify-center items-center text-center px-1"
                     >
-                      <div className="w-8 h-8 rounded-xl bg-black text-white flex items-center justify-center mb-2 shadow-xs shrink-0 scale-90">
+                      <div className="w-8 h-8 rounded-xl bg-white text-black flex items-center justify-center mb-2 shadow-xs shrink-0 scale-90">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className="w-4 h-4 -rotate-45">
                           <path d="M22 2 11 13" />
                           <path d="M22 2 15 22 11 13 2 9z" />
                         </svg>
                       </div>
 
-                      <h4 className="text-[11px] font-extrabold text-black mb-0.5">Get Flighty Pro</h4>
+                      <h4 className="text-[11px] font-extrabold text-white mb-0.5">Get Flighty Pro</h4>
                       <p className="text-[6.5px] text-zinc-400 font-light mb-3 max-w-[130px] leading-tight">
                         Download on iPhone, iPad, Mac and Apple Watch.
                       </p>
 
                       <div className="flex flex-col gap-1 w-full scale-90">
-                        <div className="px-3 py-1 rounded bg-black text-white font-bold text-[7px] text-center cursor-pointer shadow-xs">
+                        <div className="px-3 py-1 rounded bg-white text-black font-bold text-[7px] text-center cursor-pointer shadow-xs">
                           App Store Download
                         </div>
-                        <div className="px-3 py-1 rounded border border-black/5 bg-zinc-50 text-black font-semibold text-[7px] text-center cursor-pointer shadow-xs">
+                        <div className="px-3 py-1 rounded border border-white/10 bg-white/10 text-white backdrop-blur-md font-semibold text-[7px] text-center cursor-pointer shadow-xs">
                           Learn More
                         </div>
                       </div>
@@ -497,18 +509,22 @@ export default function Hero() {
               </div>
 
               {/* Bottom Home Indicator Line */}
-              <div className="w-20 h-0.8 bg-zinc-300 rounded-full mx-auto mt-auto mb-1.5 shrink-0 z-10" />
+              <div className="w-20 h-0.8 bg-white/20 rounded-full mx-auto mt-auto mb-1.5 shrink-0 z-10" />
 
             </div>
           </div>
 
           {/* Right Cards Column */}
-          <div className="relative w-full max-w-[310px] sm:max-w-[330px] md:absolute md:w-[260px] lg:w-[320px] xl:w-[350px] md:left-1/2 md:translate-x-[145px] md:top-[30px] flex flex-col gap-6 items-center md:items-start z-20 transition-all duration-300 pb-24 md:pb-0">
+          <div 
+            className="relative w-full max-w-[310px] sm:max-w-[330px] md:absolute md:w-[260px] lg:w-[320px] xl:w-[350px] md:left-1/2 md:translate-x-[150px] lg:translate-x-[170px] xl:translate-x-[190px] md:top-[30px] flex flex-col gap-6 items-center md:items-start z-20 transition-all duration-300 pb-24 md:pb-0"
+          >
             {rightCards.map((card, idx) => renderCard(card, idx))}
           </div>
 
           {/* Bottom Floating Navigation Pill - Overlapping wrist area exactly */}
-          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-40 bg-zinc-950 text-white rounded-full px-5 py-3.5 flex items-center justify-between gap-4 shadow-[0_25px_60px_-10px_rgba(0,0,0,0.35)] border border-white/10 pointer-events-auto text-[11px] font-bold">
+          <div 
+            className="absolute bottom-6 left-1/2 -translate-x-1/2 z-40 bg-zinc-950 text-white rounded-full px-5 py-3.5 flex items-center justify-between gap-4 shadow-[0_25px_60px_-10px_rgba(0,0,0,0.35)] border border-white/10 pointer-events-auto text-[11px] font-bold"
+          >
             {[
               { id: 'preflight', label: 'Preflight', icon: () => (
                 <svg className="w-3.5 h-3.5 mr-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -537,7 +553,7 @@ export default function Hero() {
               return (
                 <button
                   key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
+                  onClick={() => handleTabClick(tab.id)}
                   className={`cursor-pointer uppercase tracking-wider text-[9px] sm:text-[10px] transition-all duration-250 px-3 py-1.5 rounded-full flex items-center ${
                     isActive 
                       ? 'bg-[#FFCC00] text-black font-extrabold shadow-sm scale-102'

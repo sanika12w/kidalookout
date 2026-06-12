@@ -266,21 +266,11 @@ export default function PricingPage() {
                         </div>
                       </button>
                       
-                      <AnimatePresence initial={false}>
-                        {isOpen && (
-                          <motion.div
-                            initial={{ height: 0, opacity: 0 }}
-                            animate={{ height: 'auto', opacity: 1 }}
-                            exit={{ height: 0, opacity: 0 }}
-                            transition={{ duration: 0.2, ease: 'easeInOut' }}
-                            className="overflow-hidden"
-                          >
-                            <div className="pb-5 px-6 sm:px-8 text-xs sm:text-sm leading-relaxed text-zinc-500 font-semibold border-t border-black/5 pt-4">
-                              <p>{faq.a}</p>
-                            </div>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
+                      {isOpen && (
+                        <div className="pb-5 px-6 sm:px-8 text-xs sm:text-sm leading-relaxed text-zinc-500 font-semibold border-t border-black/5 pt-4">
+                          <p>{faq.a}</p>
+                        </div>
+                      )}
                     </div>
                   </ScrollReveal>
                 );
