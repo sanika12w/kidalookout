@@ -39,12 +39,12 @@ export default function FloatingSocials() {
   ];
 
   return (
-    <div className="fixed z-40 bottom-6 right-6 md:right-6 md:top-1/2 md:bottom-auto md:-translate-y-1/2 pointer-events-none">
+    <div className="fixed z-40 bottom-6 right-6 md:bottom-8 md:right-8 pointer-events-none">
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 0.5, duration: 0.3 }}
-        className="flex flex-row md:flex-col items-center gap-1.5 p-1.5 rounded-full bg-zinc-950/70 backdrop-blur-xl border border-white/10 shadow-[0_12px_40px_-6px_rgba(0,0,0,0.3)] pointer-events-auto transition-all duration-300"
+        className="flex flex-col items-center gap-1.5 p-1.5 rounded-full bg-zinc-950/70 backdrop-blur-xl border border-white/10 shadow-[0_12px_40px_-6px_rgba(0,0,0,0.3)] pointer-events-auto transition-all duration-300"
       >
         {socials.map((social) => {
           const Icon = social.icon;

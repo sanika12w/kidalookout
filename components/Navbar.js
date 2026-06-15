@@ -22,44 +22,43 @@ export default function Navbar() {
         return;
       }
 
-      // On homepage, detect color dynamically at y=40, center of screen
       const yOffset = 40;
-      const x = window.innerWidth / 2;
-      
-      const header = document.querySelector('header');
-      let el = null;
-      if (header) {
-        // Temporarily disable pointer events on header so elementFromPoint looks through it
-        const originalStyle = header.style.pointerEvents;
-        header.style.pointerEvents = 'none';
-        el = document.elementFromPoint(x, yOffset);
-        header.style.pointerEvents = originalStyle;
-      } else {
-        el = document.elementFromPoint(x, yOffset);
-      }
+      let isDark = true; // start with dark as hero is dark
+      let found = false;
 
-      if (el) {
-        let currentEl = el;
-        let isDark = true; // default to dark if unsure
-        let found = false;
-
-        while (currentEl && currentEl !== document.body) {
-          const classes = currentEl.className || '';
+      // Method 1: Check by section bounding rects (extremely robust for layout sections)
+      const sections = document.querySelectorAll('section, footer');
+      for (let i = 0; i < sections.length; i++) {
+        const rect = sections[i].getBoundingClientRect();
+        if (rect.top <= yOffset && rect.bottom >= yOffset) {
+          const el = sections[i];
+          const className = el.className;
+          const classes = (typeof className === 'string' ? className : className?.baseVal) || '';
           
-          // Check for explicit dark/light classes:
-          if (classes.includes('bg-[#080710]') || classes.includes('bg-[#05010d]') || classes.includes('bg-zinc-900') || classes.includes('bg-black')) {
+          if (
+            classes.includes('bg-[#080710]') || 
+            classes.includes('bg-[#05010d]') || 
+            classes.includes('bg-zinc-900') || 
+            classes.includes('bg-black') || 
+            el.tagName.toLowerCase() === 'footer'
+          ) {
             isDark = true;
             found = true;
             break;
           }
-          if (classes.includes('bg-white') || classes.includes('bg-zinc-50') || classes.includes('bg-zinc-100') || classes.includes('bg-flighty-bg')) {
+          if (
+            classes.includes('bg-white') || 
+            classes.includes('bg-zinc-50') || 
+            classes.includes('bg-zinc-100') || 
+            classes.includes('bg-flighty-bg')
+          ) {
             isDark = false;
             found = true;
             break;
           }
 
-          // Fallback to computed background color if available:
-          const bg = window.getComputedStyle(currentEl).backgroundColor;
+          // Check computed style of the section
+          const bg = window.getComputedStyle(el).backgroundColor;
           if (bg && bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent') {
             const match = bg.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
             if (match) {
@@ -72,15 +71,73 @@ export default function Navbar() {
               break;
             }
           }
-          currentEl = currentEl.parentElement;
+        }
+      }
+
+      // Method 2: Fallback to elementFromPoint (original logic, but safe against SVG/crashing)
+      if (!found) {
+        const x = window.innerWidth / 2;
+        const header = document.querySelector('header');
+        let el = null;
+        if (header) {
+          const originalStyle = header.style.pointerEvents;
+          header.style.pointerEvents = 'none';
+          el = document.elementFromPoint(x, yOffset);
+          header.style.pointerEvents = originalStyle;
+        } else {
+          el = document.elementFromPoint(x, yOffset);
         }
 
-        if (found) {
-          setIsBgDark(isDark);
-        } else {
-          // If no section background is found, default based on page scroll position:
-          setIsBgDark(window.scrollY < 600); 
+        if (el) {
+          let currentEl = el;
+          while (currentEl && currentEl !== document.body) {
+            const className = currentEl.className;
+            const classes = (typeof className === 'string' ? className : className?.baseVal) || '';
+            
+            if (
+              classes.includes('bg-[#080710]') || 
+              classes.includes('bg-[#05010d]') || 
+              classes.includes('bg-zinc-900') || 
+              classes.includes('bg-black')
+            ) {
+              isDark = true;
+              found = true;
+              break;
+            }
+            if (
+              classes.includes('bg-white') || 
+              classes.includes('bg-zinc-50') || 
+              classes.includes('bg-zinc-100') || 
+              classes.includes('bg-flighty-bg')
+            ) {
+              isDark = false;
+              found = true;
+              break;
+            }
+
+            const bg = window.getComputedStyle(currentEl).backgroundColor;
+            if (bg && bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent') {
+              const match = bg.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+              if (match) {
+                const r = parseInt(match[1]);
+                const g = parseInt(match[2]);
+                const b = parseInt(match[3]);
+                const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+                isDark = brightness < 140;
+                found = true;
+                break;
+              }
+            }
+            currentEl = currentEl.parentElement;
+          }
         }
+      }
+
+      if (found) {
+        setIsBgDark(isDark);
+      } else {
+        // Method 3: Fallback based on scroll position, but dynamically determined to cover mobile viewports
+        setIsBgDark(window.scrollY < 950);
       }
     };
 
@@ -119,16 +176,6 @@ export default function Navbar() {
             : 'bg-white/60 border-black/5 shadow-[0_10px_30px_rgba(0,0,0,0.05)]'
         }`}>
           <Link
-            href="/"
-            className={`text-[14px] font-bold px-4 py-1.5 rounded-full transition-all duration-200 ${
-              isActive('/')
-                ? (isBgDark ? 'text-white bg-white/10' : 'text-black bg-black/5')
-                : (isBgDark ? 'text-white/60 hover:text-white' : 'text-zinc-500 hover:text-black')
-            }`}
-          >
-            Home
-          </Link>
-          <Link
             href="/pricing"
             className={`text-[14px] font-bold px-4 py-1.5 rounded-full transition-all duration-200 ${
               isActive('/pricing')
@@ -152,13 +199,15 @@ export default function Navbar() {
 
         {/* Mobile Menu Button aligned with logo vertical center */}
         <button
-          className={`md:hidden transition-colors pointer-events-auto cursor-pointer pt-9 ${
-            isBgDark ? 'text-white hover:text-zinc-300' : 'text-black hover:text-zinc-600'
+          className={`md:hidden flex items-center justify-center w-10 h-10 rounded-full border backdrop-blur-md transition-all duration-300 pointer-events-auto cursor-pointer shadow-md ${
+            isBgDark 
+              ? 'bg-[#12111d]/60 border-white/10 text-white hover:bg-[#12111d]/80 hover:text-white' 
+              : 'bg-white/60 border-black/5 text-black hover:bg-white/80 hover:text-black'
           }`}
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label="Toggle menu"
         >
-          {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          {mobileMenuOpen ? <X className="w-5.5 h-5.5" /> : <Menu className="w-5.5 h-5.5" />}
         </button>
       </div>
 
@@ -176,17 +225,6 @@ export default function Navbar() {
                 : 'bg-white/95 border-black/5 text-black'
             }`}
           >
-            <Link
-              href="/"
-              onClick={() => setMobileMenuOpen(false)}
-              className={`text-[15px] font-bold py-2 px-3.5 rounded-full transition-all duration-200 ${
-                isActive('/')
-                  ? (isBgDark ? 'text-white bg-white/[0.08] border border-white/10' : 'text-black bg-black/[0.06] border border-black/5')
-                  : (isBgDark ? 'text-white/60 hover:text-white' : 'text-zinc-500 hover:text-black')
-              }`}
-            >
-              Home
-            </Link>
             <Link
               href="/pricing"
               onClick={() => setMobileMenuOpen(false)}
