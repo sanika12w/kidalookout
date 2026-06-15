@@ -98,44 +98,52 @@ export default function Navbar() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 w-full pointer-events-none">
-      <div className="w-full px-6 sm:px-8 pt-6 pb-4 flex items-start justify-between pointer-events-auto">
-        {/* Left Side: Standalone Larger Logo anchored to top-left */}
-        <Link href="/" className="flex items-center group cursor-pointer">
+      <div className="w-full px-6 sm:px-8 pt-6 pb-4 flex items-center justify-between pointer-events-auto">
+        {/* Left Side: Standalone Logo anchored to top-left */}
+        <Link href="/" className="flex items-center group cursor-pointer ml-2">
           <img
             src="/lookoutAppIcon.png"
             alt="Lookout logo"
-            className="w-34 h-34 rounded-[20px] object-cover shrink-0 shadow-sm transition-transform duration-300 group-hover:scale-105"
+            className={`w-30 h-30 rounded-[14px] object-cover shrink-0 transition-transform duration-300 group-hover:scale-105 border ${
+              isBgDark 
+                ? 'border-white/10 shadow-[0_4px_12px_rgba(0,0,0,0.3)]' 
+                : 'border-black/5 shadow-[0_2px_8px_rgba(0,0,0,0.08)]'
+            }`}
           />
         </Link>
 
-        {/* Right Side: Floating Navigation Links anchored to top-right */}
-        <div className="hidden md:flex items-center gap-2 pt-7 pointer-events-auto">
+        {/* Right Side: Floating Navigation Links wrapped in a premium capsule container */}
+        <div className={`hidden md:flex items-center gap-1 p-1.5 pointer-events-auto rounded-full border backdrop-blur-md transition-all duration-300 mr-4 ${
+          isBgDark 
+            ? 'bg-[#12111d]/60 border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.3)]' 
+            : 'bg-white/60 border-black/5 shadow-[0_10px_30px_rgba(0,0,0,0.05)]'
+        }`}>
           <Link
             href="/"
-            className={`text-[16px] font-bold transition-all duration-200 ${
+            className={`text-[14px] font-bold px-4 py-1.5 rounded-full transition-all duration-200 ${
               isActive('/')
-                ? (isBgDark ? 'text-white bg-white/[0.08] border border-white/10 px-3.5 py-1.5 rounded-full' : 'text-black bg-black/[0.06] border border-black/5 px-3.5 py-1.5 rounded-full')
-                : (isBgDark ? 'text-white/60 hover:text-white px-3.5 py-1.5 border border-transparent' : 'text-zinc-500 hover:text-black px-3.5 py-1.5 border border-transparent')
+                ? (isBgDark ? 'text-white bg-white/10' : 'text-black bg-black/5')
+                : (isBgDark ? 'text-white/60 hover:text-white' : 'text-zinc-500 hover:text-black')
             }`}
           >
             Home
           </Link>
           <Link
             href="/pricing"
-            className={`text-[16px] font-bold transition-all duration-200 ${
+            className={`text-[14px] font-bold px-4 py-1.5 rounded-full transition-all duration-200 ${
               isActive('/pricing')
-                ? (isBgDark ? 'text-white bg-white/[0.08] border border-white/10 px-3.5 py-1.5 rounded-full' : 'text-black bg-black/[0.06] border border-black/5 px-3.5 py-1.5 rounded-full')
-                : (isBgDark ? 'text-white/60 hover:text-white px-3.5 py-1.5 border border-transparent' : 'text-zinc-500 hover:text-black px-3.5 py-1.5 border border-transparent')
+                ? (isBgDark ? 'text-white bg-white/10' : 'text-black bg-black/5')
+                : (isBgDark ? 'text-white/60 hover:text-white' : 'text-zinc-500 hover:text-black')
             }`}
           >
             Pricing
           </Link>
           <Link
             href="/help-center"
-            className={`text-[16px] font-bold transition-all duration-200 ${
+            className={`text-[14px] font-bold px-4 py-1.5 rounded-full transition-all duration-200 ${
               isActive('/help-center')
-                ? (isBgDark ? 'text-white bg-white/[0.08] border border-white/10 px-3.5 py-1.5 rounded-full' : 'text-black bg-black/[0.06] border border-black/5 px-3.5 py-1.5 rounded-full')
-                : (isBgDark ? 'text-white/60 hover:text-white px-3.5 py-1.5 border border-transparent' : 'text-zinc-500 hover:text-black px-3.5 py-1.5 border border-transparent')
+                ? (isBgDark ? 'text-white bg-white/10' : 'text-black bg-black/5')
+                : (isBgDark ? 'text-white/60 hover:text-white' : 'text-zinc-500 hover:text-black')
             }`}
           >
             Help Center
@@ -164,7 +172,7 @@ export default function Navbar() {
             transition={{ duration: 0.2 }}
             className={`border-b overflow-hidden p-6 flex flex-col gap-4 md:hidden shadow-lg pointer-events-auto ${
               isBgDark
-                ? 'bg-[#080710]/95 border-white/5 text-white'
+                ? 'bg-[#05010d]/95 border-white/5 text-white'
                 : 'bg-white/95 border-black/5 text-black'
             }`}
           >

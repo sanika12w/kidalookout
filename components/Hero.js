@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  Camera, Smartphone, Watch, AlertTriangle, CheckCircle, 
+  Camera, Laptop, Smartphone, Watch, AlertTriangle, CheckCircle, 
   Settings, Battery, Radio, Compass, Lock, MapPin, Navigation,
   Calendar, Bell, ShieldAlert, Wifi, Plane, ArrowRight, Share2
 } from 'lucide-react';
@@ -23,35 +23,35 @@ export default function Hero() {
       sub: "Capture both perspectives simultaneously",
       type: "mom", 
       opacity: "opacity-100",
-      offsetClass: "md:translate-x-[80px]"
+      offsetClass: "md:translate-x-[40px]"
     },
     { 
       text: "Apple Watch Live Preview",
       sub: "See framing without touching your phone", 
       type: "aa", 
-      opacity: "opacity-78",
-      offsetClass: "md:translate-x-[40px]"
+      opacity: "opacity-100",
+      offsetClass: "md:translate-x-[10px]"
     },
     { 
       text: "\"Hey Lookout\" Activated",
       sub: "Voice control enabled", 
       type: "delta", 
-      opacity: "opacity-60",
-      offsetClass: "md:translate-x-[70px]"
+      opacity: "opacity-100",
+      offsetClass: "md:translate-x-[-0px]"
     },
     { 
       text: "Screen Off. Recording Continues.",
       sub: "Focus Mode enabled", 
       type: "landed", 
       opacity: "opacity-100",
-      offsetClass: "md:translate-x-[78px]"
+      offsetClass: "md:translate-x-[18px]"
     },
     { 
       text: "Continuity Camera Ready",
       sub: "Use Lookout with your Mac", 
       type: "baggage-6", 
-      opacity: "opacity-75",
-      offsetClass: "md:translate-x-[70px]"
+      opacity: "opacity-100",
+      offsetClass: "md:translate-x-[30px]"
     }
   ];
 
@@ -61,36 +61,36 @@ export default function Hero() {
       text: "Recording Started",
       sub: "Triggered from Apple Watch", 
       type: "gate", 
-      opacity: "opacity-50",
-      offsetClass: "md:translate-x-[-40px]"
+      opacity: "opacity-100",
+      offsetClass: "md:translate-x-[-70px]"
     },
     { 
       text: "Split-Screen Mode Active",
       sub: "Creator + Scene captured together", 
       type: "weather", 
-      opacity: "opacity-90",
-      offsetClass: "md:translate-x-[-10px]"
+      opacity: "opacity-100",
+      offsetClass: "md:translate-x-[-40px]"
     },
     { 
       text: "4K Dual Capture",
       sub: "High-quality recording in progress", 
       type: "delayed", 
-      opacity: "opacity-85",
-      offsetClass: "md:translate-x-[10px]"
+      opacity: "opacity-100",
+      offsetClass: "md:translate-x-[-20px]"
     },
     { 
       text: "Location Embedded",
       sub: "GPS metadata attached", 
       type: "changed", 
-      opacity: "opacity-50",
-      offsetClass: "md:translate-x-[30px]"
+      opacity: "opacity-100",
+      offsetClass: "md:translate-x-[10px]"
     },
     { 
       text: "Apple Maps Connected",
       sub: "Enhanced route visualization", 
       type: "baggage-14", 
       opacity: "opacity-100",
-      offsetClass: "md:translate-x-[40px]"
+      offsetClass: "md:translate-x-[10px]"
     }
   ];
 
@@ -172,19 +172,29 @@ export default function Hero() {
     }
   };
 
-  const renderCard = (card, idx) => (
+  const renderCard = (card, idx, isRight = false) => (
     <div
       key={idx}
-      className={`w-full ${card.opacity} transition-all duration-500 z-10 ${card.offsetClass} flex-shrink-0`}
+      className={`w-fit max-w-[280px] sm:max-w-[310px] ${card.opacity} transition-all duration-500 z-10 ${card.offsetClass} flex-shrink-0`}
     >
-      <div className="bg-white/5 backdrop-blur-2xl rounded-2xl border border-white/10 px-5 py-3.5 flex items-center justify-between shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)]">
-        <div className="flex items-center gap-3">
-          {renderCardIcon(card.type)}
-          <div className="text-left">
-            <span className="text-[12px] font-bold text-white block leading-none mb-0.5">{card.text}</span>
-            <span className="text-[10px] text-white/60 font-semibold">{card.sub}</span>
-          </div>
-        </div>
+      <div className="bg-[#12111d]/90 backdrop-blur-2xl rounded-full border border-white/15 px-4.5 py-2.5 flex items-center gap-3 shadow-[0_15px_35px_-5px_rgba(0,0,0,0.5)]">
+        {isRight ? (
+          <>
+            <div className="text-right flex-1">
+              <span className="text-[12px] font-bold text-white block leading-none mb-0.5">{card.text}</span>
+              <span className="text-[10px] text-zinc-300 font-semibold">{card.sub}</span>
+            </div>
+            {renderCardIcon(card.type)}
+          </>
+        ) : (
+          <>
+            {renderCardIcon(card.type)}
+            <div className="text-left flex-1">
+              <span className="text-[12px] font-bold text-white block leading-none mb-0.5">{card.text}</span>
+              <span className="text-[10px] text-zinc-300 font-semibold">{card.sub}</span>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
@@ -201,33 +211,57 @@ export default function Hero() {
       <div className="max-w-6xl mx-auto w-full flex flex-col items-center text-center z-10">
         
         {/* 1. Text Container - sits in normal flow */}
-        <div className="w-full flex flex-col items-center">
+<div className="text-center max-w-4xl mx-auto mb-12">
           {/* Headline */}
           <ScrollReveal direction="up" delay={0.1} className="max-w-[900px] w-full">
-            <h1 
-              className="text-[40px] sm:text-[52px] lg:text-[65px] font-bold text-center tracking-[-1px] leading-[1.1em] text-white mb-6"
-              style={{
-                fontFamily: '"system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif, "System Default", sans-serif'
-              }}
-            >
+            <h1
+  className="
+    text-3xl
+    sm:text-5xl
+    lg:text-[64px]
+    font-semibold
+    text-white
+    tracking-tight
+    leading-[1.15]
+    mb-8
+  "
+>
             Dual Camera Recording App
             </h1>
           </ScrollReveal>
 
           {/* Description */}
-          <ScrollReveal direction="up" delay={0.15} className="max-w-[700px] w-full">
-            <p 
-              className="mb-10 text-center tracking-[0px]"
-              style={{
-                fontFamily: '"system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif, "System Default", sans-serif',
-                fontSize: '17px',
-                fontWeight: 500,
-                lineHeight: '1.5em',
-                color: 'rgba(255, 255, 255, 0.65)'
-              }}
-            >
+          <ScrollReveal direction="up" delay={0.15} className="max-w-2xl mx-auto">
+           <p
+  className="
+    text-base
+    sm:text-lg
+    lg:text-xl
+    font-normal
+    leading-[1.65]
+    text-zinc-400
+  "
+>
               Record front and rear cameras simultaneously, control recording from Apple Watch, and create split-screen videos for vlogs, reactions, travel content, and social media.
             </p>
+          </ScrollReveal>
+
+          {/* Platform Support Row */}
+          <ScrollReveal direction="up" delay={0.2} className="w-full">
+            <div className="flex items-center justify-center gap-6 sm:gap-8 text-[12px] sm:text-[13px] text-zinc-400 font-semibold mt-8 mb-2 select-none">
+              <div className="flex items-center gap-1.5 hover:text-white transition-colors duration-250">
+                <Smartphone className="w-4 h-4 text-zinc-400" />
+                <span>iPhone</span>
+              </div>
+              <div className="flex items-center gap-1.5 hover:text-white transition-colors duration-250">
+                <Laptop className="w-4 h-4 text-zinc-400" />
+                <span>macOS</span>
+              </div>
+              <div className="flex items-center gap-1.5 hover:text-white transition-colors duration-250">
+                <Watch className="w-4 h-4 text-zinc-400" />
+                <span>Apple Watch</span>
+              </div>
+            </div>
           </ScrollReveal>
         </div>
 
@@ -238,12 +272,13 @@ export default function Hero() {
           <div 
             className="relative w-full max-w-[310px] sm:max-w-[330px] md:absolute md:w-[260px] lg:w-[320px] xl:w-[350px] md:left-1/2 md:-translate-x-[400px] lg:-translate-x-[440px] xl:-translate-x-[470px] md:top-[30px] flex flex-col gap-6 items-center md:items-end z-20 transition-all duration-300"
           >
-            {leftCards.map((card, idx) => renderCard(card, idx))}
+            {leftCards.map((card, idx) => renderCard(card, idx, false))}
           </div>
 
           {/* Central Hand-held Phone Mockup - Centered horizontally */}
           <div 
-            className="relative w-[340px] sm:w-[420px] aspect-[930/1260] z-25 overflow-visible md:my-0 md:absolute md:left-[60%] md:-translate-x-1/2 md:top-0 my-8"
+            className="relative w-[340px] sm:w-[420px]  mx-auto aspect-[930/1260] z-25 overflow-visible  translate-x-4
+    sm:translate-x-6 md:my-0 md:absolute md:left-[56%] md:-translate-x-1/2 md:top-0 my-8"
           >
             {/* Expanded Layered gradient glows behind phone */}
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[160%] h-[160%] bg-gradient-to-tr from-violet-600/50 via-purple-500/30 to-indigo-500/40 rounded-full blur-[100px] sm:blur-[150px] pointer-events-none -z-10" />
@@ -518,7 +553,7 @@ export default function Hero() {
           <div 
             className="relative w-full max-w-[310px] sm:max-w-[330px] md:absolute md:w-[260px] lg:w-[320px] xl:w-[350px] md:left-1/2 md:translate-x-[150px] lg:translate-x-[170px] xl:translate-x-[190px] md:top-[30px] flex flex-col gap-6 items-center md:items-start z-20 transition-all duration-300 pb-24 md:pb-0"
           >
-            {rightCards.map((card, idx) => renderCard(card, idx))}
+            {rightCards.map((card, idx) => renderCard(card, idx, true))}
           </div>
 
           {/* Bottom Floating Navigation Pill - Overlapping wrist area exactly */}
