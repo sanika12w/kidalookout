@@ -3,21 +3,28 @@
 import { Check } from 'lucide-react';
 import ScrollReveal from './ScrollReveal';
 
-export default function AirportIntelligence() {
-  const features = [
-    "Start Recording",
-    "Stop Recording",
-    "Monitor Status",
-    "Remote Camera Control",
-    "Hands-Free Workflow",
-    "Built for Solo Creators"
-  ];
+// Static features array moved outside the component body
+const FEATURES = [
+  "Start Recording",
+  "Stop Recording",
+  "Monitor Status",
+  "Remote Camera Control",
+  "Hands-Free Workflow",
+  "Built for Solo Creators"
+];
 
+export default function AirportIntelligence() {
   return (
     <section id="watch-control" className="py-32 lg:py-48 bg-[#05010d] border-b border-white/5 relative overflow-hidden text-white">
-      {/* Sleek background glows */}
-      <div className="absolute top-[-20%] right-[-10%] w-[500px] h-[500px] rounded-full bg-blue-500/5 blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-[-20%] left-[-10%] w-[500px] h-[500px] rounded-full bg-purple-500/3 blur-[120px] pointer-events-none" />
+      {/* Sleek background glows - Hardware Accelerated */}
+      <div 
+        className="absolute top-[-20%] right-[-10%] w-[500px] h-[500px] rounded-full bg-blue-500/5 blur-[120px] pointer-events-none" 
+        style={{ transform: 'translate3d(0, 0, 0)', willChange: 'transform' }}
+      />
+      <div 
+        className="absolute bottom-[-20%] left-[-10%] w-[500px] h-[500px] rounded-full bg-purple-500/3 blur-[120px] pointer-events-none" 
+        style={{ transform: 'translate3d(0, 0, 0)', willChange: 'transform' }}
+      />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         
@@ -29,8 +36,11 @@ export default function AirportIntelligence() {
             <ScrollReveal direction="left" delay={0.1} className="w-full">
               <div className="relative w-full aspect-[4/3] rounded-3xl overflow-hidden bg-white/5 border border-white/10 backdrop-blur-md p-4 md:p-6 flex items-center justify-center shadow-[0_25px_60px_-15px_rgba(0,0,0,0.7)]">
                 <img 
-                  src="/watch_control_preview.png" 
+                  src="/watch_control_preview.webp" 
                   alt="Apple Watch remote camera control for Lookout recording"
+                  width={1024}
+                  height={1024}
+                  loading="lazy"
                   className="w-full h-full object-cover rounded-2xl"
                 />
               </div>
@@ -60,7 +70,7 @@ export default function AirportIntelligence() {
               
               {/* Features List */}
               <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {features.map((feature, idx) => (
+                {FEATURES.map((feature, idx) => (
                   <li key={idx} className="flex items-center gap-3 text-sm font-semibold text-zinc-200">
                     <div className="w-5 h-5 rounded-full bg-[#00D26A]/20 flex items-center justify-center text-[#00D26A] shrink-0">
                       <Check className="w-3.5 h-3.5 stroke-[3]" />

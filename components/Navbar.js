@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Menu, X } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -11,54 +11,49 @@ export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isBgDark, setIsBgDark] = useState(true); // starts dark for Hero
   const pathname = usePathname();
+  
+  const offsetsRef = useRef([]);
 
+  // Calculate and cache section vertical boundaries on mount & window resize
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+    if (pathname !== '/') {
+      setIsBgDark(false);
+      return;
+    }
 
-      // On pages other than home (pricing, help center), the background is always light.
-      if (pathname !== '/') {
-        setIsBgDark(false);
-        return;
-      }
-
-      const yOffset = 40;
-      let isDark = true; // start with dark as hero is dark
-      let found = false;
-
-      // Method 1: Check by section bounding rects (extremely robust for layout sections)
+    const updateSectionOffsets = () => {
       const sections = document.querySelectorAll('section, footer');
-      for (let i = 0; i < sections.length; i++) {
-        const rect = sections[i].getBoundingClientRect();
-        if (rect.top <= yOffset && rect.bottom >= yOffset) {
-          const el = sections[i];
-          const className = el.className;
-          const classes = (typeof className === 'string' ? className : className?.baseVal) || '';
-          
-          if (
-            classes.includes('bg-[#080710]') || 
-            classes.includes('bg-[#05010d]') || 
-            classes.includes('bg-zinc-900') || 
-            classes.includes('bg-black') || 
-            el.tagName.toLowerCase() === 'footer'
-          ) {
-            isDark = true;
-            found = true;
-            break;
-          }
-          if (
-            classes.includes('bg-white') || 
-            classes.includes('bg-zinc-50') || 
-            classes.includes('bg-zinc-100') || 
-            classes.includes('bg-flighty-bg')
-          ) {
-            isDark = false;
-            found = true;
-            break;
-          }
+      const offsets = [];
+      const currentScrollY = window.scrollY;
 
-          // Check computed style of the section
-          const bg = window.getComputedStyle(el).backgroundColor;
+      sections.forEach((sec) => {
+        const rect = sec.getBoundingClientRect();
+        // Calculate absolute top and bottom coordinates relative to the page document
+        const absoluteTop = rect.top + currentScrollY;
+        const absoluteBottom = rect.bottom + currentScrollY;
+
+        let isDark = true;
+        const className = sec.className;
+        const classes = (typeof className === 'string' ? className : className?.baseVal) || '';
+
+        if (
+          classes.includes('bg-[#080710]') || 
+          classes.includes('bg-[#05010d]') || 
+          classes.includes('bg-zinc-900') || 
+          classes.includes('bg-black') || 
+          sec.tagName.toLowerCase() === 'footer'
+        ) {
+          isDark = true;
+        } else if (
+          classes.includes('bg-white') || 
+          classes.includes('bg-zinc-50') || 
+          classes.includes('bg-zinc-100') || 
+          classes.includes('bg-flighty-bg')
+        ) {
+          isDark = false;
+        } else {
+          // Check computed style fallback
+          const bg = window.getComputedStyle(sec).backgroundColor;
           if (bg && bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent') {
             const match = bg.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
             if (match) {
@@ -67,82 +62,63 @@ export default function Navbar() {
               const b = parseInt(match[3]);
               const brightness = (r * 299 + g * 587 + b * 114) / 1000;
               isDark = brightness < 140;
-              found = true;
-              break;
             }
           }
         }
+        offsets.push({
+          top: absoluteTop,
+          bottom: absoluteBottom,
+          isDark
+        });
+      });
+
+      offsetsRef.current = offsets;
+    };
+
+    // Delay calculation slightly to allow layout styles to fully settle on mount
+    const timer = setTimeout(updateSectionOffsets, 200);
+
+    window.addEventListener('resize', updateSectionOffsets, { passive: true });
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('resize', updateSectionOffsets);
+    };
+  }, [pathname]);
+
+  // Handle scrolling with a high-performance O(1) cached boundary check
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      setScrolled(currentScrollY > 20);
+
+      if (pathname !== '/') {
+        setIsBgDark(false);
+        return;
       }
 
-      // Method 2: Fallback to elementFromPoint (original logic, but safe against SVG/crashing)
-      if (!found) {
-        const x = window.innerWidth / 2;
-        const header = document.querySelector('header');
-        let el = null;
-        if (header) {
-          const originalStyle = header.style.pointerEvents;
-          header.style.pointerEvents = 'none';
-          el = document.elementFromPoint(x, yOffset);
-          header.style.pointerEvents = originalStyle;
-        } else {
-          el = document.elementFromPoint(x, yOffset);
-        }
+      const yOffset = 40;
+      const targetY = currentScrollY + yOffset;
+      let isDark = true;
+      let found = false;
 
-        if (el) {
-          let currentEl = el;
-          while (currentEl && currentEl !== document.body) {
-            const className = currentEl.className;
-            const classes = (typeof className === 'string' ? className : className?.baseVal) || '';
-            
-            if (
-              classes.includes('bg-[#080710]') || 
-              classes.includes('bg-[#05010d]') || 
-              classes.includes('bg-zinc-900') || 
-              classes.includes('bg-black')
-            ) {
-              isDark = true;
-              found = true;
-              break;
-            }
-            if (
-              classes.includes('bg-white') || 
-              classes.includes('bg-zinc-50') || 
-              classes.includes('bg-zinc-100') || 
-              classes.includes('bg-flighty-bg')
-            ) {
-              isDark = false;
-              found = true;
-              break;
-            }
-
-            const bg = window.getComputedStyle(currentEl).backgroundColor;
-            if (bg && bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent') {
-              const match = bg.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
-              if (match) {
-                const r = parseInt(match[1]);
-                const g = parseInt(match[2]);
-                const b = parseInt(match[3]);
-                const brightness = (r * 299 + g * 587 + b * 114) / 1000;
-                isDark = brightness < 140;
-                found = true;
-                break;
-              }
-            }
-            currentEl = currentEl.parentElement;
-          }
+      const offsets = offsetsRef.current;
+      for (let i = 0; i < offsets.length; i++) {
+        if (targetY >= offsets[i].top && targetY <= offsets[i].bottom) {
+          isDark = offsets[i].isDark;
+          found = true;
+          break;
         }
       }
 
       if (found) {
         setIsBgDark(isDark);
       } else {
-        // Method 3: Fallback based on scroll position, but dynamically determined to cover mobile viewports
-        setIsBgDark(window.scrollY < 950);
+        setIsBgDark(currentScrollY < 950);
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    handleScroll(); // initial call on mount or route change
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, [pathname]);
 
@@ -159,8 +135,10 @@ export default function Navbar() {
         {/* Left Side: Standalone Logo anchored to top-left */}
         <Link href="/" className="flex items-center group cursor-pointer ml-2">
           <img
-            src="/lookoutAppIcon.png"
+            src="/lookoutAppIcon.webp"
             alt="Lookout logo"
+            width={120}
+            height={120}
             className={`w-30 h-30 rounded-[14px] object-cover shrink-0 transition-transform duration-300 group-hover:scale-105 border ${
               isBgDark 
                 ? 'border-white/10 shadow-[0_4px_12px_rgba(0,0,0,0.3)]' 

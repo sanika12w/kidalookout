@@ -1,19 +1,19 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import { Check } from 'lucide-react';
 import ScrollReveal from './ScrollReveal';
 
-export default function TravelHistory() {
-  const features = [
-    "Split Screen Recording",
-    "Picture-in-Picture Mode",
-    "Focus Mode",
-    "Front + Rear Camera Capture",
-    "Real-Time Preview",
-    "Optimized for Creators"
-  ];
+// Static features array moved outside the component body
+const FEATURES = [
+  "Split Screen Recording",
+  "Picture-in-Picture Mode",
+  "Focus Mode",
+  "Front + Rear Camera Capture",
+  "Real-Time Preview",
+  "Optimized for Creators"
+];
 
+export default function TravelHistory() {
   return (
     <section id="workflows" className="py-32 lg:py-48 bg-zinc-50 border-b border-black/5 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 relative z-10">
@@ -44,7 +44,7 @@ export default function TravelHistory() {
               
               {/* Features List */}
               <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {features.map((feature, idx) => (
+                {FEATURES.map((feature, idx) => (
                   <li key={idx} className="flex items-center gap-3 text-sm font-semibold text-zinc-800">
                     <div className="w-5 h-5 rounded-full bg-[#00D26A]/10 flex items-center justify-center text-[#00D26A] shrink-0">
                       <Check className="w-3.5 h-3.5 stroke-[3]" />
@@ -61,8 +61,11 @@ export default function TravelHistory() {
             <ScrollReveal direction="right" delay={0.1} className="w-full">
               <div className="relative w-full aspect-[4/3] rounded-3xl overflow-hidden bg-white border border-black/5 shadow-premium p-4 md:p-6 flex items-center justify-center">
                 <img 
-                  src="/creator_workflows_preview.png" 
+                  src="/creator_workflows_preview.webp" 
                   alt="iPhone running Lookout dual camera recording split-screen interface"
+                  width={1024}
+                  height={1024}
+                  loading="lazy"
                   className="w-full h-full object-cover rounded-2xl"
                 />
               </div>
