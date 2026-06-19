@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Wallet, HelpCircle } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -131,47 +131,54 @@ export default function Navbar() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 w-full pointer-events-none">
-      <div className="w-full px-6 sm:px-8 pt-6 pb-4 flex items-center justify-between pointer-events-auto">
-        {/* Left Side: Standalone Logo anchored to top-left */}
-        <Link href="/" className="flex items-center group cursor-pointer ml-2">
-          <img
-            src="/lookoutAppIcon.webp"
-            alt="Lookout logo"
-            width={120}
-            height={120}
-            className={`w-30 h-30 rounded-[14px] object-cover shrink-0 transition-transform duration-300 group-hover:scale-105 border ${
-              isBgDark 
-                ? 'border-white/10 shadow-[0_4px_12px_rgba(0,0,0,0.3)]' 
-                : 'border-black/5 shadow-[0_2px_8px_rgba(0,0,0,0.08)]'
-            }`}
-          />
-        </Link>
+      <div className="w-full px-6 sm:px-8 pt-6 pb-4 flex items-center justify-between pointer-events-auto relative">
+        {/* Left Side: Empty spacer to push right-side navigation/menu */}
+        <div className="w-10 h-10"></div>
+
+        {/* Center: Lookout Logo centered horizontally relative to the viewport */}
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pt-10 flex items-center pointer-events-auto">
+          <Link href="/" className="flex items-center group cursor-pointer">
+            <img
+              src="/lookoutAppIcon.webp"
+              alt="Lookout logo"
+              width={80}
+              height={80}
+              className={`w-20 h-20 rounded-[14px] object-cover shrink-0 transition-transform duration-300 group-hover:scale-105 border ${
+                isBgDark 
+                  ? 'border-white/10 shadow-[0_4px_12px_rgba(0,0,0,0.3)]' 
+                  : 'border-black/5 shadow-[0_2px_8px_rgba(0,0,0,0.08)]'
+              }`}
+            />
+          </Link>
+        </div>
 
         {/* Right Side: Floating Navigation Links wrapped in a premium capsule container */}
-        <div className={`hidden md:flex items-center gap-1 p-1.5 pointer-events-auto rounded-full border backdrop-blur-md transition-all duration-300 mr-4 ${
+        <div className={`hidden md:flex items-center gap-1 p-1.5 pointer-events-auto rounded-full border backdrop-blur-md transition-all duration-300 ${
           isBgDark 
             ? 'bg-[#12111d]/60 border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.3)]' 
             : 'bg-white/60 border-black/5 shadow-[0_10px_30px_rgba(0,0,0,0.05)]'
         }`}>
           <Link
             href="/pricing"
-            className={`text-[14px] font-bold px-4 py-1.5 rounded-full transition-all duration-200 ${
+            className={`text-[14px] font-bold px-4 py-1.5 rounded-full transition-all duration-200 flex items-center gap-2 ${
               isActive('/pricing')
                 ? (isBgDark ? 'text-white bg-white/10' : 'text-black bg-black/5')
                 : (isBgDark ? 'text-white/60 hover:text-white' : 'text-zinc-500 hover:text-black')
             }`}
           >
-            Pricing
+            <Wallet className="w-4 h-4 opacity-70 shrink-0" />
+            <span>Pricing</span>
           </Link>
           <Link
             href="/help-center"
-            className={`text-[14px] font-bold px-4 py-1.5 rounded-full transition-all duration-200 ${
+            className={`text-[14px] font-bold px-4 py-1.5 rounded-full transition-all duration-200 flex items-center gap-2 ${
               isActive('/help-center')
                 ? (isBgDark ? 'text-white bg-white/10' : 'text-black bg-black/5')
                 : (isBgDark ? 'text-white/60 hover:text-white' : 'text-zinc-500 hover:text-black')
             }`}
           >
-            Help Center
+            <HelpCircle className="w-4 h-4 opacity-70 shrink-0" />
+            <span>Help Center</span>
           </Link>
         </div>
 
@@ -206,24 +213,26 @@ export default function Navbar() {
             <Link
               href="/pricing"
               onClick={() => setMobileMenuOpen(false)}
-              className={`text-[15px] font-bold py-2 px-3.5 rounded-full transition-all duration-200 ${
+              className={`text-[15px] font-bold py-2 px-3.5 rounded-full transition-all duration-200 flex items-center gap-2 ${
                 isActive('/pricing')
                   ? (isBgDark ? 'text-white bg-white/[0.08] border border-white/10' : 'text-black bg-black/[0.06] border border-black/5')
                   : (isBgDark ? 'text-white/60 hover:text-white' : 'text-zinc-500 hover:text-black')
               }`}
             >
-              Pricing
+              <Wallet className="w-4 h-4 opacity-70 shrink-0" />
+              <span>Pricing</span>
             </Link>
             <Link
               href="/help-center"
               onClick={() => setMobileMenuOpen(false)}
-              className={`text-[15px] font-bold py-2 px-3.5 rounded-full transition-all duration-200 ${
+              className={`text-[15px] font-bold py-2 px-3.5 rounded-full transition-all duration-200 flex items-center gap-2 ${
                 isActive('/help-center')
                   ? (isBgDark ? 'text-white bg-white/[0.08] border border-white/10' : 'text-black bg-black/[0.06] border border-black/5')
                   : (isBgDark ? 'text-white/60 hover:text-white' : 'text-zinc-500 hover:text-black')
               }`}
             >
-              Help Center
+              <HelpCircle className="w-4 h-4 opacity-70 shrink-0" />
+              <span>Help Center</span>
             </Link>
             <Link
               href="/#download"

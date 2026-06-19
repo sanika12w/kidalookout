@@ -161,3 +161,32 @@ html.lenis body {
   backdrop-filter: blur(64px);
 }
 
+/* Premium Horizontal Infinite Marquee Keyframes */
+
+@keyframes marquee-ltr {
+  0% { transform: translate3d(-100%, 0, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+
+@keyframes marquee-rtl {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-100%, 0, 0); }
+}
+
+/* Safe Area Utility class for absolute bottom-right socials */
+.safe-socials {
+  bottom: 1.5rem;
+  right: 1.5rem;
+  bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
+  right: calc(1.5rem + env(safe-area-inset-right, 0px));
+}
+@media (min-width: 640px) {
+  .safe-socials {
+    bottom: 2rem;
+    right: 2rem;
+    bottom: calc(2rem + env(safe-area-inset-bottom, 0px));
+    right: calc(2rem + env(safe-area-inset-right, 0px));
+  }
+}
+
+

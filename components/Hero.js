@@ -1,10 +1,11 @@
 'use client';
 
-import { useState, memo } from 'react';
+import { useState, useEffect, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Laptop, Smartphone, Watch, AlertTriangle, CheckCircle, 
-  Settings, Compass, Plane, Share2
+  Settings, Compass, Plane, Share2, Shield, Cloud, Cpu,
+  Activity, Car, Download
 } from 'lucide-react';
 import ScrollReveal from './ScrollReveal';
 
@@ -15,35 +16,56 @@ const LEFT_CARDS = [
     sub: "Capture both perspectives simultaneously",
     type: "mom", 
     opacity: "opacity-100",
-    offsetClass: "md:translate-x-[40px]"
+    offsetClass: "md:translate-x-[0px]"
   },
   { 
     text: "Apple Watch Live Preview",
     sub: "See framing without touching your phone", 
     type: "aa", 
     opacity: "opacity-100",
-    offsetClass: "md:translate-x-[10px]"
+    offsetClass: "md:translate-x-[-10px]"
   },
   { 
     text: "\"Hey Lookout\" Activated",
     sub: "Voice control enabled", 
     type: "delta", 
     opacity: "opacity-100",
-    offsetClass: "md:translate-x-[-0px]"
+    offsetClass: "md:translate-x-[-30px]"
   },
   { 
     text: "Screen Off. Recording Continues.",
     sub: "Focus Mode enabled", 
     type: "landed", 
     opacity: "opacity-100",
-    offsetClass: "md:translate-x-[18px]"
+    offsetClass: "md:translate-x-[-46px]"
   },
   { 
     text: "Continuity Camera Ready",
     sub: "Use Lookout with your Mac", 
     type: "baggage-6", 
     opacity: "opacity-100",
-    offsetClass: "md:translate-x-[30px]"
+    offsetClass: "md:translate-x-[-35px]"
+  },
+  { 
+    text: "Privacy Protection Active",
+    sub: "Local processing, no cloud tracking", 
+    type: "privacy", 
+    opacity: "opacity-100",
+    offsetClass: "md:translate-x-[-15px]"
+  },
+  { 
+    text: "Cloud Sync Disabled",
+    sub: "Secure on-device storage", 
+    type: "cloud", 
+    opacity: "opacity-100",
+    offsetClass: "md:translate-x-[-30px]"
+  },
+  { 
+    text: "AI Event Detection",
+    sub: "Intelligent highlight tagging", 
+    type: "ai", 
+    opacity: "opacity-100",
+    offsetClass: "md:translate-x-[-20px]"
   }
 ];
 
@@ -54,21 +76,21 @@ const RIGHT_CARDS = [
     sub: "Triggered from Apple Watch", 
     type: "gate", 
     opacity: "opacity-100",
-    offsetClass: "md:translate-x-[-70px]"
+    offsetClass: "md:translate-x-[-60px]"
   },
   { 
     text: "Split-Screen Mode Active",
     sub: "Creator + Scene captured together", 
     type: "weather", 
     opacity: "opacity-100",
-    offsetClass: "md:translate-x-[-40px]"
+    offsetClass: "md:translate-x-[-60px]"
   },
   { 
     text: "4K Dual Capture",
     sub: "High-quality recording in progress", 
     type: "delayed", 
     opacity: "opacity-100",
-    offsetClass: "md:translate-x-[-20px]"
+    offsetClass: "md:translate-x-[-10px]"
   },
   { 
     text: "Location Embedded",
@@ -82,9 +104,38 @@ const RIGHT_CARDS = [
     sub: "Enhanced route visualization", 
     type: "baggage-14", 
     opacity: "opacity-100",
-    offsetClass: "md:translate-x-[10px]"
+    offsetClass: "md:translate-x-[40px]"
+  },
+  { 
+    text: "Motion Detection Sensor",
+    sub: "Start recording on movement", 
+    type: "motion", 
+    opacity: "opacity-100",
+    offsetClass: "md:translate-x-[20px]"
+  },
+  { 
+    text: "Drive Safety Log",
+    sub: "Perfect for dashcam usage", 
+    type: "safety", 
+    opacity: "opacity-100",
+    offsetClass: "md:translate-x-[35px]"
+  },
+  { 
+    text: "One-Tap Quick Save",
+    sub: "Instantly export clip to library", 
+    type: "save", 
+    opacity: "opacity-100",
+    offsetClass: "md:translate-x-[15px]"
   }
 ];
+
+const ALL_CARDS = [...LEFT_CARDS, ...RIGHT_CARDS];
+const ALL_CARDS_REVERSED = [...ALL_CARDS].reverse();
+
+// Rotate card array start points to prevent visual duplicate alignment across rows
+const rotateArray = (arr, shift) => {
+  return [...arr.slice(shift), ...arr.slice(0, shift)];
+};
 
 const renderCardIcon = (type) => {
   switch (type) {
@@ -159,6 +210,42 @@ const renderCardIcon = (type) => {
           14
         </div>
       );
+    case "privacy":
+      return (
+        <div className="w-7.5 h-7.5 rounded-lg bg-emerald-500/10 border border-emerald-500/15 flex items-center justify-center text-emerald-500 shrink-0">
+          <Shield className="w-4 h-4" />
+        </div>
+      );
+    case "cloud":
+      return (
+        <div className="w-7.5 h-7.5 rounded-lg bg-blue-500/10 border border-blue-500/15 flex items-center justify-center text-blue-500 shrink-0">
+          <Cloud className="w-4 h-4" />
+        </div>
+      );
+    case "ai":
+      return (
+        <div className="w-7.5 h-7.5 rounded-lg bg-purple-500/10 border border-purple-500/15 flex items-center justify-center text-purple-500 shrink-0">
+          <Cpu className="w-4 h-4" />
+        </div>
+      );
+    case "motion":
+      return (
+        <div className="w-7.5 h-7.5 rounded-lg bg-amber-500/10 border border-amber-500/15 flex items-center justify-center text-amber-500 shrink-0">
+          <Activity className="w-4 h-4" />
+        </div>
+      );
+    case "safety":
+      return (
+        <div className="w-7.5 h-7.5 rounded-lg bg-indigo-500/10 border border-indigo-500/15 flex items-center justify-center text-indigo-500 shrink-0">
+          <Car className="w-4 h-4" />
+        </div>
+      );
+    case "save":
+      return (
+        <div className="w-7.5 h-7.5 rounded-lg bg-pink-500/10 border border-pink-500/15 flex items-center justify-center text-pink-500 shrink-0">
+          <Download className="w-4 h-4" />
+        </div>
+      );
     default:
       return null;
   }
@@ -193,6 +280,42 @@ const StatusCard = memo(({ card, isRight = false }) => {
   );
 });
 StatusCard.displayName = 'StatusCard';
+
+// Horizontal Marquee Row Component for smooth looping animations
+const MarqueeRow = memo(({ direction, delay, cards, yOffset, mounted }) => {
+  return (
+    <div 
+      className="w-[100vw] left-1/2 -translate-x-1/2 absolute flex overflow-hidden pointer-events-none select-none py-1.5 z-20"
+      style={{ top: yOffset }}
+    >
+      <div 
+        className="flex gap-6 pr-6 shrink-0" 
+        style={{
+          animation: mounted ? `${direction === 'ltr' ? 'marquee-ltr' : 'marquee-rtl'} 60s linear infinite` : 'none',
+          animationDelay: delay,
+          willChange: 'transform'
+        }}
+      >
+        {cards.map((card, idx) => (
+          <StatusCard key={`a-${idx}`} card={{ ...card, offsetClass: "" }} isRight={direction === 'rtl'} />
+        ))}
+      </div>
+      <div 
+        className="flex gap-6 pr-6 shrink-0" 
+        style={{
+          animation: mounted ? `${direction === 'ltr' ? 'marquee-ltr' : 'marquee-rtl'} 60s linear infinite` : 'none',
+          animationDelay: delay,
+          willChange: 'transform'
+        }}
+      >
+        {cards.map((card, idx) => (
+          <StatusCard key={`b-${idx}`} card={{ ...card, offsetClass: "" }} isRight={direction === 'rtl'} />
+        ))}
+      </div>
+    </div>
+  );
+});
+MarqueeRow.displayName = 'MarqueeRow';
 
 // Isolated subcomponent for the mockup phone screen to prevent parent re-renders when activeTab changes
 const PhoneScreen = memo(({ activeTab }) => {
@@ -430,6 +553,11 @@ PhoneScreen.displayName = 'PhoneScreen';
 
 export default function Hero() {
   const [activeTab, setActiveTab] = useState('preflight');
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleTabClick = (tabId) => {
     setActiveTab(tabId);
@@ -453,7 +581,7 @@ export default function Hero() {
       <div className="max-w-6xl mx-auto w-full flex flex-col items-center text-center z-10">
         
         {/* 1. Text Container - sits in normal flow */}
-        <div className="text-center max-w-4xl mx-auto mb-12">
+        <div className="text-center max-w-4xl mx-auto mb-5">
           {/* Headline */}
           <ScrollReveal direction="up" delay={0.1} className="max-w-[900px] w-full">
             <h1
@@ -490,17 +618,17 @@ export default function Hero() {
 
           {/* Platform Support Row */}
           <ScrollReveal direction="up" delay={0.2} className="w-full">
-            <div className="flex items-center justify-center gap-6 sm:gap-8 text-[12px] sm:text-[13px] text-zinc-400 font-semibold mt-8 mb-2 select-none">
-              <div className="flex items-center gap-1.5 hover:text-white transition-colors duration-250">
-                <Smartphone className="w-4 h-4 text-zinc-400" />
+            <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 text-[12px] sm:text-[13px] font-semibold mt-8 mb-2 select-none">
+              <div className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-md text-zinc-300 hover:text-white hover:border-white/25 hover:bg-white/10 transition-all duration-300 shadow-md hover:shadow-[0_0_20px_rgba(255,255,255,0.08)] cursor-default group">
+                <Smartphone className="w-4 h-4 text-zinc-400 group-hover:text-white transition-colors duration-300" />
                 <span>iPhone</span>
               </div>
-              <div className="flex items-center gap-1.5 hover:text-white transition-colors duration-250">
-                <Laptop className="w-4 h-4 text-zinc-400" />
+              <div className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-md text-zinc-300 hover:text-white hover:border-white/25 hover:bg-white/10 transition-all duration-300 shadow-md hover:shadow-[0_0_20px_rgba(255,255,255,0.08)] cursor-default group">
+                <Laptop className="w-4 h-4 text-zinc-400 group-hover:text-white transition-colors duration-300" />
                 <span>macOS</span>
               </div>
-              <div className="flex items-center gap-1.5 hover:text-white transition-colors duration-250">
-                <Watch className="w-4 h-4 text-zinc-400" />
+              <div className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-md text-zinc-300 hover:text-white hover:border-white/25 hover:bg-white/10 transition-all duration-300 shadow-md hover:shadow-[0_0_20px_rgba(255,255,255,0.08)] cursor-default group">
+                <Watch className="w-4 h-4 text-zinc-400 group-hover:text-white transition-colors duration-300" />
                 <span>Apple Watch</span>
               </div>
             </div>
@@ -508,20 +636,18 @@ export default function Hero() {
         </div>
 
         {/* 2. Product Stage */}
-        <div className="relative w-full flex flex-col md:block items-center justify-start overflow-visible mt-12 min-h-[1150px] md:min-h-[580px] lg:min-h-[640px]">
+        <div className="relative w-full overflow-visible mt-12 h-[620px] sm:h-[720px] md:h-[600px] lg:h-[680px]">
           
-          {/* Left Cards Column */}
-          <div 
-            className="relative w-full max-w-[310px] sm:max-w-[330px] md:absolute md:w-[260px] lg:w-[320px] xl:w-[350px] md:left-1/2 md:-translate-x-[400px] lg:-translate-x-[440px] xl:-translate-x-[470px] md:top-[30px] flex flex-col gap-6 items-center md:items-end z-20 transition-all duration-300"
-          >
-            {LEFT_CARDS.map((card, idx) => (
-              <StatusCard key={idx} card={card} isRight={false} />
-            ))}
-          </div>
+          {/* 5 Horizontal Marquee Rows */}
+          <MarqueeRow direction="ltr" delay="-15s" cards={ALL_CARDS_REVERSED} yOffset="5%" mounted={mounted} />
+          <MarqueeRow direction="rtl" delay="-30s" cards={rotateArray(ALL_CARDS_REVERSED, 3)} yOffset="23%" mounted={mounted} />
+          <MarqueeRow direction="ltr" delay="-45s" cards={rotateArray(ALL_CARDS_REVERSED, 6)} yOffset="41%" mounted={mounted} />
+          <MarqueeRow direction="rtl" delay="-10s" cards={rotateArray(ALL_CARDS_REVERSED, 9)} yOffset="59%" mounted={mounted} />
+          <MarqueeRow direction="ltr" delay="-25s" cards={rotateArray(ALL_CARDS_REVERSED, 12)} yOffset="77%" mounted={mounted} />
 
           {/* Central Hand-held Phone Mockup - Centered horizontally */}
           <div 
-            className="relative w-[340px] sm:w-[420px] mx-auto aspect-[930/1260] z-25 overflow-visible translate-x-4
+            className="relative w-[450px] sm:w-[520px] mx-auto aspect-[930/1260] z-25 overflow-visible translate-x-4
               sm:translate-x-6 md:my-0 md:absolute md:left-[56%] md:-translate-x-1/2 md:top-0 my-8"
           >
             {/* Expanded Layered gradient glows behind phone - Hardware Accelerated */}
@@ -537,8 +663,8 @@ export default function Hero() {
             {/* The transparent screen hand overlay - Served locally, in WebP format, LCP optimized */}
             <img 
               src="/hero_hand_phone.webp" 
-              width={930}
-              height={1260}
+              width={1000}
+              height={1460}
               fetchPriority="high"
               loading="eager"
               className="absolute inset-0 w-full h-full object-cover z-20 pointer-events-none" 
@@ -577,17 +703,8 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Right Cards Column */}
-          <div 
-            className="relative w-full max-w-[310px] sm:max-w-[330px] md:absolute md:w-[260px] lg:w-[320px] xl:w-[350px] md:left-1/2 md:translate-x-[150px] lg:translate-x-[170px] xl:translate-x-[190px] md:top-[30px] flex flex-col gap-6 items-center md:items-start z-20 transition-all duration-300 pb-24 md:pb-0"
-          >
-            {RIGHT_CARDS.map((card, idx) => (
-              <StatusCard key={idx} card={card} isRight={true} />
-            ))}
-          </div>
-
           {/* Bottom Floating Navigation Pill - Overlapping wrist area exactly */}
-          <div 
+          {/* <div 
             className="absolute bottom-6 left-1/2 -translate-x-1/2 z-40 bg-zinc-950 text-white rounded-full px-5 py-3.5 flex items-center justify-between gap-4 shadow-[0_25px_60px_-10px_rgba(0,0,0,0.35)] border border-white/10 pointer-events-auto text-[11px] font-bold"
           >
             {[
@@ -630,7 +747,7 @@ export default function Hero() {
                 </button>
               );
             })}
-          </div>
+          </div> */}
 
         </div>
 

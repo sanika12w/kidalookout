@@ -12,12 +12,21 @@ const InstagramIcon = (props) => (
   <svg
     viewBox="0 0 24 24"
     fill="none"
-    stroke="currentColor"
+    stroke="url(#instaGrad)"
     strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
   >
+    <defs>
+      <linearGradient id="instaGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+        <stop offset="0%" stopColor="#fdf497" />
+        <stop offset="10%" stopColor="#fdf497" />
+        <stop offset="45%" stopColor="#fd5949" />
+        <stop offset="65%" stopColor="#d6249f" />
+        <stop offset="90%" stopColor="#285AEB" />
+      </linearGradient>
+    </defs>
     <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
     <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
     <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
@@ -30,16 +39,18 @@ export default function FloatingSocials() {
       name: 'X (Twitter)',
       url: 'https://x.com',
       icon: XIcon,
+      classes: 'text-white hover:bg-white/10 hover:shadow-[0_0_12px_rgba(255,255,255,0.25)]'
     },
     {
       name: 'Instagram',
       url: 'https://instagram.com',
       icon: InstagramIcon,
+      classes: 'hover:bg-white/10 hover:shadow-[0_0_12px_rgba(253,89,73,0.3)]'
     },
   ];
 
   return (
-    <div className="fixed z-40 bottom-6 right-6 md:bottom-8 md:right-8 pointer-events-none">
+    <div className="fixed z-40 safe-socials pointer-events-none">
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -54,11 +65,11 @@ export default function FloatingSocials() {
               href={social.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-8 h-8 rounded-full flex items-center justify-center text-zinc-400 hover:text-white hover:bg-white/10 transition-all duration-250 cursor-pointer"
+              className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-250 cursor-pointer ${social.classes}`}
               aria-label={social.name}
               title={social.name}
             >
-              <Icon className="w-4 h-4" />
+              <Icon className="w-4.5 h-4.5" />
             </a>
           );
         })}
