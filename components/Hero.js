@@ -718,43 +718,6 @@ export default function Hero() {
 
             </div>
 
-      {/* Hand Fade Overlays ONLY (z-[26]) spanning the entire viewport width */}
-
-{/* Layer 1 — Softer cinematic wrist fade */}
-<div
-  className="
-    absolute 
-    -bottom-[8%] 
-    left-1/2 
-    w-screen 
-    -translate-x-1/2 
-    h-[36%] 
-    pointer-events-none 
-    z-[26]
-    bg-gradient-to-t
-    from-[#05010d]
-    via-[#05010d]/80
-    to-transparent
-  "
-/>
-
-{/* Layer 2 — Seamless section transition */}
-<div
-  className="
-    absolute
-    -bottom-[18%]
-    left-1/2
-    w-screen
-    -translate-x-1/2
-    h-[22vh]
-    pointer-events-none
-    z-[26]
-    bg-gradient-to-b
-    from-transparent
-    via-[#05010d]/85
-    to-[#05010d]
-  "
-/>
           </div>
 
           {/* Bottom Floating Navigation Pill - Overlapping wrist area exactly */}
@@ -807,6 +770,9 @@ export default function Hero() {
 
       </div>
 
+      {/* Cinematic Fade Overlays (z-[26]) positioned outside the mockup container for viewport-wide seamless transition */}
+      <div className="absolute bottom-0 left-0 w-full h-[240px] pointer-events-none z-[26] bg-gradient-to-t from-[#05010d] via-[#05010d]/92 to-transparent" />
+      <div className="absolute -bottom-px left-0 w-full h-[18vh] pointer-events-none z-[26] bg-gradient-to-b from-transparent via-[#05010d] to-[#05010d]" />
     </section>
   );
 }
