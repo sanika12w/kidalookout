@@ -257,7 +257,7 @@ const StatusCard = memo(({ card, isRight = false }) => {
     <div
       className={`w-fit max-w-[280px] sm:max-w-[310px] ${card.opacity} transition-all duration-500 z-10 ${card.offsetClass} flex-shrink-0`}
     >
-      <div className="bg-[#12111d]/90 backdrop-blur-2xl rounded-full border border-white/15 px-4.5 py-2.5 flex items-center gap-3 shadow-[0_15px_35px_-5px_rgba(0,0,0,0.5)]">
+      <div className="bg-[#0d0a16]/60 backdrop-blur-sm rounded-full border border-white/[0.08] px-4.5 py-2.5 flex items-center gap-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_8px_32px_0_rgba(0,0,0,0.4)]">
         {isRight ? (
           <>
             <div className="text-right flex-1">
@@ -282,11 +282,10 @@ const StatusCard = memo(({ card, isRight = false }) => {
 StatusCard.displayName = 'StatusCard';
 
 // Horizontal Marquee Row Component for smooth looping animations
-const MarqueeRow = memo(({ direction, delay, cards, yOffset, mounted }) => {
+const MarqueeRow = memo(({ direction, delay, cards, mounted }) => {
   return (
     <div 
-      className="w-[100vw] left-1/2 -translate-x-1/2 absolute flex overflow-hidden pointer-events-none select-none py-1.5 z-20"
-      style={{ top: yOffset }}
+      className="w-full flex overflow-hidden pointer-events-none select-none py-1.5"
     >
       <div 
         className="flex gap-6 pr-6 shrink-0" 
@@ -334,7 +333,7 @@ const PhoneScreen = memo(({ activeTab }) => {
             <h3 className="text-[11px] font-black text-white leading-tight mb-2">San Francisco to New York</h3>
             
             {/* Preflight card */}
-            <div className="rounded-xl border border-white/5 p-2.5 flex flex-col bg-white/5 backdrop-blur-xl shadow-xs mb-2">
+            <div className="rounded-xl border border-white/5 p-2.5 flex flex-col bg-white/5 backdrop-blur-sm shadow-xs mb-2">
               <div className="flex justify-between items-center mb-1.5">
                 <span className="text-[6px] font-extrabold uppercase px-1 py-0.2 bg-[#0A84FF]/10 text-[#0A84FF] border border-[#0A84FF]/20 rounded">
                   CHECK-IN OPEN
@@ -403,7 +402,7 @@ const PhoneScreen = memo(({ activeTab }) => {
             </div>
 
             {/* Main Live Widget */}
-            <div className="rounded-xl border border-white/5 p-2 flex flex-col bg-white/5 backdrop-blur-xl shadow-xs shrink-0 mb-1">
+            <div className="rounded-xl border border-white/5 p-2 flex flex-col bg-white/5 backdrop-blur-sm shadow-xs shrink-0 mb-1">
               
               {/* Delta header */}
               <div className="flex justify-between items-center mb-1">
@@ -481,7 +480,7 @@ const PhoneScreen = memo(({ activeTab }) => {
             <h3 className="text-[11px] font-black text-white leading-tight mb-2">San Francisco to New York</h3>
             
             {/* Landed Card */}
-            <div className="rounded-xl border border-white/5 p-2.5 flex flex-col bg-white/5 backdrop-blur-xl shadow-xs mb-2">
+            <div className="rounded-xl border border-white/5 p-2.5 flex flex-col bg-white/5 backdrop-blur-sm shadow-xs mb-2">
               <div className="flex justify-between items-center mb-1.5">
                 <span className="text-[6px] font-extrabold uppercase px-1 py-0.2 bg-flighty-green/5 text-flighty-green border border-flighty-green/10 rounded">
                   LANDED EARLY
@@ -539,7 +538,7 @@ const PhoneScreen = memo(({ activeTab }) => {
               <div className="px-3 py-1 rounded bg-white text-black font-bold text-[7px] text-center cursor-pointer shadow-xs">
                 App Store Download
               </div>
-              <div className="px-3 py-1 rounded border border-white/10 bg-white/10 text-white backdrop-blur-md font-semibold text-[7px] text-center cursor-pointer shadow-xs">
+              <div className="px-3 py-1 rounded border border-white/10 bg-white/10 text-white backdrop-blur-sm font-semibold text-[7px] text-center cursor-pointer shadow-xs">
                 Learn More
               </div>
             </div>
@@ -565,23 +564,38 @@ export default function Hero() {
 
   return (
     <section 
-      className="relative min-h-screen bg-[#05010d] w-full overflow-hidden px-6 pt-40 pb-20 flex flex-col items-center justify-start" 
+      className="relative bg-[#05010d] w-full overflow-hidden px-6 pt-40 pb-0 flex flex-col items-center justify-start" 
       style={{ backgroundColor: '#05010d' }}
     >
-      {/* Background atmospheric glows - Hardware Accelerated */}
+      {/* Layer 1 — Background Video */}
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover pointer-events-none z-0"
+        style={{ opacity: 0.72, filter: 'blur(2px) brightness(0.5) saturate(0.8)' }}
+      >
+        <source src="/hero_bg.mp4" type="video/mp4" />
+      </video>
+
+      {/* Layer 2 — Black Overlay */}
+      <div className="absolute inset-0 bg-black/55 pointer-events-none z-1" />
+
+      {/* Layer 3 — Purple Ambient Glows - Hardware Accelerated */}
       <div 
-        className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-purple-500/5 rounded-full blur-[120px] pointer-events-none" 
+        className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-purple-500/5 rounded-full blur-[120px] pointer-events-none z-2" 
         style={{ transform: 'translate3d(0,0,0)', willChange: 'transform' }}
       />
       <div 
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-blue-500/3 rounded-full blur-[140px] pointer-events-none" 
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-blue-500/3 rounded-full blur-[140px] pointer-events-none z-2" 
         style={{ transform: 'translate3d(0,0,0)', willChange: 'transform' }}
       />
 
-      <div className="max-w-6xl mx-auto w-full flex flex-col items-center text-center z-10">
+      <div className="max-w-6xl mx-auto w-full flex flex-col items-center text-center relative">
         
         {/* 1. Text Container - sits in normal flow */}
-        <div className="text-center max-w-4xl mx-auto mb-5">
+        <div className="text-center max-w-4xl mx-auto mb-5 relative z-30">
           {/* Headline */}
           <ScrollReveal direction="up" delay={0.1} className="max-w-[900px] w-full">
             <h1
@@ -619,15 +633,15 @@ export default function Hero() {
           {/* Platform Support Row */}
           <ScrollReveal direction="up" delay={0.2} className="w-full">
             <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 text-[12px] sm:text-[13px] font-semibold mt-8 mb-2 select-none">
-              <div className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-md text-zinc-300 hover:text-white hover:border-white/25 hover:bg-white/10 transition-all duration-300 shadow-md hover:shadow-[0_0_20px_rgba(255,255,255,0.08)] cursor-default group">
+              <div className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/[0.08] bg-white/[0.02] backdrop-blur-sm text-zinc-300 hover:text-white hover:border-white/[0.15] hover:bg-white/[0.06] transition-all duration-300 shadow-[inset_0_1px_0_rgba(255,255,255,0.05),0_8px_32px_rgba(0,0,0,0.3)] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_0_20px_rgba(255,255,255,0.08)] cursor-default group">
                 <Smartphone className="w-4 h-4 text-zinc-400 group-hover:text-white transition-colors duration-300" />
                 <span>iPhone</span>
               </div>
-              <div className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-md text-zinc-300 hover:text-white hover:border-white/25 hover:bg-white/10 transition-all duration-300 shadow-md hover:shadow-[0_0_20px_rgba(255,255,255,0.08)] cursor-default group">
+              <div className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/[0.08] bg-white/[0.02] backdrop-blur-sm text-zinc-300 hover:text-white hover:border-white/[0.15] hover:bg-white/[0.06] transition-all duration-300 shadow-[inset_0_1px_0_rgba(255,255,255,0.05),0_8px_32px_rgba(0,0,0,0.3)] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_0_20px_rgba(255,255,255,0.08)] cursor-default group">
                 <Laptop className="w-4 h-4 text-zinc-400 group-hover:text-white transition-colors duration-300" />
                 <span>macOS</span>
               </div>
-              <div className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-md text-zinc-300 hover:text-white hover:border-white/25 hover:bg-white/10 transition-all duration-300 shadow-md hover:shadow-[0_0_20px_rgba(255,255,255,0.08)] cursor-default group">
+              <div className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/[0.08] bg-white/[0.02] backdrop-blur-sm text-zinc-300 hover:text-white hover:border-white/[0.15] hover:bg-white/[0.06] transition-all duration-300 shadow-[inset_0_1px_0_rgba(255,255,255,0.05),0_8px_32px_rgba(0,0,0,0.3)] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_0_20px_rgba(255,255,255,0.08)] cursor-default group">
                 <Watch className="w-4 h-4 text-zinc-400 group-hover:text-white transition-colors duration-300" />
                 <span>Apple Watch</span>
               </div>
@@ -636,14 +650,16 @@ export default function Hero() {
         </div>
 
         {/* 2. Product Stage */}
-        <div className="relative w-full overflow-visible mt-12 h-[620px] sm:h-[720px] md:h-[600px] lg:h-[680px]">
+        <div className="relative w-full overflow-visible mt-12 h-auto md:h-[710px]">
           
-          {/* 5 Horizontal Marquee Rows */}
-          <MarqueeRow direction="ltr" delay="-15s" cards={ALL_CARDS_REVERSED} yOffset="5%" mounted={mounted} />
-          <MarqueeRow direction="rtl" delay="-30s" cards={rotateArray(ALL_CARDS_REVERSED, 3)} yOffset="23%" mounted={mounted} />
-          <MarqueeRow direction="ltr" delay="-45s" cards={rotateArray(ALL_CARDS_REVERSED, 6)} yOffset="41%" mounted={mounted} />
-          <MarqueeRow direction="rtl" delay="-10s" cards={rotateArray(ALL_CARDS_REVERSED, 9)} yOffset="59%" mounted={mounted} />
-          <MarqueeRow direction="ltr" delay="-25s" cards={rotateArray(ALL_CARDS_REVERSED, 12)} yOffset="77%" mounted={mounted} />
+          {/* 5 Horizontal Marquee Rows - Centered screen-spanning flex column with gap-6 for compact vertical spacing */}
+          <div className="absolute top-[35%] -translate-y-1/2 left-1/2 -translate-x-1/2 w-[100vw] flex flex-col gap-6 pointer-events-none z-20 overflow-hidden py-4">
+            <MarqueeRow direction="ltr" delay="-15s" cards={ALL_CARDS_REVERSED} mounted={mounted} />
+            <MarqueeRow direction="rtl" delay="-30s" cards={rotateArray(ALL_CARDS_REVERSED, 3)} mounted={mounted} />
+            <MarqueeRow direction="ltr" delay="-45s" cards={rotateArray(ALL_CARDS_REVERSED, 6)} mounted={mounted} />
+            <MarqueeRow direction="rtl" delay="-10s" cards={rotateArray(ALL_CARDS_REVERSED, 9)} mounted={mounted} />
+            <MarqueeRow direction="ltr" delay="-25s" cards={rotateArray(ALL_CARDS_REVERSED, 12)} mounted={mounted} />
+          </div>
 
           {/* Central Hand-held Phone Mockup - Centered horizontally */}
           <div 
@@ -701,6 +717,44 @@ export default function Hero() {
               <div className="w-20 h-0.8 bg-white/20 rounded-full mx-auto mt-auto mb-1.5 shrink-0 z-10" />
 
             </div>
+
+      {/* Hand Fade Overlays ONLY (z-[26]) spanning the entire viewport width */}
+
+{/* Layer 1 — Softer cinematic wrist fade */}
+<div
+  className="
+    absolute 
+    -bottom-[8%] 
+    left-1/2 
+    w-screen 
+    -translate-x-1/2 
+    h-[36%] 
+    pointer-events-none 
+    z-[26]
+    bg-gradient-to-t
+    from-[#05010d]
+    via-[#05010d]/80
+    to-transparent
+  "
+/>
+
+{/* Layer 2 — Seamless section transition */}
+<div
+  className="
+    absolute
+    -bottom-[18%]
+    left-1/2
+    w-screen
+    -translate-x-1/2
+    h-[22vh]
+    pointer-events-none
+    z-[26]
+    bg-gradient-to-b
+    from-transparent
+    via-[#05010d]/85
+    to-[#05010d]
+  "
+/>
           </div>
 
           {/* Bottom Floating Navigation Pill - Overlapping wrist area exactly */}
@@ -752,6 +806,7 @@ export default function Hero() {
         </div>
 
       </div>
+
     </section>
   );
 }
