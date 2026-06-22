@@ -771,8 +771,42 @@ export default function Hero() {
       </div>
 
       {/* Cinematic Fade Overlays (z-[26]) positioned outside the mockup container for viewport-wide seamless transition */}
-      <div className="absolute bottom-0 left-0 w-full h-[240px] pointer-events-none z-[26] bg-gradient-to-t from-[#05010d] via-[#05010d]/92 to-transparent" />
-      <div className="absolute -bottom-px left-0 w-full h-[18vh] pointer-events-none z-[26] bg-gradient-to-b from-transparent via-[#05010d] to-[#05010d]" />
-    </section>
+     {/* Layer 1 — Lower cinematic fade (pushed downward + lighter) */}
+<div
+  className="
+    absolute
+    bottom-[-70px]
+    left-0
+    w-full
+    h-[170px]
+    sm:h-[190px]
+    md:h-[210px]
+    pointer-events-none
+    z-[26]
+    bg-gradient-to-t
+    from-[#05010d]
+    via-[#05010d]/90
+    to-transparent
+  "
+/>
+
+{/* Layer 2 — Seamless section blend */}
+<div
+  className="
+    absolute
+    bottom-[-120px]
+    left-0
+    w-full
+    h-[320px]
+    sm:h-[140px]
+    pointer-events-none
+    z-[26]
+    bg-gradient-to-b
+    from-transparent
+    via-[#05010d]/90
+    to-[#05010d]
+  "
+/>
+</section>
   );
 }
