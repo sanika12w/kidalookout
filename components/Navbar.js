@@ -89,7 +89,7 @@ export default function Navbar() {
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      setScrolled(currentScrollY > 20);
+      setScrolled(currentScrollY > 40);
 
       if (pathname !== '/') {
         setIsBgDark(false);
@@ -132,25 +132,61 @@ export default function Navbar() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 w-full pointer-events-none">
       <div className="w-full px-6 sm:px-8 pt-6 pb-4 flex items-center justify-between pointer-events-auto relative">
-        {/* Left Side: Empty spacer to push right-side navigation/menu */}
-        <div className="w-10 h-10"></div>
+        {/* Left Side: Compact circular logo appearing on scroll, or empty spacer otherwise */}
+        <div className="w-10 h-10 relative flex items-center justify-center">
+          <AnimatePresence>
+            {scrolled && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.5, rotate: -45 }}
+                animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                exit={{ opacity: 0, scale: 0.5, rotate: -45 }}
+                transition={{ duration: 0.25, ease: 'easeOut' }}
+                className="pointer-events-auto"
+              >
+                <Link href="/" className="cursor-pointer">
+                  <img
+                    src="/lookoutAppIcon.webp"
+                    alt="Lookout logo"
+                    width={40}
+                    height={40}
+                    className={`w-9 h-9 rounded-full object-cover shrink-0 border transition-all duration-300 ${
+                      isBgDark 
+                        ? 'border-white/10 shadow-[0_2px_8px_rgba(0,0,0,0.3)]' 
+                        : 'border-black/5 shadow-[0_2px_8px_rgba(0,0,0,0.08)]'
+                    }`}
+                  />
+                </Link>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
 
         {/* Center: Lookout Logo centered horizontally relative to the viewport */}
-        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pt-10 flex items-center pointer-events-auto">
-          <Link href="/" className="flex items-center group cursor-pointer">
-            <img
-              src="/lookoutAppIcon.webp"
-              alt="Lookout logo"
-              width={80}
-              height={80}
-              className={`w-20 h-20 rounded-[14px] object-cover shrink-0 transition-transform duration-300 group-hover:scale-105 border ${
-                isBgDark 
-                  ? 'border-white/10 shadow-[0_4px_12px_rgba(0,0,0,0.3)]' 
-                  : 'border-black/5 shadow-[0_2px_8px_rgba(0,0,0,0.08)]'
-              }`}
-            />
-          </Link>
-        </div>
+        <AnimatePresence>
+          {!scrolled && (
+            <motion.div
+              initial={{ opacity: 1, scale: 1 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.7, y: -20 }}
+              transition={{ duration: 0.25, ease: 'easeOut' }}
+              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pt-10 flex items-center pointer-events-auto"
+            >
+              <Link href="/" className="flex items-center group cursor-pointer">
+                <img
+                  src="/lookoutAppIcon.webp"
+                  alt="Lookout logo"
+                  width={150}
+                  height={150}
+                  className={`w-30 h-30 rounded-[14px] object-cover shrink-0 transition-transform duration-300 group-hover:scale-105 border ${
+                    isBgDark 
+                      ? 'border-white/10 shadow-[0_4px_12px_rgba(0,0,0,0.3)]' 
+                      : 'border-black/5 shadow-[0_2px_8px_rgba(0,0,0,0.08)]'
+                  }`}
+                />
+              </Link>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Right Side: Floating Navigation Links wrapped in a premium capsule container */}
         <div className={`hidden md:flex items-center gap-1 p-1.5 pointer-events-auto rounded-full border backdrop-blur-md transition-all duration-300 ${
